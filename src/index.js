@@ -56,15 +56,28 @@ function createBucket(name) {
         openTaskEditor({ bucket: name });
     });
     const taskContainer = createElement('div', { class: 'task_container' });
-    // taskContainer.addEventListener('dragover', () => {
-    //     console.log('dragover');
-    // });
+    taskContainer.addEventListener('dragover', (event) => {
+        const drag_placeholder = window.dragPlaceholder;
+        if (event.srcElement.classList.contains('task')) {
+            console.log('#1');
+            taskContainer.insertBefore(drag_placeholder, event.srcElement);
+        } else { // Dragging over task container
+            console.log('#2');
+            taskContainer.append(drag_placeholder);
+        }
+    });
     taskContainer.addEventListener('drop', event => {
         const sourceTask = window.dragged;
+
+        // Moving div
         sourceTask.parentNode.removeChild(sourceTask);
-        // const targetTask = event.srcElement;
-        // taskContainer.insertBefore(task, sourceTask);
-        taskContainer.append(sourceTask);
+        if (event.srcElement.classList.contains('task')) {
+            taskContainer.insertBefore(sourceTask, event.srcElement);
+        } else { // Dragging over task container
+            taskContainer.append(sourceTask);
+        }
+
+        // Updating task
         const sourceTaskId = parseInt(sourceTask.getAttribute('data-id'));
         updateTask(sourceTaskId, { bucket: name });
         saveState();
@@ -75,16 +88,21 @@ function createBucket(name) {
 
 function createTask({ id, title, bucket }) {
     const task = createElement('div', { class: 'task', draggable: 'true', 'data-id': id }, title);
+    const taskContainer = document.querySelector(`#${bucket}_bucket .task_container`);
     task.addEventListener('click', () => {
         openTaskEditor({ id, title, bucket });
     });
     task.addEventListener('dragstart', () => {
         window.dragged = task;
+        const dragPlaceholder = createElement('div', { id: 'drag_placeholder', class: 'task' });
+        dragPlaceholder.style.minHeight = `calc(${task.clientHeight}px - 2rem)`;
+        taskContainer.append(dragPlaceholder);
+        window.dragPlaceholder = dragPlaceholder
     });
     task.addEventListener('dragend', () => {
         window.dragged = null;
+        window.dragPlaceholder.remove();
     });
-    const taskContainer = document.querySelector(`#${bucket}_bucket .task_container`);
     taskContainer.prepend(task);
 }
 

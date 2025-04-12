@@ -96,3 +96,7 @@ body {
 .bucket .task_container .task:hover {
     background-color: #2e2f2f;
 }
+
+.bucket .task_container #drag_placeholder {
+    background-color: #171819;
+}
