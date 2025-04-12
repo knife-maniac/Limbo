@@ -5,7 +5,7 @@ const app = express();
 app.use(express.static(__dirname));
 
 const port: number = 666;
-const stateFilePath = 'state.txt';
+const stateFilePath = 'state.json';
 
 app.listen(port, () => {
     console.log('http://localhost:' + port);
@@ -22,7 +22,7 @@ app.get('/planner', (_req: any, res: any) => {
 app.get('/readState', async (_req: any, res: any) => {
     const fileExists = !!(await stat(stateFilePath).catch(e => false));
     const state = fileExists ? (await readFile(stateFilePath)).toString() : '';
-    res.send(state);
+    res.send(JSON.parse(state));
 });
 
 app.get('/writeState/:state', async (req: any, res: any) => {

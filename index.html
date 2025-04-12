@@ -24,18 +24,11 @@
             const value = input.value;
             await writeState(value);
         });
-        input.value = await readState();
+        const state = await readState();
+        input.value = JSON.stringify(state);
 
-        createBucket('todo');
-        createBucket('ongoing');
-        createBucket('done');
-
-        createTask('Improve style', '', [], 'todo');
-        createTask('Task addition', '', [], 'todo');
-        createTask('Task edition', '', [], 'todo');
-        createTask('Task deletion', '', [], 'todo');
-        createTask('Set up git', '', [], 'ongoing');
-        createTask('Set up basic dev environment', '', [], 'done');
+        state.buckets.map(createBucket);
+        state.tasks.map(createTask);
     });
 
     function createElement(tag, attributes, textContent = '') {
@@ -51,21 +44,21 @@
         const bucket = createElement('div', { id: `${name}_bucket`, class: 'bucket' });
         const title = createElement('div', { class: 'title' }, name);
         const button = createElement('button', { class: 'create_task' }, '+');
-        const container = createElement('div', { class: 'task_container' });
-        bucket.append(title, button, container);
+        const taskContainer = createElement('div', { class: 'task_container' });
+        bucket.append(title, button, taskContainer);
         document.getElementById('main_container').append(bucket);
     }
 
-    function createTask(title, description, _labels, bucketName) {
+    function createTask({ title, bucket }) {
         const task = createElement('div', { class: 'task', }, title);
-        const bucket = document.querySelector(`#${bucketName}_bucket .task_container`);
-        bucket.append(task);
+        const taskContainer = document.querySelector(`#${bucket}_bucket .task_container`);
+        taskContainer.append(task);
 
     }
 
     async function readState() {
         const response = await fetch('http://localhost:666/readState');
-        return response.text();
+        return response.json();
     }
 
     async function writeState(state) {
