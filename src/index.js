@@ -9,8 +9,19 @@ document.addEventListener('DOMContentLoaded', async () => {
     taskEditor.querySelector('button').addEventListener('click', async () => {
         const title = taskEditor.querySelector('input').value;
         const bucket = taskEditor.getAttribute('data-bucket');
-        createTask({ title, bucket });
-        state.tasks.push({ title, bucket });
+        let id;
+        const isEditing = taskEditor.hasAttribute('data-id');
+        if (isEditing) {
+            id = parseInt(taskEditor.getAttribute('data-id'));
+            const existingTask = state.tasks.filter(task => task.id === id)[0];
+            existingTask.title = title
+            existingTask.bucket = bucket;
+            updateTask({ id, title, bucket });
+        } else {
+            id = Math.max(...state.tasks.map(task => task.id)) + 1;
+            createTask({ id, title, bucket });
+            state.tasks.push({ id, title, bucket });
+        }
         await writeState(state);
         closeTaskEditor();
     });
@@ -47,14 +58,26 @@ function createBucket(name) {
     document.getElementById('main_container').append(bucket);
 }
 
-function createTask({ title, bucket }) {
-    const task = createElement('div', { class: 'task', draggable: 'true' }, title);
+function createTask({ id, title, bucket }) {
+    const task = createElement('div', { class: 'task', draggable: 'true', 'data-id': id }, title);
+    task.addEventListener('click', () => {
+        openTaskEditor({ id, title, bucket });
+    });
     const taskContainer = document.querySelector(`#${bucket}_bucket .task_container`);
     taskContainer.prepend(task);
 }
 
-function openTaskEditor({ bucket }) {
+function updateTask({ id, title, bucket }) {
+    const task = document.querySelector(`.task[data-id='${id}']`);
+    task.textContent = title;
+}
+
+function openTaskEditor({ id, title, bucket }) {
     const taskEditor = document.getElementById('task_editor');
+    if (id !== undefined && title !== undefined) {
+        taskEditor.querySelector('input').value = title;
+        taskEditor.setAttribute('data-id', id);
+    }
     taskEditor.setAttribute('data-bucket', bucket);
     taskEditor.style.display = '';
 }
@@ -63,6 +86,7 @@ function closeTaskEditor() {
     const taskEditor = document.getElementById('task_editor');
     taskEditor.style.display = 'none';
     taskEditor.querySelector('input').value = '';
+    taskEditor.removeAttribute('data-id');
     taskEditor.removeAttribute('data-bucket');
 }
 
