@@ -1,56 +1,57 @@
 body {
-    margin: 0;
-    padding: 0;
-    height: 100vh;
-    width: 100vw;
-    background-color: #010409;
+    background-color: #131314;
+    color: white;
     display: flex;
+    height: 100vh;
     flex-direction: column;
     font-family: 'Segoe UI', 'Segoe UI Web (West European)', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', sans-serif;
-    color: white;
+    margin: 0;
+    padding: 0;
+    width: 100vw;
 }
 
 #top_header {
-    padding: 1rem;
-    background: #0c1017;
-    border-bottom: 0.05rem solid #3d444d;
+    background-color: #1b1b1b;
+    height: 3rem;
 }
 
 #main_container {
-    flex-grow: 1;
     display: flex;
     flex-direction: row;
-    place-content: center;
+    flex-grow: 1;
+    gap: 2rem;
     padding: 3rem;
-    gap: 2rem
+    place-content: center;
 }
 
 .bucket {
-    width: 30%;
     border-radius: 0.5rem;
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    width: 30%;
 }
-
 
 .bucket .title {
     display: flex;
-    place-content: center;
     font-size: 1.5rem;
     font-weight: bold;
+    place-content: center;
 }
-
 
 .bucket .create_task {
     all: unset;
-    padding: 1rem;
-    background-color: cornflowerblue;
-    cursor: pointer;
+    background-color: #37393b;
     border-radius: 0.5rem;
-    margin-bottom: 1rem;
+    cursor: pointer;
     display: flex;
+    margin-bottom: 1rem;
+    padding: 1rem;
     place-content: center;
+}
+
+.bucket .create_task:hover {
+    background-color: #4a4d52;
 }
 
 .bucket .task_container {
@@ -60,15 +61,15 @@ body {
 }
 
 .bucket .task_container .task {
-    background: linear-gradient(45deg, #002aff, #9c003c, #ff8400);
+    background-color: #1e1f20;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    filter: grayscale();
     padding: 1rem;
     user-select: none;
-    cursor: pointer;
-    border-radius: 0.5rem;
-    filter: grayscale();
 
 }
 
 .bucket .task_container .task:hover {
-    filter: none;
+    background-color: #2e2f2f;
 }

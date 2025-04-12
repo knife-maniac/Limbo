@@ -8,10 +8,7 @@
 </head>
 
 <body>
-    <div id="top_header">
-        <span>TOP HEADER</span>
-        <input id="input" />
-    </div>
+    <div id="top_header"></div>
     <div id="main_container"></div>
 </body>
 
@@ -19,14 +16,8 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', async () => {
-        const input = document.getElementById('input');
-        input.addEventListener('change', async event => {
-            const value = input.value;
-            await writeState(value);
-        });
+        // Loading state
         const state = await readState();
-        input.value = JSON.stringify(state);
-
         state.buckets?.map(createBucket);
         state.tasks?.map(createTask);
     });

@@ -12,7 +12,7 @@ app.listen(port, () => {
 });
 
 app.get('/', (_req: any, res: any) => {
-    res.send('Hello world!');
+    res.redirect('/planner');
 });
 
 app.get('/planner', (_req: any, res: any) => {
