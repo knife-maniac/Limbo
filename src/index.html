@@ -11,6 +11,13 @@
 <body>
     <div id="top_header"></div>
     <div id="main_container"></div>
+    <div id="task_editor" style="display: none;">
+        <div id="task_editor_card">
+            <span>Title:</span>
+            <input>
+            <button>Create task</button>
+        </div>
+    </div>
 </body>
 
 </html>
@@ -21,6 +28,19 @@
         const state = await readState();
         state.buckets?.map(createBucket);
         state.tasks?.map(createTask);
+
+        // Task Editor
+        const taskEditor = document.getElementById('task_editor');
+        taskEditor.addEventListener('click', event => {
+            if (event.target === taskEditor) {
+                taskEditor.style.display = 'none';
+            }
+        });
+        document.addEventListener('keyup', event => {
+            if (event.key === 'Escape') {
+                taskEditor.style.display = 'none';
+            }
+        });
     });
 
     function createElement(tag, attributes, textContent = '') {
@@ -36,6 +56,9 @@
         const bucket = createElement('div', { id: `${name}_bucket`, class: 'bucket' });
         const title = createElement('div', { class: 'title' }, name);
         const button = createElement('button', { class: 'create_task' }, '+');
+        button.addEventListener('click', () => {
+            openTaskEditor({ bucket: name });
+        });
         const taskContainer = createElement('div', { class: 'task_container' });
         bucket.append(title, button, taskContainer);
         document.getElementById('main_container').append(bucket);
@@ -44,10 +67,20 @@
     function createTask({ title, bucket }) {
         const task = createElement('div', { class: 'task', draggable: 'true' }, title);
         const taskContainer = document.querySelector(`#${bucket}_bucket .task_container`);
-        taskContainer.append(task);
-
+        taskContainer.prepend(task);
     }
 
+    function openTaskEditor({ bucket }) {
+        const taskEditor = document.getElementById('task_editor');
+        task_editor.style.display = '';
+        taskEditor.querySelector('button').addEventListener('click', () => {
+            const title = taskEditor.querySelector('input').value;
+            createTask({ title, bucket });
+            task_editor.style.display = 'none';
+        });
+    }
+
+    // State
     async function readState() {
         const response = await fetch('http://localhost:666/readState');
         return response.json();
