@@ -4,7 +4,8 @@
 <head>
     <title>Planner</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="src/style.css">
+    <link rel="icon" type="image/x-icon" href="src/images/favicon.ico">
 </head>
 
 <body>
@@ -41,7 +42,7 @@
     }
 
     function createTask({ title, bucket }) {
-        const task = createElement('div', { class: 'task', }, title);
+        const task = createElement('div', { class: 'task', draggable: 'true' }, title);
         const taskContainer = document.querySelector(`#${bucket}_bucket .task_container`);
         taskContainer.append(task);
 

@@ -5,7 +5,7 @@ const app = express();
 app.use(express.static(__dirname));
 
 const port: number = 666;
-const stateFilePath = 'state.json';
+const stateFilePath = 'state/state.json';
 
 app.listen(port, () => {
     console.log('http://localhost:' + port);
@@ -16,7 +16,7 @@ app.get('/', (_req: any, res: any) => {
 });
 
 app.get('/planner', (_req: any, res: any) => {
-    res.sendFile('index.html', { root: __dirname });
+    res.sendFile('src/index.html', { root: __dirname });
 });
 
 app.get('/readState', async (_req: any, res: any) => {
