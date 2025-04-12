@@ -22,7 +22,8 @@ app.get('/planner', (_req: any, res: any) => {
 
 app.get('/state', async (_req: any, res: any) => {
     const fileExists = !!(await stat(stateFilePath).catch(e => false));
-    const state = fileExists ? (await readFile(stateFilePath)).toString() : '{}';
+    const defaultState = { buckets: [], tasks: [] }
+    const state = fileExists ? (await readFile(stateFilePath)).toString() : JSON.stringify(defaultState);
     res.send(JSON.parse(state));
 });
 

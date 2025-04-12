@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', async () => {
     // Loading state
     window.state = await readState();
-    window.state.buckets?.map(createBucket);
-    window.state.tasks?.map(createTask);
+    window.state.buckets.map(createBucket);
+    window.state.tasks.map(createTask);
 
     // Drag and drop
     document.addEventListener('dragover', event => {
