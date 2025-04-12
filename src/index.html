@@ -31,14 +31,20 @@
 
         // Task Editor
         const taskEditor = document.getElementById('task_editor');
+        taskEditor.querySelector('button').addEventListener('click', () => {
+            const title = taskEditor.querySelector('input').value;
+            const bucket = taskEditor.getAttribute('data-bucket');
+            createTask({ title, bucket });
+            closeTaskEditor();
+        });
         taskEditor.addEventListener('click', event => {
             if (event.target === taskEditor) {
-                taskEditor.style.display = 'none';
+                closeTaskEditor();
             }
         });
         document.addEventListener('keyup', event => {
             if (event.key === 'Escape') {
-                taskEditor.style.display = 'none';
+                closeTaskEditor();
             }
         });
     });
@@ -72,12 +78,15 @@
 
     function openTaskEditor({ bucket }) {
         const taskEditor = document.getElementById('task_editor');
+        taskEditor.setAttribute('data-bucket', bucket);
         task_editor.style.display = '';
-        taskEditor.querySelector('button').addEventListener('click', () => {
-            const title = taskEditor.querySelector('input').value;
-            createTask({ title, bucket });
-            task_editor.style.display = 'none';
-        });
+    }
+
+    function closeTaskEditor() {
+        const taskEditor = document.getElementById('task_editor');
+        task_editor.style.display = 'none';
+        taskEditor.querySelector('input').value = '';
+        taskEditor.removeAttribute('data-bucket');
     }
 
     // State
