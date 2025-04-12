@@ -78,8 +78,10 @@ body {
 .bucket .task_container {
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
     gap: 1rem;
-    overflow: hidden;
+    overflow: auto;
+    border-radius: 0.5rem;
 }
 
 .bucket .task_container .task {
@@ -89,7 +91,6 @@ body {
     filter: grayscale();
     padding: 1rem;
     user-select: none;
-
 }
 
 .bucket .task_container .task:hover {
