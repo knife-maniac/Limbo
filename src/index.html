@@ -31,10 +31,12 @@
 
         // Task Editor
         const taskEditor = document.getElementById('task_editor');
-        taskEditor.querySelector('button').addEventListener('click', () => {
+        taskEditor.querySelector('button').addEventListener('click', async () => {
             const title = taskEditor.querySelector('input').value;
             const bucket = taskEditor.getAttribute('data-bucket');
             createTask({ title, bucket });
+            state.tasks.push({ title, bucket });
+            await writeState(state);
             closeTaskEditor();
         });
         taskEditor.addEventListener('click', event => {
@@ -91,11 +93,16 @@
 
     // State
     async function readState() {
-        const response = await fetch('http://localhost:666/readState');
+        const response = await fetch('http://localhost:666/state', { method: 'GET' });
         return response.json();
     }
 
     async function writeState(state) {
-        await fetch('http://localhost:666/writeState/' + state);
+        await fetch('http://localhost:666/state/',
+            {
+                headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+                method: 'POST',
+                body: JSON.stringify(state)
+            });
     }
 </script>
