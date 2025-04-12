@@ -21,7 +21,7 @@ app.get('/planner', (_req: any, res: any) => {
 
 app.get('/readState', async (_req: any, res: any) => {
     const fileExists = !!(await stat(stateFilePath).catch(e => false));
-    const state = fileExists ? (await readFile(stateFilePath)).toString() : '';
+    const state = fileExists ? (await readFile(stateFilePath)).toString() : '{}';
     res.send(JSON.parse(state));
 });
 

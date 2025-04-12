@@ -27,8 +27,8 @@
         const state = await readState();
         input.value = JSON.stringify(state);
 
-        state.buckets.map(createBucket);
-        state.tasks.map(createTask);
+        state.buckets?.map(createBucket);
+        state.tasks?.map(createTask);
     });
 
     function createElement(tag, attributes, textContent = '') {
