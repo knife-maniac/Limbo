@@ -20,7 +20,8 @@ body {
     flex-direction: row;
     flex-grow: 1;
     gap: 2rem;
-    padding: 3rem;
+    overflow: hidden;
+    padding: 3rem 5rem;
     place-content: center;
 }
 
@@ -30,6 +31,7 @@ body {
     flex-direction: column;
     gap: 1rem;
     width: 30%;
+    flex-grow: 1;
 }
 
 .bucket .title {
@@ -58,6 +60,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    overflow: hidden;
 }
 
 .bucket .task_container .task {
