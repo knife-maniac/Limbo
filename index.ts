@@ -13,10 +13,10 @@ app.listen(port, () => {
 });
 
 app.get('/', (_req: any, res: any) => {
-    res.redirect('/planner');
+    res.redirect('/limbo');
 });
 
-app.get('/planner', (_req: any, res: any) => {
+app.get('/limbo', (_req: any, res: any) => {
     res.sendFile('src/index.html', { root: __dirname });
 });
 

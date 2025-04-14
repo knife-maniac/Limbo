@@ -12,7 +12,25 @@ body {
 }
 
 #top_header {
-    background-color: #1b1b1b;
+    align-items: center;
+    background-blend-mode: multiply;
+    background-color: #953d26;
+    background-image: url(images/background-image.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    box-shadow: 0 0 1rem #000;
+    display: flex;
+    font-weight: bold;
+    padding-left: 5rem;
+}
+
+#top_header span {
+    text-shadow: 0 0 0.3rem black;
+}
+
+#top_header span::first-letter {
+    color: red;
 }
 
 #main_container {
@@ -20,7 +38,7 @@ body {
     flex-direction: row;
     gap: 2rem;
     justify-content: center;
-    padding: 3rem 5rem;
+    padding: 2rem 5rem 3rem 5rem;
 }
 
 #task_editor {
@@ -55,6 +73,7 @@ body {
     font-size: 1.5rem;
     font-weight: bold;
     justify-content: center;
+    text-transform: capitalize;
 }
 
 .bucket .create_task {
@@ -66,7 +85,7 @@ body {
     display: flex;
     justify-content: center;
     margin-bottom: 1rem;
-    padding: 1rem;
+    padding: 0.2rem;
 }
 
 .bucket .create_task:hover {
@@ -86,7 +105,6 @@ body {
     background-color: #1e1f20;
     border-radius: 0.5rem;
     cursor: pointer;
-    filter: grayscale();
     padding: 1rem;
     user-select: none;
 }
@@ -97,4 +115,5 @@ body {
 
 .bucket .task_container #drag_placeholder {
     background-color: #171819;
+    border: 0.1rem dashed #37393b;
 }
