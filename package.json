@@ -2,10 +2,10 @@
   "name": "limbo",
   "version": "1.0.0",
   "description": "",
-  "main": "index.ts",
+  "main": "server.ts",
   "scripts": {
-    "start": "npx ts-node ./index.ts",
-    "dev": "nodemon --exec npx ts-node ./index.ts",
+    "start": "npx ts-node ./server.ts",
+    "dev": "nodemon --exec npx ts-node ./server.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Ruben QUAST",
