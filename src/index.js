@@ -24,8 +24,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             createTask({ id, title, bucket });
             window.state.tasks.push({ id, title, bucket });
         }
-        await saveState();
         closeTaskEditor();
+        await saveState();
     });
     taskEditor.addEventListener('click', event => {
         if (event.target === taskEditor) {
@@ -82,7 +82,8 @@ function createBucket(name) {
         updateTask(sourceTaskId, { bucket: name });
         saveState();
     });
-    bucket.append(title, button, taskContainer);
+    const footer = createElement('div', { class: 'footer' });
+    bucket.append(title, button, taskContainer, footer);
     document.getElementById('main_container').append(bucket);
 }
 
@@ -140,11 +141,26 @@ async function readState() {
     return response.json();
 }
 
+async function sleep(ms) {
+    return new Promise((resolve, _reject) => {
+        setTimeout(resolve, ms);
+    });
+}
+
 async function saveState() {
-    await fetch('http://localhost:666/state/',
+    const statusDiv = document.getElementById('save-status');
+    statusDiv.className = 'loading';
+    const response = await fetch('http://localhost:666/state/',
         {
             headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
             method: 'POST',
             body: JSON.stringify(window.state)
         });
+    if (response.ok) {
+        statusDiv.className = 'success';
+        await sleep(2000);
+        statusDiv.className = '';
+    } else {
+        statusDiv.className = 'error';
+    }
 }
