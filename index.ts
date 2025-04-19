@@ -9,7 +9,7 @@ const port: number = 666;
 const stateFilePath = 'state/state.json';
 
 app.listen(port, () => {
-    console.log('http://localhost:' + port);
+    console.log('\x1b[31m' + `http://localhost:${port}/limbo` + '\x1b[0m');
 });
 
 app.get('/', (_req: any, res: any) => {
