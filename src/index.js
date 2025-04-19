@@ -1,8 +1,12 @@
 document.addEventListener('DOMContentLoaded', async () => {
-    // Loading state
+    // Loading and restoring previous state
     window.state = await readState();
-    window.state.buckets.map(createBucket);
-    window.state.tasks.map(createTask);
+    window.state.buckets.map(bucketData => {
+        const bucket = new Bucket(bucketData.name);
+        bucketData.tasks.map(taskData => {
+            new Task(taskData.title, taskData.description, bucket);
+        });
+    });
 
     // Drag and drop
     document.addEventListener('dragover', event => {
@@ -46,75 +50,6 @@ function createElement(tag, attributes, textContent = '') {
     });
     element.textContent = textContent;
     return element;
-}
-
-function createBucket(name) {
-    const bucket = createElement('div', { id: `${name}_bucket`, class: 'bucket' });
-    const title = createElement('div', { class: 'title' }, name);
-    const button = createElement('button', { class: 'create_task' }, '+');
-    button.addEventListener('click', () => {
-        openTaskEditor({ bucket: name });
-    });
-    const taskContainer = createElement('div', { class: 'task_container' });
-    taskContainer.addEventListener('dragover', (event) => {
-        const drag_placeholder = window.dragPlaceholder;
-        if (event.srcElement.classList.contains('task')) {
-            console.log('#1');
-            taskContainer.insertBefore(drag_placeholder, event.srcElement);
-        } else { // Dragging over task container
-            console.log('#2');
-            taskContainer.append(drag_placeholder);
-        }
-    });
-    taskContainer.addEventListener('drop', event => {
-        const sourceTask = window.dragged;
-
-        // Moving div
-        sourceTask.parentNode.removeChild(sourceTask);
-        if (event.srcElement.classList.contains('task')) {
-            taskContainer.insertBefore(sourceTask, event.srcElement);
-        } else { // Dragging over task container
-            taskContainer.append(sourceTask);
-        }
-
-        // Updating task
-        const sourceTaskId = parseInt(sourceTask.getAttribute('data-id'));
-        updateTask(sourceTaskId, { bucket: name });
-        saveState();
-    });
-    const footer = createElement('div', { class: 'footer' });
-    bucket.append(title, button, taskContainer, footer);
-    document.getElementById('main_container').append(bucket);
-}
-
-function createTask({ id, title, bucket }) {
-    const task = createElement('div', { class: 'task', draggable: 'true', 'data-id': id }, title);
-    const taskContainer = document.querySelector(`#${bucket}_bucket .task_container`);
-    task.addEventListener('click', () => {
-        openTaskEditor({ id, title, bucket });
-    });
-    task.addEventListener('dragstart', () => {
-        window.dragged = task;
-        const dragPlaceholder = createElement('div', { id: 'drag_placeholder', class: 'task' });
-        dragPlaceholder.style.minHeight = `calc(${task.clientHeight}px - 2rem)`;
-        taskContainer.append(dragPlaceholder);
-        window.dragPlaceholder = dragPlaceholder
-    });
-    task.addEventListener('dragend', () => {
-        window.dragged = null;
-        window.dragPlaceholder.remove();
-    });
-    taskContainer.prepend(task);
-}
-
-function updateTask(id, { title, bucket }) {
-    const task = window.state.tasks.filter(t => t.id === id)[0];
-    const taskDiv = document.querySelector(`.task[data-id='${id}']`);
-    if (title) {
-        task.title = title
-        taskDiv.textContent = title;
-    }
-    task.bucket = bucket;
 }
 
 function openTaskEditor({ id, title, bucket }) {
