@@ -1,6 +1,7 @@
 html {
-    --primary-color: #730000;
-    --primary-color-hover: #7e0000;
+    --header-color: #953d26;
+    --button-color: #5d0f00;
+    --button-color-hover: #681100;
 
     --background-color: #010409;
     --background-color-transparent-50: #01040980;
@@ -33,8 +34,8 @@ body {
 
 #top_header {
     align-items: center;
-    background-blend-mode: luminosity;
-    background-color: var(--primary-color);
+    background-blend-mode: multiply;
+    background-color: var(--header-color);
     background-image: url(images/background-image.jpg);
     background-position: center;
     background-repeat: no-repeat;
@@ -131,20 +132,21 @@ body {
     text-transform: capitalize;
 }
 
-.bucket .create_task {
+.bucket button.create_task {
     align-items: center;
     all: unset;
-    background-color: var(--primary-color);
+    background-color: var(--button-color);
     border-radius: var(--border-radius);
     cursor: pointer;
     display: flex;
     justify-content: center;
     margin-bottom: 1rem;
     padding: 0.2rem;
+
 }
 
-.bucket .create_task:hover {
-    background-color: var(--primary-color-hover);
+.bucket button.create_task:hover {
+    background-color: var(--button-color-hover);
 }
 
 .bucket .task_container {
