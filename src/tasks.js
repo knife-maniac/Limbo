@@ -5,7 +5,11 @@ class Task {
         this.title = title;
         this.description = description;
         this.bucket = bucket;
-        this.id = Math.max(...Task.list.map(t => t.id)) + 1;
+        if (Task.list.length === 0) {
+            this.id = 0;
+        } else {
+            this.id = Math.max(...Task.list.map(bucket => bucket.id)) + 1;
+        }
         Task.list.push(this);
         this.build();
     }

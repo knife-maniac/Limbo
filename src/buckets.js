@@ -3,8 +3,13 @@ class Bucket {
 
     constructor(name) {
         this.name = name;
-        this.id = Math.max(...Bucket.list.map(bucket => bucket.id)) + 1;
         this.tasks = [];
+        if (Bucket.list.length === 0) {
+            this.id = 0;
+        } else {
+            this.id = Math.max(...Bucket.list.map(bucket => bucket.id)) + 1;
+        }
+        Bucket.list.push(this);
         this.build();
     }
 
@@ -28,7 +33,7 @@ class Bucket {
         });
         taskContainer.addEventListener('drop', event => {
             const sourceTask = window.dragged;
-    
+
             // Moving div
             sourceTask.parentNode.removeChild(sourceTask);
             if (event.srcElement.classList.contains('task')) {
@@ -36,7 +41,7 @@ class Bucket {
             } else { // Dragging over task container
                 taskContainer.append(sourceTask);
             }
-    
+
             // Updating task
             const sourceTaskId = parseInt(sourceTask.getAttribute('data-id'));
             updateTask(sourceTaskId, { bucket: name });
@@ -44,8 +49,8 @@ class Bucket {
         });
         const footer = createElement('div', { class: 'footer' });
         div.append(title, button, taskContainer, footer);
-        document.getElementById('main_container').append(div);  
-        this.div = div;  
+        document.getElementById('main_container').append(div);
+        this.div = div;
     }
 
     delete() {
