@@ -1,2 +1,0 @@
-document.querySelectorAll('.container').forEach((task) => {console.log(task.textContent)});
-document.querySelectorAll('#ruben_done .container .title').forEach((task) => {console.log(task.textContent)});
