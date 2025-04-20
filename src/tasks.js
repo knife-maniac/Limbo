@@ -21,13 +21,23 @@ class Task {
 
     build() {
         const card = createElement('div', { class: 'task', draggable: 'true', 'data-id': this.id }, this.title);
-        const taskContainer = this.bucket.div.querySelector('.task_container');
+        this.taskContainer = this.bucket.div.querySelector('.task_container');
         card.addEventListener('dragstart', () => {
             Task.dragged = this;
             const dragPlaceholder = createElement('div', { id: 'task_placeholder', class: 'task' });
             dragPlaceholder.style.minHeight = `calc(${card.clientHeight}px - 2rem)`;
-            taskContainer.append(dragPlaceholder);
+            this.taskContainer.append(dragPlaceholder);
             Task.dragPlaceholder = dragPlaceholder;
+        });
+        card.addEventListener('dragover', (event) => {
+            // Above a task
+            if (event.offsetY < card.clientHeight / 2) {
+                // If above the top half, insert before
+                this.taskContainer.insertBefore(Task.dragPlaceholder, card);
+            } else {
+                // If above the bottom half, insert after
+                this.taskContainer.insertBefore(Task.dragPlaceholder, card.nextSibling);
+            }
         });
         card.addEventListener('dragend', () => {
             window.dragged = null;
@@ -36,7 +46,7 @@ class Task {
         card.addEventListener('click', () => {
             openTaskEditor(this);
         });
-        taskContainer.prepend(card);
+        this.taskContainer.prepend(card);
         this.card = card;
     }
 

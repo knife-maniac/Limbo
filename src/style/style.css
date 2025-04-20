@@ -157,14 +157,13 @@ body {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
+    padding-bottom: 3rem;
     overflow: auto;
-    border-radius: var(--border-radius);
 }
 
 .bucket .task_container .task {
     background-color: var(--card-color);
     border: 0.1rem solid var(--border-color);
-    /* border-radius: var(--border-radius); */
     cursor: pointer;
     padding: 1rem;
     user-select: none;

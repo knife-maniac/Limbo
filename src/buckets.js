@@ -24,33 +24,18 @@ class Bucket {
         button.addEventListener('click', () => {
             openTaskEditor(null, this.id);
         });
-        const taskContainer = createElement('div', { class: 'task_container' });
-        taskContainer.addEventListener('dragover', (event) => {
-            // On drag over, update the position of the placeholder
-            const draggedOver = event.srcElement;
-            const dragPlaceholder = Task.dragPlaceholder;
-            if (draggedOver.getAttribute('id') === 'task_placeholder') {
-                // Above task placeholder, nothing to do
-            } else if (draggedOver.classList.contains('task')) {
-                // Above a task
-                if (event.offsetY < draggedOver.clientHeight / 2) {
-                    // If above the top half, insert before
-                    taskContainer.insertBefore(dragPlaceholder, draggedOver);
-                } else {
-                    // If above the bottom half, insert after
-                    taskContainer.insertBefore(dragPlaceholder, draggedOver.nextSibling);
-                }
-            } else {
-                // Above the bucket, insert at the end
-                taskContainer.append(dragPlaceholder);
+        this.taskContainer = createElement('div', { class: 'task_container' });
+        this.taskContainer.addEventListener('dragover', (event) => {
+            if (event.target === this.taskContainer) {
+                this.taskContainer.append(Task.dragPlaceholder);
             }
         });
-        taskContainer.addEventListener('drop', () => {
+        this.taskContainer.addEventListener('drop', () => {
             // On drop, replace placeholder with the card.
             const task = Task.dragged;
             const placeholder = Task.dragPlaceholder;
-            taskContainer.insertBefore(task.card, placeholder);
-            const allTasks = Array.prototype.slice.call(taskContainer.children);
+            this.taskContainer.insertBefore(task.card, placeholder);
+            const allTasks = Array.prototype.slice.call(this.taskContainer.children);
             const indexOfDiv = allTasks.indexOf(placeholder) - 1;
             // Most recent tasks are at the top, so we need to reverse the index
             const indexOfTask = this.tasks.length - indexOfDiv;
@@ -58,7 +43,7 @@ class Bucket {
             saveState();
         });
         const footer = createElement('div', { class: 'footer' });
-        div.append(title, button, taskContainer, footer);
+        div.append(title, button, this.taskContainer, footer);
         document.getElementById('main_container').append(div);
         this.div = div;
     }
@@ -78,6 +63,7 @@ class Bucket {
         task.bucket.removeTask(task);
         this.addTask(task, index);
         task.bucket = this;
+        task.taskContainer = this.taskContainer;
     }
 
     delete() {
