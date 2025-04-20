@@ -17,9 +17,6 @@ class Task {
     build() {
         const card = createElement('div', { class: 'task', draggable: 'true', 'data-id': this.id }, this.title);
         const taskContainer = this.bucket.div.querySelector('.task_container');
-        card.addEventListener('click', () => {
-            openTaskEditor({ id: this.id, title, bucket });
-        });
         card.addEventListener('dragstart', () => {
             window.dragged = card;
             const dragPlaceholder = createElement('div', { id: 'drag_placeholder', class: 'task' });

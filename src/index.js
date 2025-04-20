@@ -4,7 +4,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     window.state.buckets.map(bucketData => {
         const bucket = new Bucket(bucketData.name);
         bucketData.tasks.map(taskData => {
-            new Task(taskData.title, taskData.description, bucket);
+            const task = new Task(taskData.title, taskData.description, bucket);
+            task.card.addEventListener('click', () => {
+                openTaskEditor(task);
+            });
         });
     });
 
@@ -43,22 +46,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 });
 
-function createElement(tag, attributes, textContent = '') {
-    const element = document.createElement(tag);
-    Object.entries(attributes).map(([key, value]) => {
-        element.setAttribute(key, value);
-    });
-    element.textContent = textContent;
-    return element;
-}
-
-function openTaskEditor({ id, title, bucket }) {
+// Task editor
+function openTaskEditor(task) {
     const taskEditor = document.getElementById('task_editor');
-    if (id !== undefined && title !== undefined) {
-        taskEditor.querySelector('input').value = title;
-        taskEditor.setAttribute('data-id', id);
-    }
-    taskEditor.setAttribute('data-bucket', bucket);
+    taskEditor.querySelector('input').value = task.title;
+    taskEditor.setAttribute('data-id', task.id);
+    taskEditor.setAttribute('data-bucket', task.bucket.id);
     taskEditor.style.display = '';
 }
 
@@ -74,12 +67,6 @@ function closeTaskEditor() {
 async function readState() {
     const response = await fetch('http://localhost:666/state', { method: 'GET' });
     return response.json();
-}
-
-async function sleep(ms) {
-    return new Promise((resolve, _reject) => {
-        setTimeout(resolve, ms);
-    });
 }
 
 async function saveState() {
