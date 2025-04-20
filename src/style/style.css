@@ -157,25 +157,24 @@ body {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    gap: 1rem;
     overflow: auto;
     border-radius: var(--border-radius);
 }
 
 .bucket .task_container .task {
     background-color: var(--card-color);
-    border-radius: var(--border-radius);
+    border: 0.1rem solid var(--border-color);
+    /* border-radius: var(--border-radius); */
     cursor: pointer;
     padding: 1rem;
     user-select: none;
-    border: 0.1rem solid var(--border-color);
 }
 
 .bucket .task_container .task:hover {
     background-color: var(--card-hover-color);
 }
 
-.bucket .task_container #drag_placeholder {
+.bucket .task_container #task_placeholder {
     background-color: var(--placeholder-card-color);
     border: 0.1rem dashed var(--border-color);
 }

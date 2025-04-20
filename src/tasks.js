@@ -23,15 +23,18 @@ class Task {
         const card = createElement('div', { class: 'task', draggable: 'true', 'data-id': this.id }, this.title);
         const taskContainer = this.bucket.div.querySelector('.task_container');
         card.addEventListener('dragstart', () => {
-            window.dragged = card;
-            const dragPlaceholder = createElement('div', { id: 'drag_placeholder', class: 'task' });
+            Task.dragged = this;
+            const dragPlaceholder = createElement('div', { id: 'task_placeholder', class: 'task' });
             dragPlaceholder.style.minHeight = `calc(${card.clientHeight}px - 2rem)`;
             taskContainer.append(dragPlaceholder);
-            window.dragPlaceholder = dragPlaceholder
+            Task.dragPlaceholder = dragPlaceholder;
         });
         card.addEventListener('dragend', () => {
             window.dragged = null;
-            window.dragPlaceholder.remove();
+            Task.dragPlaceholder.remove();
+        });
+        card.addEventListener('click', () => {
+            openTaskEditor(this);
         });
         taskContainer.prepend(card);
         this.card = card;
@@ -43,12 +46,9 @@ class Task {
         this.card.textContent = title;
     }
 
-    moveTo(bucket, index) {
-        //TODO
-    }
-
     delete() {
         Task.list = Task.list.filter(task => task != this);
+        this.bucket.removeTask(this);
         this.card.remove();
     }
 }

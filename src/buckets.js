@@ -26,36 +26,58 @@ class Bucket {
         });
         const taskContainer = createElement('div', { class: 'task_container' });
         taskContainer.addEventListener('dragover', (event) => {
-            const drag_placeholder = window.dragPlaceholder;
-            if (event.srcElement.classList.contains('task')) {
-                console.log('#1');
-                taskContainer.insertBefore(drag_placeholder, event.srcElement);
-            } else { // Dragging over task container
-                console.log('#2');
-                taskContainer.append(drag_placeholder);
+            // On drag over, update the position of the placeholder
+            const draggedOver = event.srcElement;
+            const dragPlaceholder = Task.dragPlaceholder;
+            if (draggedOver.getAttribute('id') === 'task_placeholder') {
+                // Above task placeholder, nothing to do
+            } else if (draggedOver.classList.contains('task')) {
+                // Above a task
+                if (event.offsetY < draggedOver.clientHeight / 2) {
+                    // If above the top half, insert before
+                    taskContainer.insertBefore(dragPlaceholder, draggedOver);
+                } else {
+                    // If above the bottom half, insert after
+                    taskContainer.insertBefore(dragPlaceholder, draggedOver.nextSibling);
+                }
+            } else {
+                // Above the bucket, insert at the end
+                taskContainer.append(dragPlaceholder);
             }
         });
-        taskContainer.addEventListener('drop', event => {
-            const sourceTask = window.dragged;
-
-            // Moving div
-            sourceTask.parentNode.removeChild(sourceTask);
-            if (event.srcElement.classList.contains('task')) {
-                taskContainer.insertBefore(sourceTask, event.srcElement);
-            } else { // Dragging over task container
-                taskContainer.append(sourceTask);
-            }
-
-            // Updating task
-            const sourceTaskId = parseInt(sourceTask.getAttribute('data-id'));
-
-            // updateTask(sourceTaskId, { bucket: name });
+        taskContainer.addEventListener('drop', () => {
+            // On drop, replace placeholder with the card.
+            const task = Task.dragged;
+            const placeholder = Task.dragPlaceholder;
+            taskContainer.insertBefore(task.card, placeholder);
+            const allTasks = Array.prototype.slice.call(taskContainer.children);
+            const indexOfDiv = allTasks.indexOf(placeholder) - 1;
+            // Most recent tasks are at the top, so we need to reverse the index
+            const indexOfTask = this.tasks.length - indexOfDiv;
+            this.moveTaskTo(task, indexOfTask);
             saveState();
         });
         const footer = createElement('div', { class: 'footer' });
         div.append(title, button, taskContainer, footer);
         document.getElementById('main_container').append(div);
         this.div = div;
+    }
+
+    addTask(task, index) {
+        this.tasks = this.tasks.toSpliced(index, 0, task);
+    }
+
+    removeTask(task) {
+        const index = this.tasks.indexOf(task);
+        if (index > -1) {
+            this.tasks.splice(index, 1);
+        }
+    }
+
+    moveTaskTo(task, index) {
+        task.bucket.removeTask(task);
+        this.addTask(task, index);
+        task.bucket = this;
     }
 
     delete() {

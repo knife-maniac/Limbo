@@ -26,8 +26,8 @@ function openTaskEditor(task = null, bucketId = null) {
         taskEditor.querySelector('input').value = task.title;
         taskEditor.setAttribute('data-task', task.id);
     }
-    taskEditor.querySelector('input').focus();
     taskEditor.style.display = '';
+    taskEditor.querySelector('input').focus();
 }
 
 async function saveTask() {

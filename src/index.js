@@ -4,10 +4,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     state.buckets.map(bucketData => {
         const bucket = new Bucket(bucketData.name);
         bucketData.tasks.map(taskData => {
-            const task = new Task(taskData.title, taskData.description, bucket);
-            task.card.addEventListener('click', () => {
-                openTaskEditor(task);
-            });
+            new Task(taskData.title, taskData.description, bucket);
         });
     });
 
