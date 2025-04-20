@@ -1,6 +1,10 @@
 class Task {
     static list = [];
 
+    static getById(id) {
+        return Task.list.filter(b => b.id === id)[0];
+    }
+
     constructor(title, description, bucket) {
         this.title = title;
         this.description = description;
@@ -11,6 +15,7 @@ class Task {
             this.id = Math.max(...Task.list.map(bucket => bucket.id)) + 1;
         }
         Task.list.push(this);
+        this.bucket.tasks.push(this);
         this.build();
     }
 
@@ -31,7 +36,6 @@ class Task {
         taskContainer.prepend(card);
         this.card = card;
     }
-
 
     edit({ title, description }) {
         this.title = title;

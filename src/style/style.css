@@ -32,6 +32,10 @@ body {
     width: 100vw;
 }
 
+::-webkit-scrollbar {
+    width: 0;
+}
+
 #top_header {
     align-items: center;
     background-blend-mode: multiply;

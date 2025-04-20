@@ -28,7 +28,18 @@ app.get('/state', async (_req: any, res: any) => {
 });
 
 app.post('/state', async (req: any, res: any) => {
-    await writeFile(stateFilePath, JSON.stringify(req.body, null, 4));
-    res.send('Ok');
+    try {
+        const state = JSON.stringify(req.body, null, 4);
+        await writeFile(stateFilePath, state);
+        // await backupState(state); // TODO: Decide when to backup state
+        res.send('Ok');
+    } catch (_error) {
+        // TODO: Catch and return error
+        res.status = 500;
+    }
+
 });
 
+async function backupState(state: any) {
+    await writeFile(`${stateFilePath}/backup/backup-${Date.now()}`, state);
+}

@@ -1,6 +1,10 @@
 class Bucket {
     static list = [];
 
+    static getById(id) {
+        return Bucket.list.filter(b => b.id === id)[0];
+    }
+
     constructor(name) {
         this.name = name;
         this.tasks = [];
@@ -18,7 +22,7 @@ class Bucket {
         const title = createElement('div', { class: 'title' }, this.name);
         const button = createElement('button', { class: 'create_task' }, '+');
         button.addEventListener('click', () => {
-            openTaskEditor({ bucket: this.name });
+            openTaskEditor(null, this.id);
         });
         const taskContainer = createElement('div', { class: 'task_container' });
         taskContainer.addEventListener('dragover', (event) => {
@@ -44,7 +48,8 @@ class Bucket {
 
             // Updating task
             const sourceTaskId = parseInt(sourceTask.getAttribute('data-id'));
-            updateTask(sourceTaskId, { bucket: name });
+
+            // updateTask(sourceTaskId, { bucket: name });
             saveState();
         });
         const footer = createElement('div', { class: 'footer' });
