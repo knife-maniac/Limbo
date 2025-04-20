@@ -175,6 +175,13 @@ body {
     background-color: var(--card-hover-color);
 }
 
+.task.dragged {
+    visibility: hidden;
+    height: 0;
+    padding: 0;
+    border-width: 0;
+}
+
 #task_placeholder {
     background-color: var(--placeholder-card-color);
     border: 0.1rem dashed var(--border-color);
