@@ -153,7 +153,7 @@ body {
     background-color: var(--button-color-hover);
 }
 
-.bucket .task_container {
+.task_container {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
@@ -161,19 +161,21 @@ body {
     overflow: auto;
 }
 
-.bucket .task_container .task {
+.task {
     background-color: var(--card-color);
-    border: 0.1rem solid var(--border-color);
+    border-style: solid;
+    border-color: var(--background-color);
+    border-width: 0.2rem 0;
     cursor: pointer;
     padding: 1rem;
     user-select: none;
 }
 
-.bucket .task_container .task:hover {
+.task:hover {
     background-color: var(--card-hover-color);
 }
 
-.bucket .task_container #task_placeholder {
+#task_placeholder {
     background-color: var(--placeholder-card-color);
     border: 0.1rem dashed var(--border-color);
 }

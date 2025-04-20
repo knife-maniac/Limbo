@@ -25,7 +25,9 @@ class Task {
         card.addEventListener('dragstart', () => {
             Task.dragged = this;
             const dragPlaceholder = createElement('div', { id: 'task_placeholder', class: 'task' });
-            dragPlaceholder.style.minHeight = `calc(${card.clientHeight}px - 2rem)`;
+            const paddingSize = '2rem';
+            const borderSize = '0.2rem'
+            dragPlaceholder.style.minHeight = `calc(${card.clientHeight}px - ${paddingSize} + ${borderSize})`;
             this.taskContainer.append(dragPlaceholder);
             Task.dragPlaceholder = dragPlaceholder;
         });
