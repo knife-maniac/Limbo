@@ -35,10 +35,19 @@ class Bucket {
             const task = Task.dragged;
             const placeholder = Task.dragPlaceholder;
             this.taskContainer.insertBefore(task.card, placeholder);
-            const allTasks = Array.prototype.slice.call(this.taskContainer.children);
-            const indexOfDiv = allTasks.indexOf(placeholder) - 1;
-            // Most recent tasks are at the top, so we need to reverse the index
-            const indexOfTask = this.tasks.length - indexOfDiv;
+            const followingCardId = placeholder.nextSibling?.getAttribute('data-id');
+            let indexOfTask = 0;
+            if (followingCardId) {
+                // Append before the following task
+                const followingTask = Task.getById(parseInt(followingCardId));
+                let tasksList = this.tasks;
+                // If the task being dropped is from this bucket, filter it out
+                if (task.bucket.id === this.id) {
+                    tasksList = tasksList.filter(t => t.id != task.id);
+                }
+                // Most recent tasks are at the top, so we insert at the next index
+                indexOfTask = tasksList.indexOf(followingTask) + 1;
+            }
             this.moveTaskTo(task, indexOfTask);
             saveState();
         });
