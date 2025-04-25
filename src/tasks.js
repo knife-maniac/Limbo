@@ -22,7 +22,7 @@ class Task {
     build() {
         const card = createElement('div', { class: 'task', draggable: 'true', 'data-id': this.id }, this.title);
         this.taskContainer = this.bucket.div.querySelector('.task_container');
-        card.addEventListener('dragstart', event => {
+        card.addEventListener('dragstart', () => {
             setTimeout(function () {
                 card.classList.add('dragged');
             }, 0);
@@ -43,7 +43,7 @@ class Task {
                 this.taskContainer.insertBefore(Task.dragPlaceholder, card.nextSibling);
             }
         });
-        card.addEventListener('dragend', event => {
+        card.addEventListener('dragend', () => {
             card.classList.remove('dragged');
             window.dragged = null;
             Task.dragPlaceholder.remove();

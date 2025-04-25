@@ -20,7 +20,7 @@ class Bucket {
     build() {
         const div = createElement('div', { 'data-id': this.id, class: 'bucket' });
         const title = createElement('div', { class: 'title' }, this.name);
-        const button = createElement('button', { class: 'create_task' }, '+');
+        const button = createElement('button', { class: 'create_task' }, '+ Add a task');
         button.addEventListener('click', () => {
             openTaskEditor(null, this.id);
         });
