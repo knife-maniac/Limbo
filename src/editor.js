@@ -11,7 +11,6 @@ function buildEditor() {
         }
     });
 
-    //TODO: Move this ?
     editor.querySelector('button').addEventListener('click', saveTask);
 }
 
@@ -23,17 +22,18 @@ function openTaskEditor(task = null, bucketId = null) {
     if (action === 'create') {
         taskEditor.setAttribute('data-bucket', bucketId);
     } else if (action === 'edit') {
-        taskEditor.querySelector('input').value = task.title;
+        taskEditor.querySelector('input#title').value = task.title;
+        taskEditor.querySelector('input#description').value = task.description;
         taskEditor.setAttribute('data-task', task.id);
     }
     taskEditor.style.display = '';
-    taskEditor.querySelector('input').focus();
+    taskEditor.querySelector('input#title').focus();
 }
 
 async function saveTask() {
     const taskEditor = document.getElementById('task_editor');
-    const title = taskEditor.querySelector('input').value;
-    const description = undefined;
+    const title = taskEditor.querySelector('input#title').value;
+    const description = taskEditor.querySelector('input#description').value;
     const action = taskEditor.getAttribute('data-action');
     if (action === 'create') {
         const bucketId = parseInt(taskEditor.getAttribute('data-bucket'));
@@ -51,7 +51,8 @@ async function saveTask() {
 function closeTaskEditor() {
     const taskEditor = document.getElementById('task_editor');
     taskEditor.style.display = 'none';
-    taskEditor.querySelector('input').value = '';
+    taskEditor.querySelector('input#title').value = '';
+    taskEditor.querySelector('input#description').value = '';
     taskEditor.removeAttribute('data-action');
     taskEditor.removeAttribute('data-task');
     taskEditor.removeAttribute('data-bucket');

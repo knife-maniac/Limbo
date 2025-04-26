@@ -8,7 +8,7 @@ html {
     --background-color-transparent-50: #01040980;
     --background-color-contrast: #d0e1f8;
 
-    --bucket-color: #000000e6;
+    --bucket-color: #000000e0;
     --card-color: #151b23;
     --card-hover-color: #1b222d;
     --placeholder-card-color: #04070c;
@@ -22,7 +22,8 @@ html {
 
 body {
     /* background-color: ; */
-    background: linear-gradient(var(--background-color), var(--background-color), var(--background-color), var(--button-color-hover));
+    /* background: linear-gradient(var(--background-color), var(--background-color), var(--background-color), var(--button-color-hover)); */
+    background: radial-gradient(115.69% 40% at 110.49% 20.18%, red 0, purple 105%);
     color: var(--background-color-contrast);
     display: grid;
     grid-template-rows: var(--header-height) calc(100vh - var(--header-height));
@@ -122,7 +123,6 @@ body {
 
 .bucket {
     border-radius: var(--border-radius);
-    /* background: linear-gradient(45deg, var(--bucket-color), var(--bucket-color), transparent); */
     background: var(--bucket-color);
     display: flex;
     flex-direction: column;
@@ -142,8 +142,6 @@ body {
 
 .bucket button.create_task {
     all: unset;
-    background-color: var(--button-color);
-    border-radius: var(--border-radius);
     color: var(--button-color-contrast);
     cursor: pointer;
     font-style: italic;
@@ -171,23 +169,51 @@ body {
     padding: 0;
 }
 
-.task {
-    background-color: var(--card-color);
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    padding: 1rem;
-    user-select: none;
-}
-
-.task:hover {
-    background-color: var(--card-hover-color);
-}
-
 .task_wrapper.dragged .task {
     visibility: hidden;
     height: 0;
     padding: 0;
     border-width: 0;
+}
+
+.task {
+    background-color: var(--card-color);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    user-select: none;
+}
+
+.task>.header {
+    display: grid;
+    grid-template-columns: auto 1rem;
+}
+
+.task>.header>.icon {
+    background: url(images/more.svg);
+    background-size: cover;
+    border-radius: 50%;
+    height: 1.5rem;
+    width: 1.5rem;
+    visibility: hidden;
+}
+
+.task:hover>.header>.icon {
+    visibility: visible;
+}
+
+.task>.header>.icon:hover {
+    background-color: red;
+}
+
+.task>.description {
+    opacity: 0.5;
+}
+
+.task:hover {
+    background-color: var(--card-hover-color);
 }
 
 #task_placeholder {

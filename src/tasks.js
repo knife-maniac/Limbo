@@ -22,14 +22,19 @@ class Task {
     build() {
         const taskWrapper = createElement('div', { class: 'task_wrapper', 'data-id': this.id });
         const card = createElement('div', { class: 'task', draggable: 'true' });
-        const cardTitle = createElement('div', { class: 'title' }, this.title);
-        const deleteButton = createElement('button', { class: 'delete' }, 'DELETE');
-        deleteButton.addEventListener('click', event => {
+        const cardHeader = createElement('div', { class: 'header' });
+        const cardTitle = createElement('span', { class: 'title' }, this.title);
+        const headerIcon = createElement('div', { class: 'icon' });
+        const cardDescription = createElement('span', { class: 'description' }, this.description);
+        cardHeader.append(cardTitle, headerIcon);
+        card.append(cardHeader, cardDescription);
+        taskWrapper.append(card);
+
+        headerIcon.addEventListener('click', event => {
             event.stopPropagation();
             this.delete();
             saveState();
         });
-        card.append(cardTitle, deleteButton);
 
         this.taskContainer = this.bucket.div.querySelector('.task_container');
         card.addEventListener('dragstart', () => {
@@ -61,16 +66,19 @@ class Task {
         card.addEventListener('click', () => {
             openTaskEditor(this);
         });
-        taskWrapper.append(card);
+
         this.taskContainer.prepend(taskWrapper);
         this.wrapper = taskWrapper;
         this.card = card;
+        this.titleSpan = cardTitle;
+        this.descriptionSpan = cardDescription;
     }
 
     edit({ title, description }) {
         this.title = title;
         this.description = description;
-        this.card.textContent = title;
+        this.titleSpan.textContent = title;
+        this.descriptionSpan.textContent = description
     }
 
     delete() {
