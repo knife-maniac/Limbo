@@ -1,6 +1,4 @@
 html {
-    /* ----------------------------- */
-    --primary-color: #952626;
     --main-background: radial-gradient(115.69% 40% at 110.49% 20.18%, red 0, purple 105%);
 
     /* BACKGROUND */
@@ -15,10 +13,12 @@ html {
     --placeholder-card-color: #04070c;
 
     --border-color: #212831;
+    --border-size: 0.1rem;
     --border-radius: 0.5rem;
 
-    --header-height: 2rem;
+    --header-height: 3rem;
     --shadow-color: #000000;
+    --inactive-opacity: 0.5;
 }
 
 body {
@@ -41,12 +41,7 @@ body {
 
 #top_header {
     align-items: center;
-    background-blend-mode: multiply;
-    background-color: var(--primary-color);
-    background-image: url(images/background-image.jpg);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+    background: var(--background-color);
     box-shadow: 0 0 1rem var(--shadow-color);
     display: flex;
     font-weight: bold;
@@ -55,6 +50,7 @@ body {
 
 #top_header span {
     flex-grow: 1;
+    font-size: 1.5rem;
     text-shadow: 0 0 0.3rem var(--shadow-color);
 }
 
@@ -157,15 +153,15 @@ body {
 
 .bucket button.create_task {
     all: unset;
-    color: var(--background-color-contrast-disabled);
     cursor: pointer;
     font-style: italic;
+    opacity: var(--inactive-opacity);
     padding: 0.2rem 0.6rem;
 
 }
 
 .bucket button.create_task:hover {
-    color: var(--background-color-contrast);
+    opacity: 1;
 }
 
 .task_container {
@@ -203,15 +199,18 @@ body {
 .task>.header {
     display: grid;
     grid-template-columns: auto 1rem;
+    align-items: center;
 }
 
 .task>.header>.icon {
     background: url(images/more.svg);
     background-size: cover;
     border-radius: 50%;
+    display: flex;
     height: 1.5rem;
     width: 1.5rem;
     visibility: hidden;
+    opacity: var(--inactive-opacity);
 }
 
 .task:hover>.header>.icon {
@@ -219,7 +218,7 @@ body {
 }
 
 .task>.header>.icon:hover {
-    background-color: red;
+    opacity: 1;
 }
 
 .task>.description {
@@ -232,7 +231,7 @@ body {
 
 #task_placeholder {
     background-color: var(--placeholder-card-color);
-    border: 0.1rem dashed var(--border-color);
+    border: var(--border-size) dashed var(--border-color);
 }
 
 .bucket .footer {
