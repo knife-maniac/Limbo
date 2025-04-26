@@ -4,7 +4,7 @@ html {
     --button-color-hover: #781400;
     --button-color-contrast: #ffa2a0;
 
-    --background-color: #602928;
+    --background-color: #9c2321;
     --background-color-transparent-50: #01040980;
     --background-color-contrast: #d0e1f8;
 
@@ -147,7 +147,6 @@ body {
     color: var(--button-color-contrast);
     cursor: pointer;
     font-style: italic;
-    margin-bottom: 0.5rem;
     padding: 0.2rem 0.6rem;
 
 }
@@ -164,9 +163,16 @@ body {
     overflow: auto;
 }
 
+.task_wrapper {
+    padding: 0.25rem 0;
+}
+
+.task_wrapper.dragged {
+    padding: 0;
+}
+
 .task {
     background-color: var(--card-color);
-    border: 0.1rem solid var(--bucket-color);
     border-radius: var(--border-radius);
     cursor: pointer;
     padding: 1rem;
@@ -175,10 +181,9 @@ body {
 
 .task:hover {
     background-color: var(--card-hover-color);
-    border-color: var(--background-color-contrast);
 }
 
-.task.dragged {
+.task_wrapper.dragged .task {
     visibility: hidden;
     height: 0;
     padding: 0;

@@ -20,11 +20,21 @@ class Task {
     }
 
     build() {
-        const card = createElement('div', { class: 'task', draggable: 'true', 'data-id': this.id }, this.title);
+        const taskWrapper = createElement('div', { class: 'task_wrapper', 'data-id': this.id });
+        const card = createElement('div', { class: 'task', draggable: 'true' });
+        const cardTitle = createElement('div', { class: 'title' }, this.title);
+        const deleteButton = createElement('button', { class: 'delete' }, 'DELETE');
+        deleteButton.addEventListener('click', event => {
+            event.stopPropagation();
+            this.delete();
+            saveState();
+        });
+        card.append(cardTitle, deleteButton);
+
         this.taskContainer = this.bucket.div.querySelector('.task_container');
         card.addEventListener('dragstart', () => {
             setTimeout(function () {
-                card.classList.add('dragged');
+                taskWrapper.classList.add('dragged');
             }, 0);
             Task.dragged = this;
             const dragPlaceholder = createElement('div', { id: 'task_placeholder', class: 'task' });
@@ -34,24 +44,26 @@ class Task {
             this.taskContainer.append(dragPlaceholder);
             Task.dragPlaceholder = dragPlaceholder;
         });
-        card.addEventListener('dragover', event => {
-            if (event.offsetY < card.clientHeight / 2) {
-                // If above the top half, insert before
-                this.taskContainer.insertBefore(Task.dragPlaceholder, card);
-            } else {
-                // If above the bottom half, insert after
-                this.taskContainer.insertBefore(Task.dragPlaceholder, card.nextSibling);
-            }
-        });
         card.addEventListener('dragend', () => {
-            card.classList.remove('dragged');
+            taskWrapper.classList.remove('dragged');
             window.dragged = null;
             Task.dragPlaceholder.remove();
+        });
+        taskWrapper.addEventListener('dragover', event => {
+            if (event.offsetY < Math.min(Task.dragPlaceholder.clientHeight / 2, card.clientHeight / 2)) {
+                // If above the top half, insert before
+                this.taskContainer.insertBefore(Task.dragPlaceholder, taskWrapper);
+            } else {
+                // If above the bottom half, insert after
+                this.taskContainer.insertBefore(Task.dragPlaceholder, taskWrapper.nextSibling);
+            }
         });
         card.addEventListener('click', () => {
             openTaskEditor(this);
         });
-        this.taskContainer.prepend(card);
+        taskWrapper.append(card);
+        this.taskContainer.prepend(taskWrapper);
+        this.wrapper = taskWrapper;
         this.card = card;
     }
 
@@ -64,6 +76,6 @@ class Task {
     delete() {
         Task.list = Task.list.filter(task => task != this);
         this.bucket.removeTask(this);
-        this.card.remove();
+        this.wrapper.remove();
     }
 }

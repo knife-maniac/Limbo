@@ -34,7 +34,7 @@ class Bucket {
             // On drop, replace placeholder with the card.
             const task = Task.dragged;
             const placeholder = Task.dragPlaceholder;
-            this.taskContainer.insertBefore(task.card, placeholder);
+            this.taskContainer.insertBefore(task.wrapper, placeholder);
             const followingCardId = placeholder.nextSibling?.getAttribute('data-id');
             let indexOfTask = 0;
             if (followingCardId) {
