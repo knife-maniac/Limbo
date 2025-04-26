@@ -1,29 +1,28 @@
 html {
-    --header-color: #953d26;
-    --button-color: #5d0f00;
-    --button-color-hover: #781400;
-    --button-color-contrast: #ffa2a0;
+    /* ----------------------------- */
+    --primary-color: #952626;
+    --main-background: radial-gradient(115.69% 40% at 110.49% 20.18%, red 0, purple 105%);
 
-    --background-color: #9c2321;
+    /* BACKGROUND */
+    --background-color: #000000e0;
     --background-color-transparent-50: #01040980;
     --background-color-contrast: #d0e1f8;
+    --background-color-contrast-disabled: #d0e1f84d;
 
-    --bucket-color: #000000e0;
+    /* CARDS */
     --card-color: #151b23;
     --card-hover-color: #1b222d;
     --placeholder-card-color: #04070c;
 
     --border-color: #212831;
-    --shadow-color: #000000;
+    --border-radius: 0.5rem;
 
     --header-height: 2rem;
-    --border-radius: 0.5rem;
+    --shadow-color: #000000;
 }
 
 body {
-    /* background-color: ; */
-    /* background: linear-gradient(var(--background-color), var(--background-color), var(--background-color), var(--button-color-hover)); */
-    background: radial-gradient(115.69% 40% at 110.49% 20.18%, red 0, purple 105%);
+    background: var(--main-background);
     color: var(--background-color-contrast);
     display: grid;
     grid-template-rows: var(--header-height) calc(100vh - var(--header-height));
@@ -32,6 +31,7 @@ body {
     font-family: 'Segoe UI', 'Segoe UI Web (West European)', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', sans-serif;
     margin: 0;
     padding: 0;
+    user-select: none;
     width: 100vw;
 }
 
@@ -42,7 +42,7 @@ body {
 #top_header {
     align-items: center;
     background-blend-mode: multiply;
-    background-color: var(--header-color);
+    background-color: var(--primary-color);
     background-image: url(images/background-image.jpg);
     background-position: center;
     background-repeat: no-repeat;
@@ -116,14 +116,29 @@ body {
 #task_editor #task_editor_card {
     background-color: var(--card-color);
     border-radius: var(--border-radius);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
     height: 80%;
     padding: 1rem;
     width: 50%;
 }
 
+#task_editor #task_editor_card input,
+#task_editor #task_editor_card textarea {
+    all: unset;
+    background-color: var(--background-color);
+    border-radius: var(--border-radius);
+    padding: 0.5rem;
+}
+
+#task_editor #task_editor_card button {
+    align-self: end;
+}
+
 .bucket {
     border-radius: var(--border-radius);
-    background: var(--bucket-color);
+    background: var(--background-color);
     display: flex;
     flex-direction: column;
     flex-grow: 1;
@@ -142,7 +157,7 @@ body {
 
 .bucket button.create_task {
     all: unset;
-    color: var(--button-color-contrast);
+    color: var(--background-color-contrast-disabled);
     cursor: pointer;
     font-style: italic;
     padding: 0.2rem 0.6rem;
@@ -150,7 +165,7 @@ body {
 }
 
 .bucket button.create_task:hover {
-    background-color: var(--button-color-hover);
+    color: var(--background-color-contrast);
 }
 
 .task_container {
@@ -183,7 +198,6 @@ body {
     display: flex;
     flex-direction: column;
     padding: 1rem;
-    user-select: none;
 }
 
 .task>.header {
@@ -209,7 +223,7 @@ body {
 }
 
 .task>.description {
-    opacity: 0.5;
+    color: var(--background-color-contrast-disabled);
 }
 
 .task:hover {
@@ -222,7 +236,7 @@ body {
 }
 
 .bucket .footer {
-    background: linear-gradient(transparent, var(--bucket-color));
+    background: linear-gradient(transparent, var(--background-color));
     border-radius: var(--border-radius);
     bottom: 0;
     height: 3rem;
