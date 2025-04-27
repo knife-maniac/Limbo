@@ -39,17 +39,23 @@ async function saveState() {
             }
         })
     };
-    const response = await fetch('http://localhost:666/state/',
-        {
-            headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-            method: 'POST',
-            body: JSON.stringify(state)
-        });
-    if (response.ok) {
-        statusDiv.className = 'success';
-        await sleep(2000);
-        statusDiv.className = '';
-    } else {
+    try {
+        const response = await fetch('http://localhost:666/state/',
+            {
+                headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+                method: 'POST',
+                body: JSON.stringify(state)
+            }).then(r => r.json());
+        if (response.success) {
+            statusDiv.className = 'success';
+            await sleep(2000);
+            statusDiv.className = '';
+        } else {
+            statusDiv.className = 'error';
+            alert('An error occured when trying to save the current state.');
+        }
+    } catch (_error) {
         statusDiv.className = 'error';
+        alert('The limbo server could not be contacted. The state will not be saved.');
     }
 }

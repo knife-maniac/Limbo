@@ -45,7 +45,7 @@ body {
     box-shadow: 0 0 1rem var(--shadow-color);
     display: flex;
     font-weight: bold;
-    padding-left: 5rem;
+    padding-left: 6rem;
 }
 
 #top_header span {
@@ -169,7 +169,8 @@ body {
     flex-direction: column;
     flex-grow: 1;
     padding-bottom: 3rem;
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .task_wrapper {
@@ -222,7 +223,7 @@ body {
 }
 
 .task>.description {
-    color: var(--background-color-contrast-disabled);
+    opacity: var(--inactive-opacity);
 }
 
 .task:hover {

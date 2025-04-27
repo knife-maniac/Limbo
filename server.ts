@@ -31,11 +31,12 @@ app.post('/state', async (req: any, res: any) => {
     try {
         const state = JSON.stringify(req.body, null, 4);
         await writeFile(stateFilePath, state);
-        await backupState(state); // TODO: Decide when to backup state
-        res.send('Ok');
-    } catch (_error) {
-        // TODO: Catch and return error
+        // await backupState(state); // TODO: Decide when to backup state
+        res.status = 200;
+        res.send({ success: true })
+    } catch (error) {
         res.status = 500;
+        res.send({ success: false, message: error });
     }
 
 });
