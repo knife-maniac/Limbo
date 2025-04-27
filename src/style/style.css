@@ -8,11 +8,11 @@ html {
     --background-color-contrast-disabled: #d0e1f84d;
 
     /* CARDS */
-    --card-color: #151b23;
-    --card-hover-color: #1b222d;
-    --placeholder-card-color: #04070c;
+    --card-color: #003377;
+    --card-hover-color: #003d8d;
+    --placeholder-card-color: #001837;
 
-    --border-color: #212831;
+    --border-color: #2d5e9e;
     --border-size: 0.1rem;
     --border-radius: 0.5rem;
 
@@ -232,6 +232,7 @@ body {
 #task_placeholder {
     background-color: var(--placeholder-card-color);
     border: var(--border-size) dashed var(--border-color);
+    margin: 0.1rem;
 }
 
 .bucket .footer {
