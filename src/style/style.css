@@ -1,19 +1,19 @@
 html {
-    --main-background: radial-gradient(115.69% 40% at 110.49% 20.18%, red 0, purple 105%);
-
     /* BACKGROUND */
+    --main-background:
+        radial-gradient(115.69% 40% at 110.49% 20.18%, red 0, transparent 104%),
+        radial-gradient(77.69% 39% at -11.51% 88.18%, #ffb000 71%, purple 170%);
     --background-color: #000000e0;
     --background-color-transparent-50: #01040980;
-    --background-color-contrast: #d0e1f8;
-    --background-color-contrast-disabled: #d0e1f84d;
-
+    --background-color-contrast: #ffffff;
+    
     /* CARDS */
-    --card-color: #003377;
-    --card-hover-color: #003d8d;
     --placeholder-card-color: #001837;
+    --card-color: #403a49;
+    --card-hover-color: #4f4859;
+    --card-color-contrast: #e5d3ff;
 
     --border-color: #2d5e9e;
-    --border-size: 0.1rem;
     --border-radius: 0.5rem;
 
     --header-height: 3rem;
@@ -96,6 +96,7 @@ body {
     flex-direction: row;
     gap: 2rem;
     justify-content: center;
+    overflow: hidden;
     padding: 2rem 5rem;
 }
 
@@ -115,7 +116,6 @@ body {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    height: 80%;
     padding: 1rem;
     width: 50%;
 }
@@ -126,6 +126,11 @@ body {
     background-color: var(--background-color);
     border-radius: var(--border-radius);
     padding: 0.5rem;
+}
+
+#task_editor #task_editor_card #description {
+    overflow: hidden;
+    height: 5rem;
 }
 
 #task_editor #task_editor_card button {
@@ -182,25 +187,27 @@ body {
 }
 
 .task_wrapper.dragged .task {
-    visibility: hidden;
+    border-width: 0;
     height: 0;
     padding: 0;
-    border-width: 0;
+    visibility: hidden;
 }
 
 .task {
     background-color: var(--card-color);
+    color: var(--card-color-contrast);
     border-radius: var(--border-radius);
     cursor: pointer;
     display: flex;
     flex-direction: column;
+    gap: 0.5rem;
+    overflow: hidden;
     padding: 1rem;
 }
 
 .task>.header {
     display: grid;
     grid-template-columns: auto 1rem;
-    align-items: center;
 }
 
 .task>.header>.icon {
@@ -208,8 +215,8 @@ body {
     background-size: cover;
     border-radius: 50%;
     display: flex;
-    height: 1.5rem;
-    width: 1.5rem;
+    height: 1rem;
+    width: 1rem;
     visibility: hidden;
     opacity: var(--inactive-opacity);
 }
@@ -220,6 +227,11 @@ body {
 
 .task>.header>.icon:hover {
     opacity: 1;
+}
+
+.task span {
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .task>.description {
