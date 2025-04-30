@@ -1,10 +1,14 @@
 document.addEventListener('DOMContentLoaded', async () => {
     // Loading and restoring previous state
     const state = await readState();
+    state.labels.map(labelData => {
+        new Label(labelData.name, labelData.color);
+    });
     state.buckets.map(bucketData => {
         const bucket = new Bucket(bucketData.name);
         bucketData.tasks.map(taskData => {
-            new Task(taskData.title, taskData.description, bucket);
+            const labels = taskData.labels.map(name => Label.getByName(name));
+            new Task(taskData.title, taskData.description, bucket, labels);
         });
     });
 
@@ -27,13 +31,20 @@ async function saveState() {
     const statusDiv = document.getElementById('save-status');
     statusDiv.className = 'loading';
     const state = {
+        labels: Label.list.map(label => {
+            return {
+                name: label.name,
+                color: label.color
+            }
+        }),
         buckets: Bucket.list.map(bucket => {
             return {
                 name: bucket.name,
                 tasks: bucket.tasks.map(task => {
                     return {
                         title: task.title,
-                        description: task.description
+                        description: task.description,
+                        labels: task.labels.map(l => l.name)
                     }
                 })
             }

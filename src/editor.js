@@ -12,6 +12,12 @@ function buildEditor() {
     });
 
     editor.querySelector('button').addEventListener('click', saveTask);
+
+    const labelSelectionDropdown = editor.querySelector('#labels');
+    Label.list.map(label => {
+        const labelOption = createElement('option', { value: label.id }, label.name);
+        labelSelectionDropdown.append(labelOption);
+    });
 }
 
 // Task editor
@@ -34,15 +40,17 @@ async function saveTask() {
     const taskEditor = document.getElementById('task_editor');
     const title = taskEditor.querySelector('#title').value;
     const description = taskEditor.querySelector('#description').value;
+    const labelsIds = taskEditor.querySelector('#labels').value; // TODO: Change this to allow multiple label selection
+    const labels = [labelsIds].map(idAsString => Label.getById(parseInt(idAsString)));
     const action = taskEditor.getAttribute('data-action');
     if (action === 'create') {
         const bucketId = parseInt(taskEditor.getAttribute('data-bucket'));
         const bucket = Bucket.getById(bucketId);
-        new Task(title, description, bucket);
+        new Task(title, description, bucket, labels);
     } else if (action === 'edit') {
         const taskId = parseInt(taskEditor.getAttribute('data-task'));
         const task = Task.getById(taskId);
-        task.edit({ title, description });
+        task.edit({ title, description, labels });
     }
     closeTaskEditor();
     await saveState();

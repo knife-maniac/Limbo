@@ -5,10 +5,11 @@ class Task {
         return Task.list.filter(b => b.id === id)[0];
     }
 
-    constructor(title, description, bucket) {
+    constructor(title, description, bucket, labels) {
         this.title = title;
         this.description = description;
         this.bucket = bucket;
+        this.labels = labels;
         if (Task.list.length === 0) {
             this.id = 0;
         } else {
@@ -26,8 +27,13 @@ class Task {
         const cardTitle = createElement('span', { class: 'title' }, this.title);
         const headerIcon = createElement('div', { class: 'icon' });
         const cardDescription = createElement('span', { class: 'description' }, this.description);
+        const cardLabelsContainer = createElement('span', { class: 'labels_container' });
+        this.labels.map(label => {
+            const labelTag = label.getTag();
+            cardLabelsContainer.append(labelTag);
+        });
         cardHeader.append(cardTitle, headerIcon);
-        card.append(cardHeader, cardDescription);
+        card.append(cardHeader, cardDescription, cardLabelsContainer);
         taskWrapper.append(card);
 
         headerIcon.addEventListener('click', event => {
@@ -72,13 +78,20 @@ class Task {
         this.card = card;
         this.titleSpan = cardTitle;
         this.descriptionSpan = cardDescription;
+        this.cardLabelsContainer = cardLabelsContainer;
     }
 
-    edit({ title, description }) {
+    edit({ title, description, labels }) {
         this.title = title;
         this.description = description;
+        this.labels = labels;
         this.titleSpan.textContent = title;
-        this.descriptionSpan.textContent = description
+        this.descriptionSpan.textContent = description;
+        this.cardLabelsContainer.innerHTML = '';
+        this.labels.map(label => {
+            const labelTag = label.getTag();
+            this.cardLabelsContainer.append(labelTag);
+        });
     }
 
     delete() {
