@@ -24,14 +24,10 @@ class Task {
         const taskWrapper = createElement('div', { class: 'task_wrapper', 'data-id': this.id });
         const card = createElement('div', { class: 'task', draggable: 'true' });
         const cardHeader = createElement('div', { class: 'header' });
-        const cardTitle = createElement('span', { class: 'title' }, this.title);
+        const cardTitle = createElement('span', { class: 'title' });
         const headerIcon = createElement('div', { class: 'icon' });
-        const cardDescription = createElement('span', { class: 'description' }, this.description);
+        const cardDescription = createElement('span', { class: 'description' });
         const cardLabelsContainer = createElement('span', { class: 'labels_container' });
-        this.labels.map(label => {
-            const labelTag = label.getTag();
-            cardLabelsContainer.append(labelTag);
-        });
         cardHeader.append(cardTitle, headerIcon);
         card.append(cardHeader, cardDescription, cardLabelsContainer);
         taskWrapper.append(card);
@@ -73,25 +69,42 @@ class Task {
             openTaskEditor(this);
         });
 
-        this.taskContainer.prepend(taskWrapper);
         this.wrapper = taskWrapper;
         this.card = card;
         this.titleSpan = cardTitle;
         this.descriptionSpan = cardDescription;
         this.cardLabelsContainer = cardLabelsContainer;
+
+        this.updateCard({ title: this.title, description: this.description, labels: this.labels });
+        this.taskContainer.prepend(taskWrapper);
     }
 
-    edit({ title, description, labels }) {
-        this.title = title;
-        this.description = description;
-        this.labels = labels;
+    updateCard({ title, description, labels }) {
+        // Title
         this.titleSpan.textContent = title;
-        this.descriptionSpan.textContent = description;
+        this.title = title;
+
+        // Description
+        if (description) {
+            this.descriptionSpan.style.display = '';
+            this.descriptionSpan.textContent = description;
+        } else {
+            this.descriptionSpan.style.display = 'none';
+        }
+        this.description = description;
+
+        // Labels
         this.cardLabelsContainer.innerHTML = '';
-        this.labels.map(label => {
-            const labelTag = label.getTag();
-            this.cardLabelsContainer.append(labelTag);
-        });
+        if (labels.length > 0) {
+            labels.map(label => {
+                const labelTag = label.getTag();
+                this.cardLabelsContainer.append(labelTag);
+            });
+            this.cardLabelsContainer.style.display = '';
+        } else {
+            this.cardLabelsContainer.style.display = 'none';
+        }
+        this.labels = labels;
     }
 
     delete() {

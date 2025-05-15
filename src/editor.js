@@ -52,7 +52,7 @@ async function saveTask() {
     } else if (action === 'edit') {
         const taskId = parseInt(taskEditor.getAttribute('data-task'));
         const task = Task.getById(taskId);
-        task.edit({ title, description, labels });
+        task.updateCard({ title, description, labels });
     }
     closeTaskEditor();
     await saveState();
