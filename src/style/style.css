@@ -129,8 +129,7 @@ body {
 }
 
 #task_editor #task_editor_card #description {
-    overflow: hidden;
-    height: 5rem;
+    height: 10rem;
 }
 
 #task_editor #task_editor_card button {
@@ -207,16 +206,17 @@ body {
 
 .task>.header {
     display: grid;
-    grid-template-columns: auto 1rem;
+    grid-template-columns: auto 1.5rem;
 }
 
 .task>.header>.icon {
     background: url(images/more.svg);
+    background-position: center;
     background-size: cover;
     border-radius: 50%;
     display: flex;
     height: 1rem;
-    width: 1rem;
+    width: 1.5rem;
     visibility: hidden;
     opacity: var(--inactive-opacity);
 }
