@@ -1,13 +1,14 @@
 document.addEventListener('DOMContentLoaded', async () => {
     // Loading and restoring previous state
     const state = await readState();
-    state.labels.map(labelData => {
-        new Label(labelData.name, labelData.color);
-    });
+    // state.labels.map(labelData => {
+    //     new Label(labelData.name, labelData.color);
+    // });
     state.buckets.map(bucketData => {
         const bucket = new Bucket(bucketData.name);
         bucketData.tasks.map(taskData => {
-            const labels = taskData.labels.map(name => Label.getByName(name));
+            // const labels = taskData.labels.map(name => Label.getByName(name));
+            const labels = [];
             new Task(taskData.title, taskData.description, bucket, labels);
         });
     });
