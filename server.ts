@@ -1,5 +1,6 @@
 import express from 'express';
 import { readFile, stat, writeFile } from 'fs/promises';
+import { WebSocketServer } from 'ws';
 
 const app = express();
 app.use(express.json());
@@ -10,6 +11,13 @@ const stateFilePath = 'state/state.json';
 
 app.listen(port, () => {
     console.log('\x1b[31m' + `http://localhost:${port}/limbo` + '\x1b[0m');
+    const wss = new WebSocketServer({ port: 667 });
+
+    wss.on('connection', async function connection(ws) {
+        const state = await getState();
+        ws.send(state);
+        ws.on('message', setState);
+    });
 });
 
 app.get('/', (_req: any, res: any) => {
@@ -20,26 +28,29 @@ app.get('/limbo', (_req: any, res: any) => {
     res.sendFile('src/index.html', { root: __dirname });
 });
 
-app.get('/state', async (_req: any, res: any) => {
+async function getState() {
     const fileExists = !!(await stat(stateFilePath).catch(e => false));
-    const defaultState = { labels: [], buckets: [] }
+    const defaultState = {
+        labels: [],
+        buckets: [
+            { name: 'Todo', tasks: [] },
+            { name: 'Ongoing', tasks: [] },
+            { name: 'Done', tasks: [] }
+        ]
+    }
     const state = fileExists ? (await readFile(stateFilePath)).toString() : JSON.stringify(defaultState);
-    res.send(JSON.parse(state));
-});
+    return state;
+}
 
-app.post('/state', async (req: any, res: any) => {
+async function setState(state: any) {
     try {
-        const state = JSON.stringify(req.body, null, 4);
         await writeFile(stateFilePath, state);
         // await backupState(state); // TODO: Decide when to backup state
-        res.status = 200;
-        res.send({ success: true })
+        return { success: true };
     } catch (error) {
-        res.status = 500;
-        res.send({ success: false, message: error });
+        return { success: false, message: error };
     }
-
-});
+}
 
 async function backupState(state: any) {
     const date = new Date().toISOString();

@@ -1,9 +1,41 @@
 document.addEventListener('DOMContentLoaded', async () => {
-    // Loading and restoring previous state
-    const state = await readState();
-    // state.labels.map(labelData => {
-    //     new Label(labelData.name, labelData.color);
-    // });
+    // Drag and drop
+    document.addEventListener('dragover', event => {
+        event.preventDefault(); // Fires the 'drop' event as a fallback
+    });
+    connectToServer();
+    buildEditor();
+});
+
+
+async function connectToServer() {
+    window.socket = new WebSocket('ws://localhost:667');
+    const statusDiv = document.getElementById('save-status');
+
+    window.socket.addEventListener('open', async () => {
+        statusDiv.className = 'connected';
+    });
+
+    window.socket.addEventListener('message', async event => {
+        statusDiv.className = 'loading';
+        const state = JSON.parse(event.data);
+        restoreState(state);
+        statusDiv.className = 'success';
+        await sleep(1000);
+        statusDiv.className = 'connected';
+    });
+
+    window.socket.addEventListener('close', () => {
+        statusDiv.className = 'disconnected';
+    });
+
+    window.socket.addEventListener('error', () => {
+        statusDiv.className = 'disconnected';
+    });
+}
+
+async function restoreState(state) {
+    // Restoring previous state
     state.buckets.map(bucketData => {
         const bucket = new Bucket(bucketData.name);
         bucketData.tasks.map(taskData => {
@@ -12,25 +44,12 @@ document.addEventListener('DOMContentLoaded', async () => {
             new Task(taskData.title, taskData.description, bucket, labels);
         });
     });
-
-    // Drag and drop
-    document.addEventListener('dragover', event => {
-        event.preventDefault(); // Fires the 'drop' event as a fallback
-    });
-
-    buildEditor();
-});
-
-
-// State
-async function readState() {
-    const response = await fetch('http://localhost:666/state', { method: 'GET' });
-    return response.json();
+    // state.labels.map(labelData => {
+    //     new Label(labelData.name, labelData.color);
+    // });
 }
 
 async function saveState() {
-    const statusDiv = document.getElementById('save-status');
-    statusDiv.className = 'loading';
     const state = {
         labels: Label.list.map(label => {
             return {
@@ -51,23 +70,5 @@ async function saveState() {
             }
         })
     };
-    try {
-        const response = await fetch('http://localhost:666/state/',
-            {
-                headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-                method: 'POST',
-                body: JSON.stringify(state)
-            }).then(r => r.json());
-        if (response.success) {
-            statusDiv.className = 'success';
-            await sleep(2000);
-            statusDiv.className = '';
-        } else {
-            statusDiv.className = 'error';
-            alert('An error occured when trying to save the current state.');
-        }
-    } catch (_error) {
-        statusDiv.className = 'error';
-        alert('The limbo server could not be contacted. The state will not be saved.');
-    }
+    window.socket.send(JSON.stringify(state));
 }
