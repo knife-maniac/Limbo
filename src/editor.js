@@ -47,6 +47,7 @@ async function saveTask() {
         const bucketId = parseInt(taskEditor.getAttribute('data-bucket'));
         const bucket = Bucket.getById(bucketId);
         new Task(title, description, bucket, labels);
+        bucket.taskContainer.scrollTop = 0;
     } else if (action === 'edit') {
         const taskId = parseInt(taskEditor.getAttribute('data-task'));
         const task = Task.getById(taskId);
