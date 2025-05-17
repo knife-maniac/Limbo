@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     buildEditor();
 });
 
-const webSocket: WebSocket = new WebSocket('ws://localhost:667');
+const webSocket: WebSocket = new WebSocket('ws://localhost:666');
 
 async function connectToServer() {
     const statusDiv: HTMLElement | null = document.getElementById('save-status');

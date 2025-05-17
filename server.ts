@@ -1,32 +1,15 @@
-import express from 'express';
 import { readFile, stat, writeFile } from 'fs/promises';
 import { WebSocketServer } from 'ws';
 
-const app = express();
-app.use(express.json());
-// app.use(express.static(__dirname + '/dist'));
-
-const port: number = 666;
 const stateFilePath = 'state/state.json';
 
-app.listen(port, () => {
-    // console.log('\x1b[31m' + `http://localhost:${port}/limbo` + '\x1b[0m');
-    const wss = new WebSocketServer({ port: 667 });
+const wss = new WebSocketServer({ port: 666 });
 
-    wss.on('connection', async function connection(ws) {
-        const state = await getState();
-        ws.send(state);
-        ws.on('message', setState);
-    });
+wss.on('connection', async function connection(ws) {
+    const state = await getState();
+    ws.send(state);
+    ws.on('message', setState);
 });
-
-// app.get('/', (_req: any, res: any) => {
-//     res.redirect('/limbo');
-// });
-
-// app.get('/limbo', (_req: any, res: any) => {
-//     res.sendFile('client/index.html', { root: __dirname });
-// });
 
 async function getState() {
     const fileExists = !!(await stat(stateFilePath).catch(e => false));
