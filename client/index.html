@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Limbo Planner</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="src/style/style.css">
+    <link rel="icon" type="image/x-icon" href="src/public/favicon.ico">
+    <script type="module" src="src/index.ts"></script>
+</head>
+
+<body>
+    <div id="top_header">
+        <span>Limbo</span>
+        <div id="save-status"></div>
+    </div>
+
+    <div id="main_container"></div>
+
+    <div id="task_editor" style="display: none;">
+        <div id="task_editor_card">
+            <input id="title">
+            <textarea id="description"></textarea>
+            <select id="labels"></select>
+            <button>Create/Update task</button>
+        </div>
+        <div id="bucket_editor"></div>
+    </div>
+</body>
+
+</html>

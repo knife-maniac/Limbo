@@ -1,11 +1,31 @@
-class Task {
-    static list = [];
+import { saveState } from ".";
+import { Bucket } from "./buckets";
+import { openTaskEditor } from "./editor";
+import { Label } from "./labels";
+import { createElement } from "./utils";
 
-    static getById(id) {
+export class Task {
+    static list: Task[] = [];
+    static dragged: Task;
+    static dragPlaceholder: HTMLElement;
+
+    id: number;
+    title: string;
+    description: string;
+    bucket: Bucket;
+    labels: Label[];
+    taskContainer: HTMLElement;
+    wrapper: HTMLElement;
+    card: HTMLElement;
+    titleSpan: HTMLElement;
+    descriptionSpan: HTMLElement;
+    cardLabelsContainer: HTMLElement;
+
+    static getById(id: number): Task {
         return Task.list.filter(b => b.id === id)[0];
     }
 
-    constructor(title, description, bucket, labels) {
+    constructor(title: string, description: string, bucket: Bucket, labels: Label[]) {
         this.title = title;
         this.description = description;
         this.bucket = bucket;
@@ -20,14 +40,14 @@ class Task {
         this.build();
     }
 
-    build() {
-        const taskWrapper = createElement('div', { class: 'task_wrapper', 'data-id': this.id });
-        const card = createElement('div', { class: 'task', draggable: 'true' });
-        const cardHeader = createElement('div', { class: 'header' });
-        const cardTitle = createElement('span', { class: 'title' });
-        const headerIcon = createElement('div', { class: 'icon' });
-        const cardDescription = createElement('span', { class: 'description' });
-        const cardLabelsContainer = createElement('span', { class: 'labels_container' });
+    build(): void {
+        const taskWrapper: HTMLElement = createElement('div', { class: 'task_wrapper', 'data-id': `${this.id}` });
+        const card: HTMLElement = createElement('div', { class: 'task', draggable: 'true' });
+        const cardHeader: HTMLElement = createElement('div', { class: 'header' });
+        const cardTitle: HTMLElement = createElement('span', { class: 'title' });
+        const headerIcon: HTMLElement = createElement('div', { class: 'icon' });
+        const cardDescription: HTMLElement = createElement('span', { class: 'description' });
+        const cardLabelsContainer: HTMLElement = createElement('span', { class: 'labels_container' });
         cardHeader.append(cardTitle, headerIcon);
         card.append(cardHeader, cardDescription, cardLabelsContainer);
         taskWrapper.append(card);
@@ -53,7 +73,6 @@ class Task {
         });
         card.addEventListener('dragend', () => {
             taskWrapper.classList.remove('dragged');
-            window.dragged = null;
             Task.dragPlaceholder.remove();
         });
         taskWrapper.addEventListener('dragover', event => {
@@ -66,7 +85,7 @@ class Task {
             }
         });
         card.addEventListener('click', () => {
-            openTaskEditor(this);
+            openTaskEditor(this, this.bucket.id);
         });
 
         this.wrapper = taskWrapper;
@@ -75,11 +94,11 @@ class Task {
         this.descriptionSpan = cardDescription;
         this.cardLabelsContainer = cardLabelsContainer;
 
-        this.updateCard({ title: this.title, description: this.description, labels: this.labels });
+        this.updateCard(this.title, this.description, this.labels);
         this.taskContainer.prepend(taskWrapper);
     }
 
-    updateCard({ title, description, labels }) {
+    updateCard(title: string, description: string, labels: Label[]): void {
         // Title
         this.titleSpan.textContent = title;
         this.title = title;

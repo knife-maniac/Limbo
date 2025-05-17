@@ -17,6 +17,9 @@
     "skipLibCheck": true,                                /* Skip type checking all .d.ts files. */
 
     /* Output directory */
-    "outDir": "dist"
-  }
+    "outDir": "dist",
+  },
+  "include": [
+    "server.ts"
+  ]
 }

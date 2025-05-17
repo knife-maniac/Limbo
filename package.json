@@ -4,19 +4,21 @@
   "description": "",
   "main": "server.ts",
   "scripts": {
-    "start": "npx ts-node ./server.ts",
-    "dev": "nodemon --exec npx ts-node ./server.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "concurrently npm:start:*",
+    "start:server": "tsc && node dist/server.js",
+    "start:client": "vite"
   },
   "author": "Ruben QUAST",
   "license": "ISC",
   "dependencies": {
+    "concurrently": "^9.1.2",
     "express": "^5.1.0",
     "ws": "^8.18.2"
   },
   "devDependencies": {
     "@types/express": "^5.0.1",
     "@types/ws": "^8.18.1",
-    "nodemon": "^3.1.9"
+    "nodemon": "^3.1.9",
+    "vite": "^6.3.5"
   }
 }

@@ -1,3 +1,9 @@
+import { Bucket } from "./buckets";
+import { buildEditor } from "./editor";
+import { Label } from "./labels";
+import { Task } from "./tasks";
+import { sleep } from "./utils";
+
 document.addEventListener('DOMContentLoaded', async () => {
     // Drag and drop
     document.addEventListener('dragover', event => {
@@ -7,16 +13,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     buildEditor();
 });
 
+const webSocket: WebSocket = new WebSocket('ws://localhost:667');
 
 async function connectToServer() {
-    window.socket = new WebSocket('ws://localhost:667');
     const statusDiv = document.getElementById('save-status');
 
-    window.socket.addEventListener('open', async () => {
+    webSocket.addEventListener('open', async () => {
         statusDiv.className = 'connected';
     });
 
-    window.socket.addEventListener('message', async event => {
+    webSocket.addEventListener('message', async event => {
         statusDiv.className = 'loading';
         const state = JSON.parse(event.data);
         restoreState(state);
@@ -25,22 +31,33 @@ async function connectToServer() {
         statusDiv.className = 'connected';
     });
 
-    window.socket.addEventListener('close', () => {
+    webSocket.addEventListener('close', () => {
         statusDiv.className = 'disconnected';
     });
 
-    window.socket.addEventListener('error', () => {
+    webSocket.addEventListener('error', () => {
         statusDiv.className = 'disconnected';
     });
 }
 
+interface ITaskData {
+    title: string,
+    description: string,
+    labels: Label[]
+}
+
+interface IBucketData {
+    name: string,
+    tasks: ITaskData[]
+}
+
 async function restoreState(state) {
     // Restoring previous state
-    state.buckets.map(bucketData => {
+    state.buckets.map((bucketData: IBucketData) => {
         const bucket = new Bucket(bucketData.name);
-        bucketData.tasks.map(taskData => {
+        bucketData.tasks.map((taskData: ITaskData) => {
             // const labels = taskData.labels.map(name => Label.getByName(name));
-            const labels = [];
+            const labels: Label[] = [];
             new Task(taskData.title, taskData.description, bucket, labels);
         });
     });
@@ -49,7 +66,7 @@ async function restoreState(state) {
     // });
 }
 
-async function saveState() {
+export async function saveState(): Promise<void> {
     const state = {
         labels: Label.list.map(label => {
             return {
@@ -70,5 +87,5 @@ async function saveState() {
             }
         })
     };
-    window.socket.send(JSON.stringify(state));
+    webSocket.send(JSON.stringify(state));
 }

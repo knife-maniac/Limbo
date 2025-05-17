@@ -1,11 +1,11 @@
-async function sleep(ms) {
+export async function sleep(ms: number): Promise<void> {
     return new Promise((resolve, _reject) => {
         setTimeout(resolve, ms);
     });
 }
 
-function createElement(tag, attributes, textContent = '') {
-    const element = document.createElement(tag);
+export function createElement(tag: string, attributes: { [key: string]: string }, textContent: string = ''): HTMLElement {
+    const element: HTMLElement = document.createElement(tag);
     Object.entries(attributes).map(([key, value]) => {
         element.setAttribute(key, value);
     });
