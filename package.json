@@ -1,10 +1,11 @@
 {
   "name": "limbo",
   "version": "1.0.0",
-  "description": "",
+  "description": "Locally Implemented, Maniacally Backed-up Organizer",
   "main": "server.ts",
+  "port": 8080,
   "scripts": {
-    "start": "concurrently npm:start:*",
+    "start": "concurrently -r npm:start:*",
     "start:server": "tsc && node dist/server.js",
     "start:client": "vite"
   },
