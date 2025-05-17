@@ -16,7 +16,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 const webSocket: WebSocket = new WebSocket('ws://localhost:667');
 
 async function connectToServer() {
-    const statusDiv = document.getElementById('save-status');
+    const statusDiv: HTMLElement | null = document.getElementById('save-status');
+    if (statusDiv === null) {
+        return;
+    }
 
     webSocket.addEventListener('open', async () => {
         statusDiv.className = 'connected';

@@ -4,7 +4,11 @@ import { Label } from "./labels";
 import { Task } from "./tasks";
 
 export function buildEditor(): void {
-    const editor: HTMLElement = document.getElementById('task_editor');
+    const editor: HTMLElement | null = document.getElementById('task_editor');
+    if (editor === null) {
+        return;
+    }
+
     editor.addEventListener('click', event => {
         if (event.target === editor) {
             closeTaskEditor();
@@ -16,7 +20,7 @@ export function buildEditor(): void {
         }
     });
 
-    editor.querySelector('button').addEventListener('click', saveTask);
+    editor.querySelector('button')?.addEventListener('click', saveTask);
 
     // const labelSelectionDropdown = editor.querySelector('#labels');
     // Label.list.map(label => {
@@ -27,7 +31,10 @@ export function buildEditor(): void {
 
 // Task editor
 export function openTaskEditor(task: Task | null, bucketId: number): void {
-    const taskEditor = document.getElementById('task_editor');
+    const taskEditor: HTMLElement | null = document.getElementById('task_editor');
+    if (taskEditor === null) {
+        return;
+    }
     const action = task === null ? 'create' : 'edit';
     taskEditor.setAttribute('data-action', action);
     if (task === null) {
@@ -42,7 +49,10 @@ export function openTaskEditor(task: Task | null, bucketId: number): void {
 }
 
 async function saveTask(): Promise<void> {
-    const taskEditor: HTMLElement = document.getElementById('task_editor');
+    const taskEditor: HTMLElement | null = document.getElementById('task_editor');
+    if (taskEditor === null) {
+        return;
+    }
     const title: string = (<HTMLInputElement>taskEditor.querySelector('#title')).value;
     const description: string = (<HTMLInputElement>taskEditor.querySelector('#description')).value;
     // const labelsIds = taskEditor.querySelector('#labels').value; // TODO: Change this to allow multiple label selection
@@ -50,12 +60,12 @@ async function saveTask(): Promise<void> {
     const labels: Label[] = [];
     const action = taskEditor.getAttribute('data-action');
     if (action === 'create') {
-        const bucketId: number = parseInt(taskEditor.getAttribute('data-bucket'));
+        const bucketId: number = parseInt(taskEditor.getAttribute('data-bucket') || '');
         const bucket: Bucket = Bucket.getById(bucketId);
         new Task(title, description, bucket, labels);
         bucket.taskContainer.scrollTop = 0;
     } else if (action === 'edit') {
-        const taskId = parseInt(taskEditor.getAttribute('data-task'));
+        const taskId = parseInt(taskEditor.getAttribute('data-task') || '');
         const task = Task.getById(taskId);
         task.updateCard(title, description, labels);
     }
@@ -64,7 +74,10 @@ async function saveTask(): Promise<void> {
 }
 
 function closeTaskEditor() {
-    const taskEditor = document.getElementById('task_editor');
+    const taskEditor: HTMLElement | null = document.getElementById('task_editor');
+    if (taskEditor === null) {
+        return;
+    }
     taskEditor.style.display = 'none';
     (<HTMLInputElement>taskEditor.querySelector('#title')).value = '';
     (<HTMLInputElement>taskEditor.querySelector('#description')).value = '';

@@ -58,7 +58,7 @@ export class Task {
             saveState();
         });
 
-        this.taskContainer = this.bucket.div.querySelector('.task_container');
+        this.taskContainer = this.bucket.taskContainer;
         card.addEventListener('dragstart', () => {
             setTimeout(function () {
                 taskWrapper.classList.add('dragged');

@@ -64,7 +64,7 @@ export class Bucket {
         });
         const footer: HTMLElement = createElement('div', { class: 'footer' });
         div.append(title, button, this.taskContainer, footer);
-        document.getElementById('main_container').append(div);
+        document.getElementById('main_container')?.append(div);
         this.div = div;
     }
 
