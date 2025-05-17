@@ -1,7 +1,8 @@
 # 🔥 Limbo
-![](./client/src/public/icon.svg)
 
-**Limbo** (*Locally Implemented, Maniacally Backed-up Organizer*) is an local, offline project planner. To get started, run:
+**Limbo** (*Locally Implemented, Maniacally Backed-up Organizer*) is an local, offline project planner.
+
+## Getting started
 
 ```bash
 npm install
