@@ -17,6 +17,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             saveState();
         })
     });
+    // Project name
+    document.getElementById('project-name')?.addEventListener('change', saveState);
     connectToServer();
 });
 
@@ -34,8 +36,8 @@ async function connectToServer() {
 
     webSocket.addEventListener('message', async event => {
         statusDiv.setAttribute('data-status', 'loading');
-        const state = JSON.parse(event.data);
-        restoreState(state);
+        const projectState = JSON.parse(event.data);
+        restoreState(projectState);
         statusDiv.setAttribute('data-status', 'success');
         await sleep(1000);
         statusDiv.setAttribute('data-status', 'connected');
@@ -48,6 +50,13 @@ async function connectToServer() {
     webSocket.addEventListener('error', () => {
         statusDiv.setAttribute('data-status', 'disconnected');
     });
+}
+
+interface IProjectState {
+    name: string,
+    theme: string,
+    labels: ILabelData[],
+    buckets: IBucketData[]
 }
 
 interface ILabelData {
@@ -67,13 +76,14 @@ interface IBucketData {
     tasks: ITaskData[]
 }
 
-async function restoreState(state) {
-    document.body.setAttribute('data-theme', state.theme);
+async function restoreState(projectState: IProjectState) {
+    document.getElementById('project-name')?.setAttribute('value', projectState.name);
+    document.body.setAttribute('data-theme', projectState.theme);
     // Restoring previous state
-    // state.labels.map((labelData: ILabelData) => {
+    // projectState.labels.map((labelData: ILabelData) => {
     //     new Label(labelData.name, labelData.color);
     // });
-    state.buckets.map((bucketData: IBucketData) => {
+    projectState.buckets.map((bucketData: IBucketData) => {
         const bucket = new Bucket(bucketData.name);
         bucketData.tasks.map((taskData: ITaskData) => {
             // const labels = taskData.labels.map(name => Label.getByName(name));
@@ -84,7 +94,8 @@ async function restoreState(state) {
 }
 
 export async function saveState(): Promise<void> {
-    const state = {
+    const projectState: IProjectState = {
+        name: (<HTMLInputElement>document.getElementById('project-name'))?.value,
         theme: document.body.getAttribute('data-theme') || 'default',
         labels: Label.list.map((label: Label): ILabelData => {
             return {
@@ -107,7 +118,7 @@ export async function saveState(): Promise<void> {
         })
     };
 
-    webSocket.send(JSON.stringify(state));
+    webSocket.send(JSON.stringify(projectState));
 
     // TODO: Wait for response from websocket...
     const statusDiv: HTMLElement | null = document.getElementById('save-status');
