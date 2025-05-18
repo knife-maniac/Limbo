@@ -13,14 +13,27 @@ html {
     --card-color: #3d414d;
     --card-hover-color: #4a4e5c;
 
+    /* BORDERS */
     --border-color: #323c5c;
     --border-size: 0.15rem;
     --border-radius: 0.5rem;
 
+    /* OTHER */
     --header-height: 3rem;
     --shadow-color: #000000;
     --inactive-opacity: 0.5;
+
+    /* FILTERS */
+    --color-success: #a5f642;
+    --filter-success: brightness(0) saturate(100%) invert(100%) sepia(27%) saturate(5335%) hue-rotate(33deg) brightness(104%) contrast(98%);
+    --color-error: #f6426f;
+    --filter-error: brightness(0) saturate(100%) invert(35%) sepia(33%) saturate(3080%) hue-rotate(316deg) brightness(102%) contrast(93%);
 }
+
+a, input, button, textarea {
+    all: unset;
+}
+
 
 body {
     background: var(--main-background);
@@ -40,40 +53,50 @@ body {
     width: 0;
 }
 
+.spacer {
+    flex-grow: 1;
+}
+
 #top_header {
     align-items: center;
     background: var(--background-color);
-    box-shadow: 0 0 1rem var(--shadow-color);
     display: flex;
-    font-weight: bold;
+    gap: 1rem;
     padding: 0 2rem;
 }
 
-#top_header span {
-    flex-grow: 1;
+#top_header #limbo-logo {
     font-size: 1.5rem;
-    text-shadow: 0 0 0.3rem var(--shadow-color);
+    font-weight: bold;
 }
 
-#top_header #save-status {
-    background-image: none;
+#top_header #project-name {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+#top_header .icon {
+    height: 1.5rem;
+    width: 1.5rem;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    height: calc(var(--header-height) - 1rem);
-    justify-self: right;
-    width: calc(var(--header-height) - 1rem);
 }
 
-#top_header #save-status.connected {
-    background-image: url(images/cloud.svg);
+#top_header #color-scheme {
+    background-image: url(./images/color-scheme.svg);
 }
 
-#top_header #save-status.success {
-    background-image: url(images/cloud-done.svg);
+#top_header .clickable {
+    cursor: pointer;
+    opacity: var(--inactive-opacity);
 }
 
-#top_header #save-status.loading {
+#top_header .clickable:hover {
+    opacity: 1;
+}
+
+#top_header #save-status[data-status=loading] {
     animation: spin;
     animation-duration: 200ms;
     animation-iteration-count: infinite;
@@ -81,10 +104,23 @@ body {
     background-image: url(images/loader.svg);
 }
 
-#top_header #save-status.disconnected {
+#top_header #save-status[data-status=connected] {
+    background-image: url(images/cloud.svg);
+}
+
+#top_header #save-status[data-status=success] {
+    background-image: url(images/cloud-done.svg);
+    filter: var(--filter-success);
+}
+
+#top_header #save-status[data-status=disconnected] {
     background-image: url(images/cloud-off.svg);
     animation: blink 1s steps(2, start) infinite;
-    filter: brightness(0) saturate(100%) invert(58%) sepia(54%) saturate(4334%) hue-rotate(324deg) brightness(112%) contrast(109%);
+    filter: var(--filter-error);
+}
+
+#top_header #github {
+    background-image: url(./images/github.svg);
 }
 
 
@@ -136,7 +172,6 @@ body {
 
 #task_editor #task_editor_card input,
 #task_editor #task_editor_card textarea {
-    all: unset;
     background-color: var(--background-color-transparent-50);
     border-radius: var(--border-radius);
     padding: 0.5rem;
@@ -170,7 +205,6 @@ body {
 }
 
 .bucket button.create_task {
-    all: unset;
     cursor: pointer;
     font-style: italic;
     opacity: var(--inactive-opacity);

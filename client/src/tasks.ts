@@ -52,7 +52,7 @@ export class Task {
 
         const cardHeader: HTMLElement = createElement('div', { class: 'header' });
         this.titleSpan = createElement('span', { class: 'title' });
-        const headerIcon: HTMLElement = createElement('div', { class: 'more icon' });
+        const headerIcon: HTMLElement = createElement('div', { class: 'more icon', 'data-status': 'loading' });
         cardHeader.append(this.titleSpan, headerIcon);
 
         this.descriptionSpan = createElement('span', { class: 'description' });

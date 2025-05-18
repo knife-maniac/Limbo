@@ -21,24 +21,24 @@ async function connectToServer() {
     }
 
     webSocket.addEventListener('open', async () => {
-        statusDiv.className = 'connected';
+        statusDiv.setAttribute('data-status', 'connected');
     });
 
     webSocket.addEventListener('message', async event => {
-        statusDiv.className = 'loading';
+        statusDiv.setAttribute('data-status', 'loading');
         const state = JSON.parse(event.data);
         restoreState(state);
-        statusDiv.className = 'success';
+        statusDiv.setAttribute('data-status', 'success');
         await sleep(1000);
-        statusDiv.className = 'connected';
+        statusDiv.setAttribute('data-status', 'connected');
     });
 
     webSocket.addEventListener('close', () => {
-        statusDiv.className = 'disconnected';
+        statusDiv.setAttribute('data-status', 'disconnected');
     });
 
     webSocket.addEventListener('error', () => {
-        statusDiv.className = 'disconnected';
+        statusDiv.setAttribute('data-status', 'disconnected');
     });
 }
 
@@ -96,5 +96,15 @@ export async function saveState(): Promise<void> {
             }
         })
     };
+
     webSocket.send(JSON.stringify(state));
+
+    // TODO: Wait for response from websocket...
+    const statusDiv: HTMLElement | null = document.getElementById('save-status');
+    if (statusDiv === null) {
+        return;
+    }
+    statusDiv.setAttribute('data-status', 'success');
+    await sleep(1000);
+    statusDiv.setAttribute('data-status', 'connected');
 }
