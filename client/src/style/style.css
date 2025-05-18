@@ -219,7 +219,7 @@ body {
     flex-direction: column;
     gap: 0.3rem;
     overflow: hidden;
-    padding: 1rem 1rem 1rem 1.5rem;
+    padding: 1rem;
 }
 
 .task>.header {
@@ -227,7 +227,7 @@ body {
     grid-template-columns: auto 1.5rem;
 }
 
-.task>.header>.icon {
+.task>.header>.more.icon {
     background: url(images/more.svg);
     background-position: center;
     background-size: cover;
@@ -270,6 +270,24 @@ body {
     gap: 0.2rem;
     padding: 0.3rem 0.4rem;
 }
+
+
+.task .icons_container {
+    display: flex;
+    flex-direction: row;
+    gap: 0.2rem;
+}
+
+.task .icons_container .notes.icon {
+    background: url(images/notes.svg);
+    background-position: center;
+    background-size: cover;
+    display: flex;
+    height: 1.5rem;
+    width: 1.5rem;
+    opacity: var(--inactive-opacity);
+}
+
 
 .task:hover {
     background-color: var(--card-hover-color);

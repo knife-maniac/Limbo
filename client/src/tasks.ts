@@ -22,6 +22,8 @@ export class Task {
     titleSpan: HTMLElement;
     descriptionSpan: HTMLElement;
     cardLabelsContainer: HTMLElement;
+    iconsLine: HTMLElement;
+    notesIcon: HTMLElement;
 
     static getById(id: number): Task {
         return Task.list.filter(b => b.id === id)[0];
@@ -44,16 +46,23 @@ export class Task {
     }
 
     build(): void {
-        const taskWrapper: HTMLElement = createElement('div', { class: 'task_wrapper', 'data-id': `${this.id}` });
-        const card: HTMLElement = createElement('div', { class: 'task', draggable: 'true' });
+        this.wrapper = createElement('div', { class: 'task_wrapper', 'data-id': `${this.id}` });
+        this.card = createElement('div', { class: 'task', draggable: 'true' });
+        this.wrapper.append(this.card);
+
         const cardHeader: HTMLElement = createElement('div', { class: 'header' });
-        const cardTitle: HTMLElement = createElement('span', { class: 'title' });
-        const headerIcon: HTMLElement = createElement('div', { class: 'icon' });
-        const cardDescription: HTMLElement = createElement('span', { class: 'description' });
-        const cardLabelsContainer: HTMLElement = createElement('span', { class: 'labels_container' });
-        cardHeader.append(cardTitle, headerIcon);
-        card.append(cardHeader, cardDescription, cardLabelsContainer);
-        taskWrapper.append(card);
+        this.titleSpan = createElement('span', { class: 'title' });
+        const headerIcon: HTMLElement = createElement('div', { class: 'more icon' });
+        cardHeader.append(this.titleSpan, headerIcon);
+
+        this.descriptionSpan = createElement('span', { class: 'description' });
+        this.cardLabelsContainer = createElement('span', { class: 'labels_container' });
+
+        this.iconsLine = createElement('div', { class: 'icons_container' });
+        this.notesIcon = createElement('div', { class: 'notes icon', title: 'This task has notes' });
+        this.iconsLine.append(this.notesIcon);
+
+        this.card.append(cardHeader, this.descriptionSpan, this.cardLabelsContainer, this.iconsLine);
 
         headerIcon.addEventListener('click', event => {
             event.stopPropagation();
@@ -62,43 +71,37 @@ export class Task {
         });
 
         this.taskContainer = this.bucket.taskContainer;
-        card.addEventListener('dragstart', () => {
+        this.card.addEventListener('dragstart', () => {
             setTimeout(function () {
-                taskWrapper.classList.add('dragged');
+                this.wrapper.classList.add('dragged');
             }, 0);
             Task.dragged = this;
             const dragPlaceholder = createElement('div', { id: 'task_placeholder', class: 'task' });
             const paddingSize = '2rem';
             const borderSize = '0.2rem'
-            dragPlaceholder.style.minHeight = `calc(${card.clientHeight}px - ${paddingSize} + ${borderSize})`;
+            dragPlaceholder.style.minHeight = `calc(${this.card.clientHeight}px - ${paddingSize} + ${borderSize})`;
             this.taskContainer.append(dragPlaceholder);
             Task.dragPlaceholder = dragPlaceholder;
         });
-        card.addEventListener('dragend', () => {
-            taskWrapper.classList.remove('dragged');
+        this.card.addEventListener('dragend', () => {
+            this.wrapper.classList.remove('dragged');
             Task.dragPlaceholder.remove();
         });
-        taskWrapper.addEventListener('dragover', event => {
-            if (event.offsetY < Math.min(Task.dragPlaceholder.clientHeight / 2, card.clientHeight / 2)) {
+        this.wrapper.addEventListener('dragover', event => {
+            if (event.offsetY < Math.min(Task.dragPlaceholder.clientHeight / 2, this.card.clientHeight / 2)) {
                 // If above the top half, insert before
-                this.taskContainer.insertBefore(Task.dragPlaceholder, taskWrapper);
+                this.taskContainer.insertBefore(Task.dragPlaceholder, this.wrapper);
             } else {
                 // If above the bottom half, insert after
-                this.taskContainer.insertBefore(Task.dragPlaceholder, taskWrapper.nextSibling);
+                this.taskContainer.insertBefore(Task.dragPlaceholder, this.wrapper.nextSibling);
             }
         });
-        card.addEventListener('click', () => {
+        this.card.addEventListener('click', () => {
             TaskEditor.instance.openTaskEdition(this);
         });
 
-        this.wrapper = taskWrapper;
-        this.card = card;
-        this.titleSpan = cardTitle;
-        this.descriptionSpan = cardDescription;
-        this.cardLabelsContainer = cardLabelsContainer;
-
         this.updateCard(this.title, this.description, this.labels, this.notes);
-        this.taskContainer.prepend(taskWrapper);
+        this.taskContainer.prepend(this.wrapper);
     }
 
     updateCard(title: string, description: string, labels: Label[], notes: string): void {
@@ -127,6 +130,10 @@ export class Task {
             this.cardLabelsContainer.style.display = 'none';
         }
         this.labels = labels;
+
+        // Notes
+        this.notesIcon.style.display = this.notes ? '' : 'none';
+        this.iconsLine.style.display = this.notes ? '' : 'none';
         this.notes = notes;
     }
 
