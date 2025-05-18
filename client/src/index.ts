@@ -9,6 +9,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.addEventListener('dragover', event => {
         event.preventDefault(); // Fires the 'drop' event as a fallback
     });
+    // Theme dropdown
+    document.querySelectorAll('#theme-selector.dropdown .option').forEach((option: Element) => {
+        option.addEventListener('click', () => {
+            const selectedTheme: string = option.getAttribute('data-value') || 'default';
+            document.body.setAttribute('data-theme', selectedTheme);
+            saveState();
+        })
+    });
     connectToServer();
 });
 
@@ -60,6 +68,7 @@ interface IBucketData {
 }
 
 async function restoreState(state) {
+    document.body.setAttribute('data-theme', state.theme);
     // Restoring previous state
     // state.labels.map((labelData: ILabelData) => {
     //     new Label(labelData.name, labelData.color);
@@ -76,6 +85,7 @@ async function restoreState(state) {
 
 export async function saveState(): Promise<void> {
     const state = {
+        theme: document.body.getAttribute('data-theme') || 'default',
         labels: Label.list.map((label: Label): ILabelData => {
             return {
                 name: label.name,

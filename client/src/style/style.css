@@ -1,9 +1,7 @@
-html {
+/* THEMES */
+body {
     /* BACKGROUND */
-    /* --main-background: #b0c0ff; */
-    --main-background:
-        radial-gradient(115.69% 40% at 110.49% 20.18%, red 0, transparent 104%),
-        radial-gradient(77.69% 39% at -11.51% 88.18%, #ffb000 71%, purple 170%);
+    --main-background: #000000;
     --background-color: #000000e0;
     --background-color-transparent-50: #01040980;
     --background-color-contrast: #ffffff;
@@ -30,11 +28,17 @@ html {
     --filter-error: brightness(0) saturate(100%) invert(35%) sepia(33%) saturate(3080%) hue-rotate(316deg) brightness(102%) contrast(93%);
 }
 
-a, input, button, textarea {
-    all: unset;
+body[data-theme=default] {
+    --main-background: #b0c0ff;
 }
 
+body[data-theme=limbo] {
+    --main-background:
+        radial-gradient(115.69% 40% at 110.49% 20.18%, red 0, transparent 104%),
+        radial-gradient(77.69% 39% at -11.51% 88.18%, #ffb000 71%, purple 170%);
+}
 
+/* PAGE */
 body {
     background: var(--main-background);
     color: var(--background-color-contrast);
@@ -48,6 +52,47 @@ body {
     user-select: none;
     width: 100vw;
 }
+
+/* DEFAULT TAGS STYLE */
+a, input, button, textarea {
+    all: unset;
+}
+
+/* DROPDOWNS */
+.dropdown {
+    position: relative;
+}
+
+.dropdown .options-container {
+    position: absolute;
+    display: none;
+    z-index: 1;
+}
+
+.dropdown:focus .options-container {
+    background-color: black;
+    color: white;
+    display: flex;
+    z-index: 1;
+    flex-direction: column;
+    top: calc(100% + 0.2rem);
+    left: 0;
+    border-radius: var(--border-radius);
+    width: 20rem;
+    border: var(--border-size) solid var(--border-color);
+}
+
+.dropdown:focus .option {
+    opacity: var(--inactive-opacity);
+    padding: 0.5rem 1rem;
+}
+
+.dropdown:focus .option:hover {
+    opacity: 1;
+    background-color: var(--border-color);
+}
+
+
 
 ::-webkit-scrollbar {
     width: 0;
@@ -83,8 +128,8 @@ body {
     background-size: cover;
 }
 
-#top_header #color-scheme {
-    background-image: url(./images/color-scheme.svg);
+#top_header #theme-selector.dropdown {
+    background-image: url(./images/color-palette.svg);
 }
 
 #top_header .clickable {
@@ -92,7 +137,7 @@ body {
     opacity: var(--inactive-opacity);
 }
 
-#top_header .clickable:hover {
+#top_header .clickable:hover, #top_header .clickable:focus {
     opacity: 1;
 }
 

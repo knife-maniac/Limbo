@@ -14,6 +14,7 @@ wss.on('connection', async function connection(ws) {
 async function getState() {
     const fileExists = !!(await stat(stateFilePath).catch(e => false));
     const defaultState = {
+        theme: 'default',
         labels: [],
         buckets: [
             { name: 'Todo', tasks: [] },
