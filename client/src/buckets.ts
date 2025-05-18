@@ -1,5 +1,5 @@
 import { saveState } from '.';
-import { openTaskEditor } from './editor';
+import { TaskEditor } from './editor';
 import { Task } from './tasks';
 import { createElement } from './utils';
 
@@ -33,7 +33,7 @@ export class Bucket {
         const title: HTMLElement = createElement('div', { class: 'title' }, this.name);
         const button: HTMLElement = createElement('button', { class: 'create_task' }, '+ Add a task');
         button.addEventListener('click', () => {
-            openTaskEditor(null, this.id);
+            TaskEditor.instance.openTaskCreation(this);
         });
         this.taskContainer = createElement('div', { class: 'task_container' });
         this.taskContainer.addEventListener('dragover', (event) => {

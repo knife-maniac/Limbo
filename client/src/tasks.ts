@@ -1,6 +1,6 @@
 import { saveState } from '.';
 import { Bucket } from './buckets';
-import { openTaskEditor } from './editor';
+import { TaskEditor } from './editor';
 import { Label } from './labels';
 import { createElement } from './utils';
 
@@ -88,7 +88,7 @@ export class Task {
             }
         });
         card.addEventListener('click', () => {
-            openTaskEditor(this, this.bucket.id);
+            TaskEditor.instance.openTaskEdition(this);
         });
 
         this.wrapper = taskWrapper;

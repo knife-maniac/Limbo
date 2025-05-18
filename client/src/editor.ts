@@ -2,99 +2,138 @@ import { saveState } from '.';
 import { Bucket } from './buckets';
 import { Label } from './labels';
 import { Task } from './tasks';
+import { createElement } from './utils';
 
-export function buildEditor(): void {
-    const editor: HTMLElement | null = document.getElementById('task_editor');
-    if (editor === null) {
-        return;
+enum TaskEditorState {
+    Closed,
+    Creation,
+    Edition
+}
+
+export class TaskEditor {
+    static #instance: TaskEditor;
+
+    state: TaskEditorState;
+    task: Task | null;
+    bucket: Bucket | null;
+
+    div: HTMLElement;
+    card: HTMLElement;
+    title: HTMLElement;
+    description: HTMLElement;
+    labels: HTMLElement;
+    notes: HTMLElement;
+    button: HTMLElement;
+
+    private constructor() {
+        this.state = TaskEditorState.Closed;
+        this.build();
     }
 
-    editor.addEventListener('click', event => {
-        if (event.target === editor) {
-            saveTask();
-            closeTaskEditor();
+    static get instance(): TaskEditor {
+        if (!TaskEditor.#instance) {
+            TaskEditor.#instance = new TaskEditor();
         }
-    });
-    document.addEventListener('keyup', event => {
-        if (event.key === 'Escape') {
-            event.preventDefault();
-            closeTaskEditor();
-        }
-    });
+        return TaskEditor.#instance;
+    }
 
-    editor.querySelector('button')?.addEventListener('click', () => {
-        saveTask();
-        closeTaskEditor();
-    });
+    build() {
+        this.div = createElement('div', { id: 'task_editor', style: 'display: none;' });
+        document.body.append(this.div);
+        this.card = createElement('div', { id: 'task_editor_card' });
+        this.div.append(this.card);
 
-    editor.querySelectorAll('input, textarea')?.forEach((input: Element) => {
-        input.addEventListener('change', () => {
-            saveTask();
+        this.title = createElement('input', { id: 'title', placeholder: 'Title...' })
+        this.description = createElement('input', { id: 'description', placeholder: 'Description...' })
+        this.labels = createElement('input', { id: 'labels', placeholder: 'Labels...' })
+        this.notes = createElement('textarea', { id: 'notes', placeholder: 'Notes...' })
+        this.button = createElement('button', {}, 'Create / Update task');
+        this.card.append(this.title, this.description, this.labels, this.notes, this.button);
+
+        [this.title, this.description, this.labels, this.notes].map((input: HTMLElement) => {
+            // Input value change --> Save changes and keep open
+            input.addEventListener('change', () => {
+                this.saveTask();
+            });
         });
-    });
 
-    // const labelSelectionDropdown = editor.querySelector('#labels');
-    // Label.list.map(label => {
-    //     const labelOption = createElement('option', { value: label.id }, label.name);
-    //     labelSelectionDropdown.append(labelOption);
-    // });
-}
+        this.button.addEventListener('click', () => {
+            // Button clicked --> Save changes and close
+            this.saveTask();
+            this.close();
+        });
 
-// Task editor
-export function openTaskEditor(task: Task | null, bucketId: number): void {
-    const taskEditor: HTMLElement | null = document.getElementById('task_editor');
-    if (taskEditor === null) {
-        return;
-    }
-    const action = task === null ? 'create' : 'edit';
-    taskEditor.setAttribute('data-action', action);
-    if (task === null) {
-        taskEditor.setAttribute('data-bucket', `${bucketId}`);
-    } else {
-        (<HTMLInputElement>taskEditor.querySelector('#title')).value = task.title;
-        (<HTMLInputElement>taskEditor.querySelector('#description')).value = task.description;
-        (<HTMLInputElement>taskEditor.querySelector('#notes')).value = task.notes;
-        taskEditor.setAttribute('data-task', `${task.id}`);
-    }
-    taskEditor.style.display = '';
-    (<HTMLInputElement>taskEditor.querySelector('input#title')).focus();
-}
+        this.div.addEventListener('click', event => {
+            // Click outside the editor --> Save changes and close
+            if (event.target === this.div) {
+                this.saveTask();
+                this.close();
+            }
+        });
 
-async function saveTask(): Promise<void> {
-    const taskEditor: HTMLElement | null = document.getElementById('task_editor');
-    if (taskEditor === null) {
-        return;
-    }
-    const title: string = (<HTMLInputElement>taskEditor.querySelector('#title')).value;
-    const description: string = (<HTMLInputElement>taskEditor.querySelector('#description')).value;
-    // const labelsIds = taskEditor.querySelector('#labels').value; // TODO: Change this to allow multiple label selection
-    // const labels = [labelsIds].map(idAsString => Label.getById(parseInt(idAsString)));
-    const labels: Label[] = [];
-    const notes: string = (<HTMLInputElement>taskEditor.querySelector('#notes')).value;
-    const action = taskEditor.getAttribute('data-action');
-    if (action === 'create') {
-        const bucketId: number = parseInt(taskEditor.getAttribute('data-bucket') || '');
-        const bucket: Bucket = Bucket.getById(bucketId);
-        new Task(title, description, labels, notes, bucket);
-        bucket.taskContainer.scrollTop = 0;
-    } else if (action === 'edit') {
-        const taskId = parseInt(taskEditor.getAttribute('data-task') || '');
-        const task = Task.getById(taskId);
-        task.updateCard(title, description, labels, notes);
-    }
-    await saveState();
-}
+        document.addEventListener('keyup', event => {
+            // Escape key pressed --> Discard changes and close
+            if (event.key === 'Escape') {
+                event.preventDefault();
+                this.close();
+            }
+        });
 
-function closeTaskEditor() {
-    const taskEditor: HTMLElement | null = document.getElementById('task_editor');
-    if (taskEditor === null) {
-        return;
+        // const labelSelectionDropdown = editor.querySelector('#labels');
+        // Label.list.map(label => {
+        //     const labelOption = createElement('option', { value: label.id }, label.name);
+        //     labelSelectionDropdown.append(labelOption);
+        // });
     }
-    taskEditor.style.display = 'none';
-    (<HTMLInputElement>taskEditor.querySelector('#title')).value = '';
-    (<HTMLInputElement>taskEditor.querySelector('#description')).value = '';
-    (<HTMLInputElement>taskEditor.querySelector('#notes')).value = '';
-    taskEditor.removeAttribute('data-action');
-    taskEditor.removeAttribute('data-task');
-    taskEditor.removeAttribute('data-bucket');
+
+    openTaskCreation(bucket: Bucket): void {
+        if (this.state === TaskEditorState.Closed) {
+            this.state = TaskEditorState.Creation;
+            this.task = null;
+            this.bucket = bucket;
+            this.div.style.display = '';
+            this.title.focus();
+        }
+    }
+
+    openTaskEdition(task: Task) {
+        if (this.state === TaskEditorState.Closed) {
+            this.state = TaskEditorState.Edition;
+            this.task = task;
+            this.bucket = task.bucket;
+            (<HTMLInputElement>this.title).value = task.title;
+            (<HTMLInputElement>this.description).value = task.description;
+            (<HTMLInputElement>this.notes).value = task.notes;
+            this.div.style.display = '';
+            this.title.focus();
+        }
+    }
+
+    async saveTask(): Promise<void> {
+        const title: string = (<HTMLInputElement>this.title).value;
+        const description: string = (<HTMLInputElement>this.description).value;
+        // const labelsIds = taskEditor.querySelector('#labels').value; // TODO: Change this to allow multiple label selection
+        // const labels = [labelsIds].map(idAsString => Label.getById(parseInt(idAsString)));
+        const labels: Label[] = [];
+        const notes: string = (<HTMLInputElement>this.notes).value;
+        if (this.state === TaskEditorState.Creation && this.bucket) {
+            const task = new Task(title, description, labels, notes, this.bucket);
+            this.bucket.taskContainer.scrollTop = 0;
+            this.state = TaskEditorState.Edition;
+            this.task = task;
+        } else if (this.state === TaskEditorState.Edition && this.task) {
+            this.task.updateCard(title, description, labels, notes);
+        }
+        await saveState();
+    }
+
+    close() {
+        this.div.style.display = 'none';
+        (<HTMLInputElement>this.title).value = '';
+        (<HTMLInputElement>this.description).value = '';
+        (<HTMLInputElement>this.notes).value = '';
+        this.task = null;
+        this.bucket = null;
+        this.state = TaskEditorState.Closed;
+    }
 }

@@ -1,5 +1,5 @@
 import { Bucket } from './buckets';
-import { buildEditor } from './editor';
+import { TaskEditor } from './editor';
 import { Label } from './labels';
 import { Task } from './tasks';
 import { sleep } from './utils';
@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         event.preventDefault(); // Fires the 'drop' event as a fallback
     });
     connectToServer();
-    buildEditor();
 });
 
 const webSocket: WebSocket = new WebSocket('ws://localhost:666');
