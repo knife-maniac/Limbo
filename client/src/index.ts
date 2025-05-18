@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.addEventListener('dragover', event => {
         event.preventDefault(); // Fires the 'drop' event as a fallback
     });
+
     // Theme dropdown
     document.querySelectorAll('#theme-selector.dropdown .option').forEach((option: Element) => {
         option.addEventListener('click', () => {
@@ -17,9 +18,24 @@ document.addEventListener('DOMContentLoaded', async () => {
             saveState();
         })
     });
+
     // Project name
-    document.getElementById('project-name')?.addEventListener('change', saveState);
+    document.getElementById('project-name')?.addEventListener('change', () => {
+        saveState();
+    });
     connectToServer();
+
+    // Undo
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'z' && (event.ctrlKey || event.metaKey)) {
+            statesHistory.pop();
+            const previousState = statesHistory[statesHistory.length - 1];
+            if (previousState) {
+                restoreState(previousState);
+                saveState(false);
+            }
+        }
+    });
 });
 
 const webSocket: WebSocket = new WebSocket('ws://localhost:666');
@@ -38,6 +54,7 @@ async function connectToServer() {
         statusDiv.setAttribute('data-status', 'loading');
         const projectState = JSON.parse(event.data);
         restoreState(projectState);
+        statesHistory.push(projectState);
         statusDiv.setAttribute('data-status', 'success');
         await sleep(1000);
         statusDiv.setAttribute('data-status', 'connected');
@@ -77,7 +94,12 @@ interface IBucketData {
 }
 
 async function restoreState(projectState: IProjectState) {
-    document.getElementById('project-name')?.setAttribute('value', projectState.name);
+    // Clean up
+    Label.clean();
+    Bucket.clean();
+    Task.clean();
+
+    (<HTMLInputElement>document.getElementById('project-name'))!.value = projectState.name;
     document.body.setAttribute('data-theme', projectState.theme);
     // Restoring previous state
     // projectState.labels.map((labelData: ILabelData) => {
@@ -93,7 +115,9 @@ async function restoreState(projectState: IProjectState) {
     });
 }
 
-export async function saveState(): Promise<void> {
+const statesHistory: IProjectState[] = [];
+
+export async function saveState(addToHistory: boolean = true): Promise<void> {
     const projectState: IProjectState = {
         name: (<HTMLInputElement>document.getElementById('project-name'))?.value,
         theme: document.body.getAttribute('data-theme') || 'default',
@@ -118,6 +142,10 @@ export async function saveState(): Promise<void> {
         })
     };
 
+    if (addToHistory) {
+        statesHistory.push(projectState);
+    }
+
     webSocket.send(JSON.stringify(projectState));
 
     // TODO: Wait for response from websocket...
@@ -127,5 +155,7 @@ export async function saveState(): Promise<void> {
     }
     statusDiv.setAttribute('data-status', 'success');
     await sleep(1000);
-    statusDiv.setAttribute('data-status', 'connected');
+    if (projectState === statesHistory[statesHistory.length - 1]) {
+        statusDiv.setAttribute('data-status', 'connected');
+    }
 }

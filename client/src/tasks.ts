@@ -29,6 +29,15 @@ export class Task {
         return Task.list.filter(b => b.id === id)[0];
     }
 
+    static clean() {
+        Task.list.map((task: Task) => {
+            task.wrapper.remove();
+        });
+        Bucket.list = [];
+
+        Task.list = [];
+    }
+
     constructor(title: string, description: string, labels: Label[], notes: string, bucket: Bucket) {
         this.title = title;
         this.description = description;

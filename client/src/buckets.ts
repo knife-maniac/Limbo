@@ -16,6 +16,13 @@ export class Bucket {
         return Bucket.list.filter(b => b.id === id)[0];
     }
 
+    static clean() {
+        Bucket.list.map((bucket: Bucket) => {
+            bucket.div.remove();
+        });
+        Bucket.list = [];
+    }
+
     constructor(name: string) {
         this.name = name;
         this.tasks = [];

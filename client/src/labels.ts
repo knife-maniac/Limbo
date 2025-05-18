@@ -15,6 +15,10 @@ export class Label {
         return Label.list.filter(l => l.name === name)[0];
     }
 
+    static clean() {
+        Label.list = [];
+    }
+
     constructor(name: string, color: string) {
         this.name = name;
         this.color = color;
