@@ -1,7 +1,7 @@
-import { saveState } from ".";
-import { openTaskEditor } from "./editor";
-import { Task } from "./tasks";
-import { createElement } from "./utils";
+import { saveState } from '.';
+import { openTaskEditor } from './editor';
+import { Task } from './tasks';
+import { createElement } from './utils';
 
 export class Bucket {
     static list: Bucket[] = [];

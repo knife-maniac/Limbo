@@ -1,8 +1,8 @@
-import { saveState } from ".";
-import { Bucket } from "./buckets";
-import { openTaskEditor } from "./editor";
-import { Label } from "./labels";
-import { createElement } from "./utils";
+import { saveState } from '.';
+import { Bucket } from './buckets';
+import { openTaskEditor } from './editor';
+import { Label } from './labels';
+import { createElement } from './utils';
 
 export class Task {
     static list: Task[] = [];
@@ -12,8 +12,10 @@ export class Task {
     id: number;
     title: string;
     description: string;
-    bucket: Bucket;
     labels: Label[];
+    notes: string;
+    bucket: Bucket;
+
     taskContainer: HTMLElement;
     wrapper: HTMLElement;
     card: HTMLElement;
@@ -25,11 +27,12 @@ export class Task {
         return Task.list.filter(b => b.id === id)[0];
     }
 
-    constructor(title: string, description: string, bucket: Bucket, labels: Label[]) {
+    constructor(title: string, description: string, labels: Label[], notes: string, bucket: Bucket) {
         this.title = title;
         this.description = description;
-        this.bucket = bucket;
         this.labels = labels;
+        this.notes = notes;
+        this.bucket = bucket;
         if (Task.list.length === 0) {
             this.id = 0;
         } else {
@@ -94,11 +97,11 @@ export class Task {
         this.descriptionSpan = cardDescription;
         this.cardLabelsContainer = cardLabelsContainer;
 
-        this.updateCard(this.title, this.description, this.labels);
+        this.updateCard(this.title, this.description, this.labels, this.notes);
         this.taskContainer.prepend(taskWrapper);
     }
 
-    updateCard(title: string, description: string, labels: Label[]): void {
+    updateCard(title: string, description: string, labels: Label[], notes: string): void {
         // Title
         this.titleSpan.textContent = title;
         this.title = title;
@@ -124,6 +127,7 @@ export class Task {
             this.cardLabelsContainer.style.display = 'none';
         }
         this.labels = labels;
+        this.notes = notes;
     }
 
     delete() {

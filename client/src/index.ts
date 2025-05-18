@@ -1,8 +1,8 @@
-import { Bucket } from "./buckets";
-import { buildEditor } from "./editor";
-import { Label } from "./labels";
-import { Task } from "./tasks";
-import { sleep } from "./utils";
+import { Bucket } from './buckets';
+import { buildEditor } from './editor';
+import { Label } from './labels';
+import { Task } from './tasks';
+import { sleep } from './utils';
 
 document.addEventListener('DOMContentLoaded', async () => {
     // Drag and drop
@@ -43,10 +43,16 @@ async function connectToServer() {
     });
 }
 
+interface ILabelData {
+    name: string,
+    color: string
+}
+
 interface ITaskData {
     title: string,
     description: string,
-    labels: Label[]
+    labels: string[],
+    notes: string
 }
 
 interface IBucketData {
@@ -56,35 +62,36 @@ interface IBucketData {
 
 async function restoreState(state) {
     // Restoring previous state
+    // state.labels.map((labelData: ILabelData) => {
+    //     new Label(labelData.name, labelData.color);
+    // });
     state.buckets.map((bucketData: IBucketData) => {
         const bucket = new Bucket(bucketData.name);
         bucketData.tasks.map((taskData: ITaskData) => {
             // const labels = taskData.labels.map(name => Label.getByName(name));
             const labels: Label[] = [];
-            new Task(taskData.title, taskData.description, bucket, labels);
+            new Task(taskData.title, taskData.description, labels, taskData.notes, bucket);
         });
     });
-    // state.labels.map(labelData => {
-    //     new Label(labelData.name, labelData.color);
-    // });
 }
 
 export async function saveState(): Promise<void> {
     const state = {
-        labels: Label.list.map(label => {
+        labels: Label.list.map((label: Label): ILabelData => {
             return {
                 name: label.name,
                 color: label.color
             }
         }),
-        buckets: Bucket.list.map(bucket => {
+        buckets: Bucket.list.map((bucket: Bucket): IBucketData => {
             return {
                 name: bucket.name,
-                tasks: bucket.tasks.map(task => {
+                tasks: bucket.tasks.map((task: Task): ITaskData => {
                     return {
                         title: task.title,
                         description: task.description,
-                        labels: task.labels.map(l => l.name)
+                        labels: task.labels.map(l => l.name),
+                        notes: task.notes
                     }
                 })
             }

@@ -1,7 +1,7 @@
-import { saveState } from ".";
-import { Bucket } from "./buckets";
-import { Label } from "./labels";
-import { Task } from "./tasks";
+import { saveState } from '.';
+import { Bucket } from './buckets';
+import { Label } from './labels';
+import { Task } from './tasks';
 
 export function buildEditor(): void {
     const editor: HTMLElement | null = document.getElementById('task_editor');
@@ -11,6 +11,7 @@ export function buildEditor(): void {
 
     editor.addEventListener('click', event => {
         if (event.target === editor) {
+            saveTask();
             closeTaskEditor();
         }
     });
@@ -42,6 +43,7 @@ export function openTaskEditor(task: Task | null, bucketId: number): void {
     } else {
         (<HTMLInputElement>taskEditor.querySelector('#title')).value = task.title;
         (<HTMLInputElement>taskEditor.querySelector('#description')).value = task.description;
+        (<HTMLInputElement>taskEditor.querySelector('#notes')).value = task.notes;
         taskEditor.setAttribute('data-task', `${task.id}`);
     }
     taskEditor.style.display = '';
@@ -58,16 +60,17 @@ async function saveTask(): Promise<void> {
     // const labelsIds = taskEditor.querySelector('#labels').value; // TODO: Change this to allow multiple label selection
     // const labels = [labelsIds].map(idAsString => Label.getById(parseInt(idAsString)));
     const labels: Label[] = [];
+    const notes: string = (<HTMLInputElement>taskEditor.querySelector('#notes')).value;
     const action = taskEditor.getAttribute('data-action');
     if (action === 'create') {
         const bucketId: number = parseInt(taskEditor.getAttribute('data-bucket') || '');
         const bucket: Bucket = Bucket.getById(bucketId);
-        new Task(title, description, bucket, labels);
+        new Task(title, description, labels, notes, bucket);
         bucket.taskContainer.scrollTop = 0;
     } else if (action === 'edit') {
         const taskId = parseInt(taskEditor.getAttribute('data-task') || '');
         const task = Task.getById(taskId);
-        task.updateCard(title, description, labels);
+        task.updateCard(title, description, labels, notes);
     }
     closeTaskEditor();
     await saveState();
@@ -81,6 +84,7 @@ function closeTaskEditor() {
     taskEditor.style.display = 'none';
     (<HTMLInputElement>taskEditor.querySelector('#title')).value = '';
     (<HTMLInputElement>taskEditor.querySelector('#description')).value = '';
+    (<HTMLInputElement>taskEditor.querySelector('#notes')).value = '';
     taskEditor.removeAttribute('data-action');
     taskEditor.removeAttribute('data-task');
     taskEditor.removeAttribute('data-bucket');

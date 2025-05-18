@@ -1,4 +1,4 @@
-import { createElement } from "./utils";
+import { createElement } from './utils';
 
 export class Label {
     static list: Label[] = [];
