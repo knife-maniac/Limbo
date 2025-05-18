@@ -17,11 +17,21 @@ export function buildEditor(): void {
     });
     document.addEventListener('keyup', event => {
         if (event.key === 'Escape') {
+            event.preventDefault();
             closeTaskEditor();
         }
     });
 
-    editor.querySelector('button')?.addEventListener('click', saveTask);
+    editor.querySelector('button')?.addEventListener('click', () => {
+        saveTask();
+        closeTaskEditor();
+    });
+
+    editor.querySelectorAll('input, textarea')?.forEach((input: Element) => {
+        input.addEventListener('change', () => {
+            saveTask();
+        });
+    });
 
     // const labelSelectionDropdown = editor.querySelector('#labels');
     // Label.list.map(label => {
@@ -72,7 +82,6 @@ async function saveTask(): Promise<void> {
         const task = Task.getById(taskId);
         task.updateCard(title, description, labels, notes);
     }
-    closeTaskEditor();
     await saveState();
 }
 
