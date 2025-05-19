@@ -1,51 +1,9 @@
-/* THEMES */
 body {
-    /* BACKGROUND */
-    --main-background: #000000;
-    --background-color: #000000e0;
-    --background-color-transparent-50: #01040980;
-    --background-color-contrast: #ffffff;
-
-    /* CARDS */
-    --placeholder-card-color: #191e2f;
-    --card-color: #3d414d;
-    --card-hover-color: #4a4e5c;
-
-    /* BORDERS */
-    --border-color: #323c5c;
-    --border-size: 0.15rem;
-    --border-radius: 0.5rem;
-
-    /* OTHER */
-    --header-height: 3rem;
-    --shadow-color: #000000;
-    --inactive-opacity: 0.5;
-
-    /* FILTERS */
-    --color-success: #a5f642;
-    --filter-success: brightness(0) saturate(100%) invert(100%) sepia(27%) saturate(5335%) hue-rotate(33deg) brightness(104%) contrast(98%);
-    --color-error: #f6426f;
-    --filter-error: brightness(0) saturate(100%) invert(35%) sepia(33%) saturate(3080%) hue-rotate(316deg) brightness(102%) contrast(93%);
-}
-
-body[data-theme=default] {
-    --main-background: #b0c0ff;
-}
-
-body[data-theme=limbo] {
-    --main-background:
-        radial-gradient(115.69% 40% at 110.49% 20.18%, red 0, transparent 104%),
-        radial-gradient(77.69% 39% at -11.51% 88.18%, #ffb000 71%, purple 170%);
-}
-
-/* PAGE */
-body {
-    background: var(--main-background);
-    color: var(--background-color-contrast);
+    background: var(--color-background);
     display: grid;
     flex-direction: column;
     font-family: 'Segoe UI', 'Segoe UI Web (West European)', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', sans-serif;
-    grid-template-rows: var(--header-height) calc(100vh - var(--header-height));
+    grid-template-rows: var(--size-header-height) calc(100vh - var(--size-header-height));
     height: 100vh;
     margin: 0;
     padding: 0;
@@ -70,8 +28,8 @@ a, input, button, textarea {
 }
 
 .dropdown:focus .options-container {
-    background-color: black;
-    border: var(--border-size) solid var(--border-color);
+    background-color: var(--card-color);
+    border: var(--size-border) solid var(--color-border);
     border-radius: var(--border-radius);
     color: white;
     display: flex;
@@ -83,15 +41,18 @@ a, input, button, textarea {
 }
 
 .dropdown:focus .option {
-    opacity: var(--inactive-opacity);
+    color: var(--color-header-contrast-inactive);
     padding: 0.5rem 1rem;
 }
 
 .dropdown:focus .option:hover {
-    background-color: var(--border-color);
+    background-color: var(--color-card-horder);
     opacity: 1;
 }
 
+.dropdown:focus .option:active {
+    background-color: var(--color-card-active);
+}
 
 
 ::-webkit-scrollbar {
@@ -104,7 +65,8 @@ a, input, button, textarea {
 
 #top_header {
     align-items: center;
-    background: var(--background-color);
+    background-color: var(--color-header);
+    color: var(--color-header-contrast);
     display: flex;
     gap: 1rem;
     padding: 0 2rem;
@@ -123,6 +85,7 @@ a, input, button, textarea {
 }
 
 #top_header .icon {
+    filter: var(--filter-header-contrast);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -135,12 +98,14 @@ a, input, button, textarea {
 }
 
 #top_header .clickable {
+    color: var(--color-header-contrast-inactive);
     cursor: pointer;
-    opacity: var(--inactive-opacity);
+    filter: var(--filter-header-contrast-inactive);
 }
 
 #top_header .clickable:hover, #top_header .clickable:focus {
-    opacity: 1;
+    color: var(--color-header-contrast);
+    filter: var(--filter-header-contrast);
 }
 
 #top_header #save-status[data-status=loading] {
@@ -198,7 +163,7 @@ a, input, button, textarea {
 
 #task_editor {
     align-items: center;
-    background-color: var(--background-color-transparent-50);
+    background-color: var(--color-modal-backdrop);
     display: flex;
     height: 100%;
     justify-content: center;
@@ -207,8 +172,9 @@ a, input, button, textarea {
 }
 
 #task_editor #task_editor_card {
-    background-color: var(--card-color);
+    background-color: var(--color-card);
     border-radius: var(--border-radius);
+    color: var(--color-card-contrast);
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
@@ -219,7 +185,7 @@ a, input, button, textarea {
 
 #task_editor #task_editor_card input,
 #task_editor #task_editor_card textarea {
-    background-color: var(--background-color-transparent-50);
+    background-color: var(--color-input);
     border-radius: var(--border-radius);
     padding: 0.5rem;
 }
@@ -233,8 +199,9 @@ a, input, button, textarea {
 }
 
 .bucket {
+    background: var(--color-bucket);
     border-radius: var(--border-radius);
-    background: var(--background-color);
+    color: var(--color-bucket-contrast);
     display: flex;
     flex-direction: column;
     flex-grow: 1;
@@ -252,15 +219,15 @@ a, input, button, textarea {
 }
 
 .bucket button.create_task {
+    color: var(--color-bucket-contrast-inactive);
     cursor: pointer;
     font-style: italic;
-    opacity: var(--inactive-opacity);
     padding: 0.2rem 0.6rem;
-
+    
 }
 
 .bucket button.create_task:hover {
-    opacity: 1;
+    color: var(--color-bucket-contrast);
 }
 
 .task_container {
@@ -292,8 +259,8 @@ a, input, button, textarea {
 }
 
 .task {
-    background-color: var(--card-color);
-    color: var(--background-color-contrast);
+    background-color: var(--color-card);
+    color: var(--color-card-contrast);
     border-radius: var(--border-radius);
     cursor: pointer;
     display: flex;
@@ -315,26 +282,34 @@ a, input, button, textarea {
     border-radius: 50%;
     display: flex;
     height: 1rem;
-    opacity: var(--inactive-opacity);
+    filter: var(--filter-card-contrast-inactive);
     visibility: hidden;
     width: 1.5rem;
 }
 
 .task:hover>.header>.icon {
     visibility: visible;
+    filter: var(--filter-card-contrast-inactive);
 }
 
 .task>.header>.icon:hover {
-    opacity: 1;
+    filter: var(--filter-card-contrast);
+}
+
+.task>.header .dropdown:focus .options-container {
+    left: auto;
+    right: 0;
+    top: 0;
+    width: 10rem;
 }
 
 .task span {
-    text-overflow: ellipsis;
     overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .task>.description {
-    opacity: var(--inactive-opacity);
+    color: var(--card-color-contrast-inactive);
 }
 
 .task>.labels_container {
@@ -344,7 +319,7 @@ a, input, button, textarea {
 
 .task>.labels_container>.label_tag {
     border-radius: var(--border-radius);
-    border-width: var(--border-size);
+    border-width: var(--size-border);
     border-style: solid;
     font-size: 0.7rem;
     font-size: 0.8rem;
@@ -366,22 +341,26 @@ a, input, button, textarea {
     display: flex;
     height: 1.5rem;
     width: 1.5rem;
-    opacity: var(--inactive-opacity);
+    filter: var(--filter-card-contrast-inactive);
 }
 
 
 .task:hover {
-    background-color: var(--card-hover-color);
+    background-color: var(--color-card-hover);
+}
+
+.task:active {
+    background-color: var(--color-card-active);
 }
 
 #task_placeholder {
-    background-color: var(--placeholder-card-color);
-    border: var(--border-size) dashed var(--border-color);
+    background-color: var(--color-placeholder-card);
+    border: var(--size-border) dashed var(--color-border);
     margin: 0.1rem;
 }
 
 .bucket .footer {
-    background: linear-gradient(transparent, var(--background-color));
+    background: linear-gradient(transparent, var(--color-bucket));
     border-radius: var(--border-radius);
     bottom: 0;
     height: 3rem;
