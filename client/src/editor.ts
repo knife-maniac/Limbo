@@ -63,7 +63,7 @@ export class TaskEditor {
             this.close();
         });
 
-        this.div.addEventListener('click', event => {
+        this.div.addEventListener('mousedown', event => {
             // Click outside the editor --> Save changes and close
             if (event.target === this.div) {
                 this.saveTask();
