@@ -309,7 +309,7 @@ a, input, button, textarea {
 }
 
 .task>.description {
-    color: var(--card-color-contrast-inactive);
+    color: var(--color-card-contrast-inactive);
 }
 
 .task>.labels_container {
