@@ -20,8 +20,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     // Project name
-    document.getElementById('project-name')?.addEventListener('change', () => {
+    document.getElementById('project-name')?.addEventListener('change', (event) => {
         saveState();
+        const newProjectName: string = (<HTMLInputElement>event.target).value;
+        document.title = newProjectName;
     });
     connectToServer();
 
@@ -100,6 +102,7 @@ async function restoreState(projectState: IProjectState) {
     Task.clean();
 
     (<HTMLInputElement>document.getElementById('project-name'))!.value = projectState.name;
+    document.title = projectState.name;
     document.body.setAttribute('data-theme', projectState.theme);
     // Restoring previous state
     // projectState.labels.map((labelData: ILabelData) => {
