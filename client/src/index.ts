@@ -25,7 +25,21 @@ document.addEventListener('DOMContentLoaded', async () => {
         const newProjectName: string = (<HTMLInputElement>event.target).value;
         document.title = newProjectName;
     });
-    connectToServer();
+
+    const statusDiv: HTMLElement | null = document.getElementById('save-status');
+    if (statusDiv === null) {
+        return;
+    }
+
+    // Restoring state
+    const response: Response = await fetch('/state', { method: 'GET' });
+    const projectState = JSON.parse(await response.json());
+    restoreState(projectState);
+    statesHistory.push(projectState);
+    statusDiv.setAttribute('data-status', 'success');
+    await sleep(1000);
+    statusDiv.setAttribute('data-status', 'connected');
+
 
     // Undo
     document.addEventListener('keydown', (event) => {
@@ -40,36 +54,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 });
 
-const webSocket: WebSocket = new WebSocket('ws://localhost:666');
-
-async function connectToServer() {
-    const statusDiv: HTMLElement | null = document.getElementById('save-status');
-    if (statusDiv === null) {
-        return;
-    }
-
-    webSocket.addEventListener('open', async () => {
-        statusDiv.setAttribute('data-status', 'connected');
-    });
-
-    webSocket.addEventListener('message', async event => {
-        statusDiv.setAttribute('data-status', 'loading');
-        const projectState = JSON.parse(event.data);
-        restoreState(projectState);
-        statesHistory.push(projectState);
-        statusDiv.setAttribute('data-status', 'success');
-        await sleep(1000);
-        statusDiv.setAttribute('data-status', 'connected');
-    });
-
-    webSocket.addEventListener('close', () => {
-        statusDiv.setAttribute('data-status', 'disconnected');
-    });
-
-    webSocket.addEventListener('error', () => {
-        statusDiv.setAttribute('data-status', 'disconnected');
-    });
-}
 
 interface IProjectState {
     name: string,
@@ -149,16 +133,28 @@ export async function saveState(addToHistory: boolean = true): Promise<void> {
         statesHistory.push(projectState);
     }
 
-    webSocket.send(JSON.stringify(projectState));
-
-    // TODO: Wait for response from websocket...
     const statusDiv: HTMLElement | null = document.getElementById('save-status');
     if (statusDiv === null) {
         return;
     }
-    statusDiv.setAttribute('data-status', 'success');
-    await sleep(1000);
-    if (projectState === statesHistory[statesHistory.length - 1]) {
-        statusDiv.setAttribute('data-status', 'connected');
+
+    try {
+        const response = await fetch('/state',
+            {
+                headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+                method: 'POST',
+                body: JSON.stringify(projectState)
+            }).then(r => r.json());
+        if (response.success) {
+            statusDiv.className = 'success';
+            await sleep(2000);
+            statusDiv.className = '';
+        } else {
+            statusDiv.className = 'error';
+            alert('An error occured when trying to save the current state: ' + response.error.code);
+        }
+    } catch (_error) {
+        statusDiv.className = 'error';
+        alert('The limbo server could not be contacted. The state will not be saved.');
     }
 }

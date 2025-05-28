@@ -5,18 +5,19 @@
   "main": "server.ts",
   "port": 8080,
   "scripts": {
-    "start": "concurrently -r npm:start:*",
-    "start:server": "tsc && node dist/server.js",
-    "start:client": "vite"
+    "build": "tsc && vite build",
+    "start": "npm run build && node dist/server.js",
+    "dev": "npm run clean && tsc && NODE_ENV=development node dist/server.js",
+    "clean": "rm -rf dist/client"
   },
   "author": "Ruben QUAST",
   "license": "ISC",
   "dependencies": {
-    "concurrently": "^9.1.2",
-    "ws": "^8.18.2",
-    "vite": "^6.3.5"
+    "express": "^5.1.0"
   },
   "devDependencies": {
-    "@types/ws": "^8.18.1"
+    "@types/express": "^5.0.2",
+    "@types/ws": "^8.18.1",
+    "vite": "^6.3.5"
   }
 }
