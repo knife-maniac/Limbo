@@ -35,23 +35,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     const response: Response = await fetch('/state', { method: 'GET' });
     const projectState = JSON.parse(await response.json());
     restoreState(projectState);
-    statesHistory.push(projectState);
     statusDiv.setAttribute('data-status', 'success');
     await sleep(1000);
     statusDiv.setAttribute('data-status', 'connected');
-
-
-    // Undo
-    document.addEventListener('keydown', (event) => {
-        if (event.key === 'z' && (event.ctrlKey || event.metaKey)) {
-            statesHistory.pop();
-            const previousState = statesHistory[statesHistory.length - 1];
-            if (previousState) {
-                restoreState(previousState);
-                saveState(false);
-            }
-        }
-    });
 });
 
 
@@ -102,9 +88,7 @@ async function restoreState(projectState: IProjectState) {
     });
 }
 
-const statesHistory: IProjectState[] = [];
-
-export async function saveState(addToHistory: boolean = true): Promise<void> {
+export async function saveState(): Promise<void> {
     const projectState: IProjectState = {
         name: (<HTMLInputElement>document.getElementById('project-name'))?.value,
         theme: document.body.getAttribute('data-theme') || 'default',
@@ -128,10 +112,6 @@ export async function saveState(addToHistory: boolean = true): Promise<void> {
             }
         })
     };
-
-    if (addToHistory) {
-        statesHistory.push(projectState);
-    }
 
     const statusDiv: HTMLElement | null = document.getElementById('save-status');
     if (statusDiv === null) {
