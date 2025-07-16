@@ -116,6 +116,11 @@ export class TaskEditor {
         // const labels = [labelsIds].map(idAsString => Label.getById(parseInt(idAsString)));
         const labels: Label[] = [];
         const notes: string = (<HTMLInputElement>this.notes).value;
+
+        if (!title && !description && !labels.length && !notes) {
+            return; // Not saving empty tasks
+        }
+
         if (this.state === TaskEditorState.Creation && this.bucket) {
             const task = new Task(title, description, labels, notes, this.bucket);
             this.bucket.taskContainer.scrollTop = 0;
