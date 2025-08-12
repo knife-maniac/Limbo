@@ -1,29 +1,24 @@
 /* DEFAULT THEME */
-body {
+html {
     --color-header: #000000;
     --color-header-contrast: #ffffff;
-    --color-header-contrast-inactive: #868c9b;
     --filter-header-contrast: brightness(0) saturate(100%) invert(95%) sepia(5%) saturate(22%) hue-rotate(162deg) brightness(105%) contrast(104%);
-    --filter-header-contrast-inactive: brightness(0) saturate(100%) invert(55%) sepia(11%) saturate(394%) hue-rotate(185deg) brightness(97%) contrast(90%);
 
     --background-main:
         radial-gradient(115.69% 40% at 110.49% 20.18%, red 0, transparent 104%),
         radial-gradient(77.69% 39% at -11.51% 88.18%, #ffb000 71%, purple 170%);
 
     /* Buckets */
-    --color-bucket: #000000c4;
+    --color-bucket: #000000;
     --color-bucket-contrast: #ffffff;
-    --color-bucket-contrast-inactive: #868c9b;
 
     /* Task cards */
-    --color-card: #3d414d;
-    --color-card-hover: #4a4e5c;
-    --color-placeholder-card: #191e2f;
-    --color-card-active: #505463;
+    --color-card: #173284;
+    --color-placeholder-card: #173284;
+    --color-card-hover: #13296d;
+    --color-card-active: #0e1f54;
     --color-card-contrast: #ffffff;
-    --color-card-contrast-inactive: #868c9b;
     --filter-card-contrast: brightness(0) saturate(100%) invert(95%) sepia(5%) saturate(22%) hue-rotate(162deg) brightness(105%) contrast(104%);
-    --filter-card-contrast-inactive: brightness(0) saturate(100%) invert(55%) sepia(11%) saturate(394%) hue-rotate(185deg) brightness(97%) contrast(90%);
 
     --size-header-height: 3rem;
 

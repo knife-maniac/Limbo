@@ -1,4 +1,9 @@
+html {
+    background-color: var(--color-header);
+}
+
 body {
+    background-color: var(--color-header);
     background: var(--background-main);
     background-size: cover;
     display: grid;
@@ -42,7 +47,7 @@ a, input, button, textarea {
 }
 
 .dropdown:focus .option {
-    color: var(--color-header-contrast-inactive);
+    opacity: 0.5;
     padding: 0.5rem 1rem;
 }
 
@@ -99,14 +104,12 @@ a, input, button, textarea {
 }
 
 #top_header .clickable {
-    color: var(--color-header-contrast-inactive);
+    opacity: 0.5;
     cursor: pointer;
-    filter: var(--filter-header-contrast-inactive);
 }
 
 #top_header .clickable:hover, #top_header .clickable:focus {
-    color: var(--color-header-contrast);
-    filter: var(--filter-header-contrast);
+    opacity: 1;
 }
 
 #top_header #save-status[data-status=loading] {
@@ -220,7 +223,7 @@ a, input, button, textarea {
 }
 
 .bucket button.create_task {
-    color: var(--color-bucket-contrast-inactive);
+    opacity: 0.5;
     cursor: pointer;
     font-style: italic;
     padding: 0.2rem 0.6rem;
@@ -283,14 +286,14 @@ a, input, button, textarea {
     border-radius: 50%;
     display: flex;
     height: 1rem;
-    filter: var(--filter-card-contrast-inactive);
+    filter: opacity(0.5);
     visibility: hidden;
     width: 1.5rem;
 }
 
 .task:hover>.header>.icon {
     visibility: visible;
-    filter: var(--filter-card-contrast-inactive);
+    filter: opacity(0.5);
 }
 
 .task>.header>.icon:hover {
@@ -310,7 +313,7 @@ a, input, button, textarea {
 }
 
 .task>.description {
-    color: var(--color-card-contrast-inactive);
+    opacity: 0.5;
 }
 
 .task>.labels_container {
@@ -342,7 +345,7 @@ a, input, button, textarea {
     display: flex;
     height: 1.5rem;
     width: 1.5rem;
-    filter: var(--filter-card-contrast-inactive);
+    filter: opacity(0.5);
 }
 
 
