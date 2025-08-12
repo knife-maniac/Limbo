@@ -141,8 +141,8 @@ export class Task {
         this.labels = labels;
 
         // Notes
-        this.notesIcon.style.display = this.notes ? '' : 'none';
-        this.iconsLine.style.display = this.notes ? '' : 'none';
+        this.notesIcon.style.display = notes ? '' : 'none';
+        this.iconsLine.style.display = notes ? '' : 'none';
         this.notes = notes;
     }
 
