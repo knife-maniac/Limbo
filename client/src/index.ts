@@ -126,11 +126,11 @@ export async function saveState(): Promise<void> {
                 body: JSON.stringify(projectState)
             }).then(r => r.json());
         if (response.success) {
-            statusDiv.className = 'success';
-            await sleep(2000);
-            statusDiv.className = '';
+            statusDiv.setAttribute('data-status', 'success');
+            await sleep(1500);
+            statusDiv.setAttribute('data-status', 'connected');
         } else {
-            statusDiv.className = 'error';
+            statusDiv.setAttribute('data-status', 'disconnected');
             alert('An error occured when trying to save the current state: ' + response.error.code);
         }
     } catch (_error) {
