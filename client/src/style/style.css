@@ -93,6 +93,7 @@ a, input, button, textarea {
     font-family: 'Righteous';
     font-size: 1.5rem;
     font-weight: bold;
+    width: 0;
 }
 
 #top_header #project-name {
