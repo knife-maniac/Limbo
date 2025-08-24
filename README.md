@@ -2,6 +2,10 @@
 
 **Limbo** (*Locally Implemented, Maniacally Backed-up Organizer*) is an local, offline project planner.
 
+> **[🚀 Live Demo](https://ruben.quast.fr/projects/limbo/)**
+
+![](./assets/preview.png)
+
 ## Getting started
 
 ```bash
