@@ -1,3 +1,14 @@
+@font-face {
+    font-family: 'MontSerrat';
+    src: url('./fonts/Montserrat-VariableFont_wght.ttf');
+}
+
+@font-face {
+    font-family: 'Righteous';
+    src: url('./fonts/Righteous-Regular.ttf');
+}
+
+
 html {
     background-color: var(--color-header);
 }
@@ -8,7 +19,7 @@ body {
     background-size: cover;
     display: grid;
     flex-direction: column;
-    font-family: 'Segoe UI', 'Segoe UI Web (West European)', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', sans-serif;
+    font-family: 'MontSerrat';
     grid-template-rows: var(--size-header-height) calc(100vh - var(--size-header-height));
     height: 100vh;
     margin: 0;
@@ -33,9 +44,9 @@ a, input, button, textarea {
     z-index: 1;
 }
 
-.dropdown:focus .options-container {
+.dropdown:hover .options-container {
     background-color: var(--card-color);
-    border: var(--size-border) solid var(--color-border);
+    border: var(--size-border) solid var(--color-border-placeholder);
     border-radius: var(--border-radius);
     color: white;
     display: flex;
@@ -46,17 +57,17 @@ a, input, button, textarea {
     z-index: 1;
 }
 
-.dropdown:focus .option {
+.dropdown:hover .option {
     opacity: 0.5;
     padding: 0.5rem 1rem;
 }
 
-.dropdown:focus .option:hover {
+.dropdown:hover .option:hover {
     background-color: var(--color-card-horder);
     opacity: 1;
 }
 
-.dropdown:focus .option:active {
+.dropdown:hover .option:active {
     background-color: var(--color-card-active);
 }
 
@@ -79,6 +90,7 @@ a, input, button, textarea {
 }
 
 #top_header #limbo-logo {
+    font-family: 'Righteous';
     font-size: 1.5rem;
     font-weight: bold;
 }
@@ -204,7 +216,10 @@ a, input, button, textarea {
 
 .bucket {
     background: var(--color-bucket);
+    border-color: var(--color-border-bucket);
     border-radius: var(--border-radius);
+    border-style: solid;
+    border-width: var(--size-border-bucket);
     color: var(--color-bucket-contrast);
     display: flex;
     flex-direction: column;
@@ -217,6 +232,7 @@ a, input, button, textarea {
 
 .bucket>.title {
     display: flex;
+    font-family: 'Righteous';
     font-size: 1.5rem;
     font-weight: bold;
     text-transform: capitalize;
@@ -227,7 +243,7 @@ a, input, button, textarea {
     cursor: pointer;
     font-style: italic;
     padding: 0.2rem 0.6rem;
-    
+
 }
 
 .bucket button.create_task:hover {
@@ -300,10 +316,11 @@ a, input, button, textarea {
     filter: var(--filter-card-contrast);
 }
 
-.task>.header .dropdown:focus .options-container {
+.task>.header .dropdown:hover .options-container {
+    background-color: red;
     left: auto;
     right: 0;
-    top: 0;
+    top: 1rem;
     width: 10rem;
 }
 
@@ -359,7 +376,7 @@ a, input, button, textarea {
 
 #task_placeholder {
     background-color: var(--color-placeholder-card);
-    border: var(--size-border) dashed var(--color-border);
+    border: var(--size-border) dashed var(--color-border-placeholder);
     margin: 0.1rem;
 }
 

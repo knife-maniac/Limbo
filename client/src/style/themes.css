@@ -1,9 +1,8 @@
 /* DEFAULT THEME */
-html {
+html, html[data-theme="limbo"] {
     --color-header: #000000;
     --color-header-contrast: #ffffff;
     --filter-header-contrast: brightness(0) saturate(100%) invert(95%) sepia(5%) saturate(22%) hue-rotate(162deg) brightness(105%) contrast(104%);
-
     --background-main:
         radial-gradient(115.69% 40% at 110.49% 20.18%, red 0, transparent 104%),
         radial-gradient(77.69% 39% at -11.51% 88.18%, #ffb000 71%, purple 170%);
@@ -26,9 +25,46 @@ html {
     --color-modal-backdrop: #01040980;
 
     /* Border */
-    --color-border: #323c5c;
-    --size-border: 0.15rem;
     --border-radius: 0.5rem;
+    --color-border-placeholder: #6578b2;
+    --size-border: 0.15rem;
+    --color-border-bucket: #ffffff;
+    --size-border-bucket: 0 0.2rem 0.2rem 0;
+
+    /* Status */
+    --color-success: #a5f642;
+    --filter-success: brightness(0) saturate(100%) invert(100%) sepia(27%) saturate(5335%) hue-rotate(33deg) brightness(104%) contrast(98%);
+    --color-error: #f6426f;
+    --filter-error: brightness(0) saturate(100%) invert(35%) sepia(33%) saturate(3080%) hue-rotate(316deg) brightness(102%) contrast(93%);
+}
+
+
+
+html[data-theme="trello"] {
+    --color-header: blue;
+}
+
+html[data-theme="bladerunner"] {
+    --color-header: #000000;
+    --background-main:
+        radial-gradient(115.69% 40% at 110.49% 20.18%, red 0, transparent 104%),
+        radial-gradient(77.69% 39% at -11.51% 88.18%, #ffb000 71%, purple 170%);
+
+    /* Buckets */
+    --color-bucket: #000000;
+
+    /* Task cards */
+    --color-card: #173284;
+    --color-placeholder-card: #173284;
+    --color-card-hover: #13296d;
+    --color-card-active: #0e1f54;
+
+    /* Border */
+    --border-radius: 0.5rem;
+    --color-border-placeholder: #6578b2;
+    --size-border: 0.15rem;
+    --color-border-bucket: #ffffff;
+    --size-border-bucket: 0 0.2rem 0.2rem 0;
 
     /* Status */
     --color-success: #a5f642;
