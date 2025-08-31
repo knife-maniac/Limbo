@@ -3,11 +3,6 @@
     src: url('./fonts/Montserrat-VariableFont_wght.ttf');
 }
 
-@font-face {
-    font-family: 'Righteous';
-    src: url('./fonts/Righteous-Regular.ttf');
-}
-
 
 html {
     background-color: var(--color-header);
@@ -80,7 +75,7 @@ a, input, button, textarea {
     flex-grow: 1;
 }
 
-#top_header {
+#top-header {
     align-items: center;
     background-color: var(--color-header);
     color: var(--color-header-contrast);
@@ -89,21 +84,28 @@ a, input, button, textarea {
     padding: 0 2rem;
 }
 
-#top_header #limbo-logo {
-    font-family: 'Righteous';
-    font-size: 1.5rem;
-    font-weight: bold;
-    width: 0;
+#top-header #project-breadcrumb {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 
-#top_header #project-name {
+#top-header #limbo-logo {
+    color: var(--color-logo);
+    font-family: var(--font-logo);
+    font-size: 1.3rem;
+    font-weight: bold;
+    letter-spacing: -0.1rem;
+    margin: 0.3rem 0.2rem 0 0; /* Compensation for odd font spacing */
+}
+
+#top-header #project-name {
     font-size: 1.5rem;
     font-weight: bold;
-    text-align: center;
     text-overflow: ellipsis;
 }
 
-#top_header .icon {
+#top-header .icon {
     filter: var(--filter-header-contrast);
     background-position: center;
     background-repeat: no-repeat;
@@ -112,46 +114,46 @@ a, input, button, textarea {
     width: 1.5rem;
 }
 
-#top_header #theme-selector.dropdown {
-    background-image: url(./images/color-palette.svg);
+#top-header #theme-selector.dropdown {
+    background-image: url(./icons/color-palette.svg);
 }
 
-#top_header .clickable {
+#top-header .inactive {
+    opacity: 0.5;
+}
+
+#top-header .clickable {
     opacity: 0.5;
     cursor: pointer;
 }
 
-#top_header .clickable:hover, #top_header .clickable:focus {
+#top-header .clickable:hover, #top-header .clickable:focus {
     opacity: 1;
 }
 
-#top_header #save-status[data-status=loading] {
+#top-header #save-status[data-status=loading] {
     animation: spin;
     animation-duration: 200ms;
     animation-iteration-count: infinite;
     animation-timing-function: linear;
-    background-image: url(images/loader.svg);
+    background-image: url(icons/loader.svg);
 }
 
-#top_header #save-status[data-status=connected] {
-    background-image: url(images/cloud.svg);
+#top-header #save-status[data-status=connected] {
+    background-image: url(icons/cloud.svg);
+    opacity: 0.5;
 }
 
-#top_header #save-status[data-status=success] {
-    background-image: url(images/cloud-done.svg);
+#top-header #save-status[data-status=success] {
+    background-image: url(icons/cloud-done.svg);
     filter: var(--filter-success);
 }
 
-#top_header #save-status[data-status=disconnected] {
+#top-header #save-status[data-status=disconnected] {
     animation: blink 1s steps(2, start) infinite;
-    background-image: url(images/cloud-off.svg);
+    background-image: url(icons/cloud-off.svg);
     filter: var(--filter-error);
 }
-
-#top_header #github {
-    background-image: url(./images/github.svg);
-}
-
 
 @keyframes blink {
     to {
@@ -225,7 +227,6 @@ a, input, button, textarea {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    gap: 0.5rem;
     padding: 1rem;
     position: relative;
     width: 30%;
@@ -233,21 +234,21 @@ a, input, button, textarea {
 
 .bucket>.title {
     display: flex;
-    font-family: 'Righteous';
+    font-family: var(--font-bucket-title);
     font-size: 1.5rem;
     font-weight: bold;
     text-transform: capitalize;
 }
 
-.bucket button.create_task {
-    opacity: 0.5;
+.bucket button.create-task {
     cursor: pointer;
+    display: flex;
     font-style: italic;
-    padding: 0.2rem 0.6rem;
-
+    opacity: 0.5;
+    padding: 0.2rem 0.6rem 1rem 0.6rem;
 }
 
-.bucket button.create_task:hover {
+.bucket button.create-task:hover {
     color: var(--color-bucket-contrast);
 }
 
@@ -297,7 +298,7 @@ a, input, button, textarea {
 }
 
 .task>.header>.more.icon {
-    background: url(images/more.svg);
+    background: url(icons/more.svg);
     background-position: center;
     background-size: cover;
     border-radius: 50%;
@@ -357,7 +358,7 @@ a, input, button, textarea {
 }
 
 .task .icons_container .notes.icon {
-    background: url(images/notes.svg);
+    background: url(icons/notes.svg);
     background-position: center;
     background-size: cover;
     display: flex;

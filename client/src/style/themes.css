@@ -1,8 +1,20 @@
+@font-face {
+    font-family: 'Righteous';
+    src: url('./fonts/Righteous-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'Times New Ramen';
+    src: url('./fonts/TimesNewRamen-Regular.ttf');
+}
+
+
 /* DEFAULT THEME */
 html, html[data-theme="limbo"] {
     --color-header: #000000;
     --color-header-contrast: #ffffff;
     --filter-header-contrast: brightness(0) saturate(100%) invert(95%) sepia(5%) saturate(22%) hue-rotate(162deg) brightness(105%) contrast(104%);
+    --color-logo: #00ff06;
     --background-main:
         radial-gradient(115.69% 40% at 110.49% 20.18%, red 0, transparent 104%),
         radial-gradient(77.69% 39% at -11.51% 88.18%, #ffb000 71%, purple 170%);
@@ -24,12 +36,16 @@ html, html[data-theme="limbo"] {
     --color-shadow: #000000;
     --color-modal-backdrop: #01040980;
 
-    /* Border */
+    /* Borders */
     --border-radius: 0.5rem;
     --color-border-placeholder: #6578b2;
     --size-border: 0.15rem;
     --color-border-bucket: #ffffff;
     --size-border-bucket: 0 0.2rem 0.2rem 0;
+
+    /* Fonts */
+    --font-logo: 'Times New Ramen';
+    --font-bucket-title: 'Righteous';
 
     /* Status */
     --color-success: #a5f642;
@@ -39,36 +55,42 @@ html, html[data-theme="limbo"] {
 }
 
 
-
-html[data-theme="trello"] {
-    --color-header: blue;
-}
-
-html[data-theme="bladerunner"] {
-    --color-header: #000000;
-    --background-main:
-        radial-gradient(115.69% 40% at 110.49% 20.18%, red 0, transparent 104%),
-        radial-gradient(77.69% 39% at -11.51% 88.18%, #ffb000 71%, purple 170%);
+html[data-theme="sunflower"] {
+    --background-main: url(./images/sunflower.jpg);
 
     /* Buckets */
-    --color-bucket: #000000;
+    --color-bucket: #000000dd;
 
     /* Task cards */
-    --color-card: #173284;
-    --color-placeholder-card: #173284;
-    --color-card-hover: #13296d;
-    --color-card-active: #0e1f54;
+    --color-card: #3d3831;
+    --color-placeholder-card: #3d3831;
+    --color-card-hover: #312d28;
+    --color-card-active: #25221e;
 
-    /* Border */
+    /* Borders */
     --border-radius: 0.5rem;
-    --color-border-placeholder: #6578b2;
+    --color-border-placeholder: #7a7163;
     --size-border: 0.15rem;
-    --color-border-bucket: #ffffff;
-    --size-border-bucket: 0 0.2rem 0.2rem 0;
+    --size-border-bucket: 0;
+
+    /* Fonts */
+    --font-logo: 'Times New Ramen';
+    --font-bucket-title: 'Times New Ramen';
 
     /* Status */
     --color-success: #a5f642;
     --filter-success: brightness(0) saturate(100%) invert(100%) sepia(27%) saturate(5335%) hue-rotate(33deg) brightness(104%) contrast(98%);
-    --color-error: #f6426f;
-    --filter-error: brightness(0) saturate(100%) invert(35%) sepia(33%) saturate(3080%) hue-rotate(316deg) brightness(102%) contrast(93%);
+    --color-error: #f17c3a;
+    --filter-error: filter: brightness(0) saturate(100%) invert(71%) sepia(33%) saturate(7185%) hue-rotate(338deg) brightness(102%) contrast(89%);
+    ;
+}
+
+html[data-theme="sunflower"] .bucket>.title {
+    justify-content: center;
+    text-transform: none;
+    margin-top: 0.5rem;
+}
+
+html[data-theme="sunflower"] .bucket button.create-task {
+    justify-content: center;
 }

@@ -11,16 +11,24 @@
 </head>
 
 <body>
-    <div id="top_header">
-        <div id="save-status" class="icon"></div>
-        <a id="limbo-logo" class="clickable" href="/">Limbo</a>
-        <div class="spacer"></div>
-        <input id="project-name"></input>
-        <div class="spacer"></div>
-        <a id="github" class="clickable icon" href="https://github.com/knife-maniac/Limbo"
-            title="See code on GitHub"></a>
-        <div tabindex="0" id="theme-selector" class="clickable icon dropdown" title="Change project theme">
+    <div id="top-header">
+        <div id="project-breadcrumb">
+            <a id="limbo-logo" class="clickable" href="/">Limbo</a>
+            <img id="chevron" class="inactive icon" src="./src/style/icons/chevron.svg">
+            <input id="project-name"></input>
         </div>
+        <div class="spacer"></div>
+        <div id="save-status" class="icon" title="Save status indicator"></div>
+        <a class="clickable icon" href="https://github.com/knife-maniac/Limbo" title="See code on GitHub">
+            <img class="icon" src="./src/style/icons/github.svg" />
+        </a>
+        <button class="clickable icon" title="Change project theme">
+            <img class="icon" src="./src/style/icons/color-palette.svg" />
+        </button>
+        <select id="theme-selector" value="">
+            <option value="limbo">🔮 Limbo (default)</option>
+            <option value="sunflower">🌻 Sunflower</option>
+        </select>
     </div>
 
     <div id="main_container"></div>

@@ -38,7 +38,7 @@ export class Bucket {
     build(): void {
         const div: HTMLElement = createElement('div', { 'data-id': `${this.id}`, class: 'bucket' });
         const title: HTMLElement = createElement('div', { class: 'title' }, this.name);
-        const button: HTMLElement = createElement('button', { class: 'create_task' }, '+ Add a task');
+        const button: HTMLElement = createElement('button', { class: 'create-task' }, '+ Add a task');
         button.addEventListener('click', () => {
             TaskEditor.instance.openTaskCreation(this);
         });

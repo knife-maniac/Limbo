@@ -11,12 +11,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     // Theme dropdown
-    document.querySelectorAll('#theme-selector.dropdown .option').forEach((option: Element) => {
-        option.addEventListener('click', () => {
-            const selectedTheme: string = option.getAttribute('data-value') || 'default';
-            document.body.setAttribute('data-theme', selectedTheme);
-            saveState();
-        })
+    const themeDropdown = <HTMLInputElement>document.getElementById('theme-selector');
+    themeDropdown?.addEventListener('change', () => {
+        const selectedTheme: string = themeDropdown.value;
+        document.documentElement.setAttribute('data-theme', selectedTheme);
+        saveState();
     });
 
     // Project name
@@ -73,7 +72,10 @@ async function restoreState(projectState: IProjectState) {
 
     (<HTMLInputElement>document.getElementById('project-name'))!.value = projectState.name;
     document.title = projectState.name;
-    document.body.setAttribute('data-theme', projectState.theme);
+
+
+    (<HTMLInputElement>document.getElementById('theme-selector')).value = projectState.theme;
+    document.documentElement.setAttribute('data-theme', projectState.theme);
     // Restoring previous state
     // projectState.labels.map((labelData: ILabelData) => {
     //     new Label(labelData.name, labelData.color);
@@ -91,7 +93,7 @@ async function restoreState(projectState: IProjectState) {
 export async function saveState(): Promise<void> {
     const projectState: IProjectState = {
         name: (<HTMLInputElement>document.getElementById('project-name'))?.value,
-        theme: document.body.getAttribute('data-theme') || 'default',
+        theme: document.documentElement.getAttribute('data-theme') || 'default',
         labels: Label.list.map((label: Label): ILabelData => {
             return {
                 name: label.name,
