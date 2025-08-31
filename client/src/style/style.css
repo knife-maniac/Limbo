@@ -58,7 +58,6 @@ a, input, button, textarea {
 }
 
 .dropdown:hover .option:hover {
-    background-color: var(--color-card-horder);
     opacity: 1;
 }
 
@@ -377,8 +376,8 @@ a, input, button, textarea {
 }
 
 #task_placeholder {
-    background-color: var(--color-placeholder-card);
-    border: var(--size-border) dashed var(--color-border-placeholder);
+    background-color: transparent;
+    border: var(--size-border) dashed var(--color-card-active);
     margin: 0.1rem;
 }
 

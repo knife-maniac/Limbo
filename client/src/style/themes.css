@@ -24,10 +24,9 @@ html, html[data-theme="limbo"] {
     --color-bucket-contrast: #ffffff;
 
     /* Task cards */
-    --color-card: #173284;
-    --color-placeholder-card: #173284;
-    --color-card-hover: #13296d;
-    --color-card-active: #0e1f54;
+    --color-card: #2b303c;
+    --color-card-hover: #353b4a;
+    --color-card-active: #3f4758;
     --color-card-contrast: #ffffff;
     --filter-card-contrast: brightness(0) saturate(100%) invert(95%) sepia(5%) saturate(22%) hue-rotate(162deg) brightness(105%) contrast(104%);
 
@@ -38,7 +37,6 @@ html, html[data-theme="limbo"] {
 
     /* Borders */
     --border-radius: 0.5rem;
-    --color-border-placeholder: #6578b2;
     --size-border: 0.15rem;
     --color-border-bucket: #ffffff;
     --size-border-bucket: 0 0.2rem 0.2rem 0;
@@ -63,13 +61,11 @@ html[data-theme="sunflower"] {
 
     /* Task cards */
     --color-card: #3d3831;
-    --color-placeholder-card: #3d3831;
-    --color-card-hover: #312d28;
-    --color-card-active: #25221e;
+    --color-card-hover: #4b453c;
+    --color-card-active: #595247;
 
     /* Borders */
     --border-radius: 0.5rem;
-    --color-border-placeholder: #7a7163;
     --size-border: 0.15rem;
     --size-border-bucket: 0;
 
