@@ -1,10 +1,10 @@
 import { readFile, stat, writeFile } from 'fs/promises';
 
-import {description, port, version} from './package.json';
+import { description, port, version } from './package.json';
 
 import express from 'express';
 import { createServer } from 'vite';
-import { styleText } from 'util';
+
 
 const stateFilePath = 'state/state.json';
 
@@ -65,9 +65,9 @@ async function backupState(state: any) {
 
     app.listen(port, () => {
         console.clear();
-        process.stdout.write(styleText('green', '\n  ➜  '));
+        process.stdout.write('\x1b[32m' + '\n  ➜  ' + '\x1b[0m');
         process.stdout.write(`Limbo ${version} running on `);
-        process.stdout.write(styleText('cyan', `http://localhost:${styleText('bold', `${port}`)}/\n`));
-        process.stdout.write(styleText(['grey', 'italic'], `     ${description}\n`));
+        process.stdout.write('\x1b[36m' + `http://localhost:${`${'\x1b[1m' + port + '\x1b[0m' + '\x1b[36m'}`}/\n` + '\x1b[0m');
+        process.stdout.write('\x1b[90m' + '\x1b[3m' + `     ${description}\n` + '\x1b[0m');
     });
 })();
