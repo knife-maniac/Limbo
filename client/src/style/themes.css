@@ -27,6 +27,7 @@ html, html[data-theme="limbo"] {
     --color-card: #2b303c;
     --color-card-hover: #353b4a;
     --color-card-active: #3f4758;
+    --color-card-input: #22262f;
     --color-card-contrast: #ffffff;
     --filter-card-contrast: brightness(0) saturate(100%) invert(95%) sepia(5%) saturate(22%) hue-rotate(162deg) brightness(105%) contrast(104%);
 
@@ -63,6 +64,7 @@ html[data-theme="sunflower"] {
     --color-card: #3d3831;
     --color-card-hover: #4b453c;
     --color-card-active: #595247;
+    --color-card-input: #312d28;
 
     /* Borders */
     --border-radius: 0.5rem;

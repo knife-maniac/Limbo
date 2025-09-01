@@ -205,7 +205,7 @@ a, input, button, textarea {
 
 #task_editor #task_editor_card input,
 #task_editor #task_editor_card textarea {
-    background-color: var(--color-input);
+    background-color: var(--color-card-input);
     border-radius: var(--border-radius);
     padding: 0.5rem;
 }
