@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   root: 'client/',
   build: {
     outDir: '../dist/client/',
