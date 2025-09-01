@@ -105,7 +105,6 @@ export class TaskEditor {
             (<HTMLInputElement>this.description).value = task.description;
             (<HTMLInputElement>this.notes).value = task.notes;
             this.div.style.display = '';
-            this.title.focus();
         }
     }
 
