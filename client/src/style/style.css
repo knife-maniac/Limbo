@@ -310,20 +310,20 @@ a, input, button, textarea {
     background-position: center;
     background-size: cover;
     border-radius: 50%;
+    filter: var(--filter-card-contrast);
     display: flex;
     height: 1rem;
-    filter: opacity(0.5);
+    opacity: 0.5;
     visibility: hidden;
     width: 1.5rem;
 }
 
 .task:hover>.header>.icon {
     visibility: visible;
-    filter: opacity(0.5);
 }
 
 .task>.header>.icon:hover {
-    filter: var(--filter-card-contrast);
+    opacity: 1;    
 }
 
 .task>.header .dropdown:hover .options-container {
@@ -371,8 +371,9 @@ a, input, button, textarea {
     background-size: cover;
     display: flex;
     height: 1.5rem;
+    opacity: 0.5;
+    filter: var(--filter-card-contrast);
     width: 1.5rem;
-    filter: opacity(0.5);
 }
 
 
