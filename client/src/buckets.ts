@@ -44,13 +44,16 @@ export class Bucket {
         });
         this.taskContainer = createElement('div', { class: 'task_container', tabindex: '0' });
         this.taskContainer.addEventListener('dragover', (event) => {
-            if (event.target === this.taskContainer) {
+            if (event.target === this.taskContainer && Task.dragged !== null) {
                 this.taskContainer.append(Task.dragPlaceholder);
             }
         });
         this.taskContainer.addEventListener('drop', () => {
             // On drop, replace placeholder with the card.
-            const task: Task = Task.dragged;
+            const task: Task | null = Task.dragged;
+            if (task === null) {
+                return;
+            }
             const placeholder: HTMLElement = Task.dragPlaceholder;
             this.taskContainer.insertBefore(task.wrapper, placeholder);
             const followingCardId: string | null = (<HTMLElement>placeholder.nextSibling)?.getAttribute('data-id');

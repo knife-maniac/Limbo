@@ -6,7 +6,7 @@ import { createElement } from './utils';
 
 export class Task {
     static list: Task[] = [];
-    static dragged: Task;
+    static dragged: Task | null = null;
     static dragPlaceholder: HTMLElement;
 
     id: number;
@@ -93,10 +93,17 @@ export class Task {
             Task.dragPlaceholder = dragPlaceholder;
         });
         this.card.addEventListener('dragend', () => {
+            if (Task.dragged === null) {
+                return;
+            }
             this.wrapper.classList.remove('dragged');
             Task.dragPlaceholder.remove();
+            Task.dragged = null;
         });
         this.wrapper.addEventListener('dragover', event => {
+            if (Task.dragged === null) {
+                return;
+            }
             if (event.offsetY < Math.min(Task.dragPlaceholder.clientHeight / 2, this.card.clientHeight / 2)) {
                 // If above the top half, insert before
                 this.taskContainer.insertBefore(Task.dragPlaceholder, this.wrapper);
