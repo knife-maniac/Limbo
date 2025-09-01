@@ -13,10 +13,10 @@ jobs:
         node-version: [12.x]
 
     steps:
-    - name: Use Node.js ${{ matrix.node-version }}
+    - name: Use Node.js 20
       uses: actions/setup-node@v4
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: 20
 
     - name: Clone git repository under $GITHUB_WORKSPACE
       uses: actions/checkout@v4
