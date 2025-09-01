@@ -95,7 +95,9 @@ a, input, button, textarea {
     font-size: 1.3rem;
     font-weight: bold;
     letter-spacing: -0.1rem;
-    margin: 0.3rem 0.2rem 0 0; /* Compensation for odd font spacing */
+
+    /* Compensation for odd font spacing */
+    margin: 0.3rem 0.2rem 0 0;
 }
 
 #top-header #project-name {
@@ -247,8 +249,9 @@ a, input, button, textarea {
     padding: 0.2rem 0.6rem 1rem 0.6rem;
 }
 
-.bucket button.create-task:hover {
-    color: var(--color-bucket-contrast);
+.bucket button.create-task:hover,
+.bucket button.create-task:focus {
+    opacity: 1;
 }
 
 .task_container {
@@ -259,6 +262,12 @@ a, input, button, textarea {
     overflow-y: auto;
     overflow-x: hidden;
 }
+
+.task_container:focus-visible {
+    outline: var(--size-border) solid var(--color-bucket-contrast);
+    border-radius: var(--border-radius);
+}
+
 
 .task_wrapper {
     padding: 0.4rem 0;
