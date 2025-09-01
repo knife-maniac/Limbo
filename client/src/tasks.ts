@@ -85,12 +85,14 @@ export class Task {
                 this.wrapper.classList.add('dragged');
             }, 0);
             Task.dragged = this;
+            const dragPlaceholderWrapper = createElement('div', { id: 'task_placeholder_wrapper' });
             const dragPlaceholder = createElement('div', { id: 'task_placeholder', class: 'task' });
+            dragPlaceholderWrapper.append(dragPlaceholder);
             const paddingSize = '2rem';
-            const borderSize = '0.2rem'
+            const borderSize = '0.2rem';
             dragPlaceholder.style.minHeight = `calc(${this.card.clientHeight}px - ${paddingSize} + ${borderSize})`;
-            this.taskContainer.append(dragPlaceholder);
-            Task.dragPlaceholder = dragPlaceholder;
+            this.taskContainer.append(dragPlaceholderWrapper);
+            Task.dragPlaceholder = dragPlaceholderWrapper;
         });
         this.card.addEventListener('dragend', () => {
             if (Task.dragged === null) {
