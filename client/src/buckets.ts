@@ -42,7 +42,7 @@ export class Bucket {
         button.addEventListener('click', () => {
             TaskEditor.instance.openTaskCreation(this);
         });
-        this.taskContainer = createElement('div', { class: 'task_container' });
+        this.taskContainer = createElement('div', { class: 'task_container', tabindex: '0' });
         this.taskContainer.addEventListener('dragover', (event) => {
             if (event.target === this.taskContainer) {
                 this.taskContainer.append(Task.dragPlaceholder);
