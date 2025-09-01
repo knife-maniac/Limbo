@@ -136,7 +136,7 @@ export async function saveState(): Promise<void> {
             alert('An error occured when trying to save the current state: ' + response.error.code);
         }
     } catch (_error) {
-        statusDiv.className = 'error';
+        statusDiv.setAttribute('data-status', 'disconnected');
         alert('The limbo server could not be contacted. The state will not be saved.');
     }
 }
