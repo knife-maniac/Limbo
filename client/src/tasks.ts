@@ -1,4 +1,4 @@
-import { saveState } from '.';
+import { saveState } from './state';
 import { Bucket } from './buckets';
 import { TaskEditor } from './editor';
 import { Label } from './labels';
