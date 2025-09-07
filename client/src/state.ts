@@ -67,13 +67,8 @@ export async function getState(): Promise<IProjectState> {
         const response: Response = await fetch('/state', { method: 'GET' });
         return JSON.parse(await response.json());
     } catch (_err) {
-        console.error('Failed to contact limbo server, going into demo mode');
-        const state = window.localStorage.getItem('state');
-        if (state) {
-            return JSON.parse(state);
-        } else {
-            return demoState;
-        }
+        document.body.classList.add('demo');
+        return demoState;
     }
 }
 
@@ -121,7 +116,6 @@ export async function saveState(): Promise<void> {
             alert('An error occured when trying to save the current state: ' + response.error.code);
         }
     } catch (_err) {
-        window.localStorage.setItem('state', JSON.stringify(projectState));
         statusDiv?.setAttribute('data-status', 'disconnected');
     }
 }

@@ -132,6 +132,23 @@ a, input, button, textarea {
     opacity: 1;
 }
 
+body #top-header #demo-indicator {
+    color: var(--color-error);
+    white-space: nowrap;
+    display: none;
+}
+
+body.demo #top-header #demo-indicator {
+    display: flex;
+    margin-right: -0.5rem;
+}
+
+body.demo #top-header #save-status {
+    background-image: url(icons/cloud-off.svg);
+    filter: var(--filter-error);
+    opacity: 1;
+}
+
 #top-header #save-status[data-status=loading] {
     animation: spin;
     animation-duration: 200ms;
@@ -158,7 +175,7 @@ a, input, button, textarea {
 
 @keyframes blink {
     to {
-        visibility: hidden;
+        opacity: 0.5;
     }
 }
 
@@ -323,7 +340,7 @@ a, input, button, textarea {
 }
 
 .task>.header>.icon:hover {
-    opacity: 1;    
+    opacity: 1;
 }
 
 .task>.header .dropdown:hover .options-container {
