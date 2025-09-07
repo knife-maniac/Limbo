@@ -1,7 +1,5 @@
 import { getState, IProjectState, restoreState, saveState } from './state';
 
-console.log('regular index called...');
-
 
 document.addEventListener('DOMContentLoaded', async () => {    
     // Drag and drop
