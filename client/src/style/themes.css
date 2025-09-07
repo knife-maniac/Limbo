@@ -79,8 +79,8 @@ html[data-theme="sunflower"] {
     /* Status */
     --color-success: #a5f642;
     --filter-success: brightness(0) saturate(100%) invert(100%) sepia(27%) saturate(5335%) hue-rotate(33deg) brightness(104%) contrast(98%);
-    --color-error: #f17c3a;
-    --filter-error: filter: brightness(0) saturate(100%) invert(71%) sepia(33%) saturate(7185%) hue-rotate(338deg) brightness(102%) contrast(89%);
+    --color-error: #fea601;
+    --filter-error: brightness(0) saturate(100%) invert(57%) sepia(77%) saturate(1080%) hue-rotate(2deg) brightness(106%) contrast(99%);
     ;
 }
 

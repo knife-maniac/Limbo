@@ -146,7 +146,8 @@ body.demo #top-header #demo-indicator {
 body.demo #top-header #save-status {
     background-image: url(icons/cloud-off.svg);
     filter: var(--filter-error);
-    opacity: 1;
+    opacity: 1 !important;
+    animation: none;
 }
 
 #top-header #save-status[data-status=loading] {
