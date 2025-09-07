@@ -64,26 +64,22 @@ export async function restoreState(projectState: IProjectState) {
 
 export async function getState(): Promise<IProjectState> {
     try {
-        throw new Error();
         const response: Response = await fetch('/state', { method: 'GET' });
         return JSON.parse(await response.json());
     } catch (_err) {
         console.error('Failed to contact limbo server, going into demo mode');
-        (window as any).isDemo = true;
-        return demoState;
+        const state = window.localStorage.getItem('state');
+        if (state) {
+            return JSON.parse(state);
+        } else {
+            return demoState;
+        }
     }
 }
 
 
 export async function saveState(): Promise<void> {
     const statusDiv: HTMLElement | null = document.getElementById('save-status');
-
-    if ((window as any).isDemo) {
-        statusDiv?.setAttribute('data-status', 'success');
-        await sleep(1000);
-        statusDiv?.setAttribute('data-status', 'connected');
-        return;
-    }
 
     const projectState: IProjectState = {
         name: (<HTMLInputElement>document.getElementById('project-name'))?.value,
@@ -124,9 +120,9 @@ export async function saveState(): Promise<void> {
             statusDiv?.setAttribute('data-status', 'disconnected');
             alert('An error occured when trying to save the current state: ' + response.error.code);
         }
-    } catch (_error) {
+    } catch (_err) {
+        window.localStorage.setItem('state', JSON.stringify(projectState));
         statusDiv?.setAttribute('data-status', 'disconnected');
-        alert('The limbo server could not be contacted. The state will not be saved.');
     }
 }
 
