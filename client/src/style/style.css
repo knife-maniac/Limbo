@@ -248,14 +248,13 @@ body.demo #top-header #save-status {
     flex-grow: 1;
     padding: 1rem;
     position: relative;
-    width: 30%;
+    min-width: 30%;
 }
 
 .bucket>.title {
     display: flex;
     font-family: var(--font-bucket-title);
     font-size: 1.5rem;
-    font-weight: bold;
     text-transform: capitalize;
 }
 
