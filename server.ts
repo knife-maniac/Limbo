@@ -1,9 +1,10 @@
 import { readFile, stat, writeFile } from 'fs/promises';
 
-import { description, port, version } from './package.json';
-
 import express from 'express';
+import bodyParser from 'body-parser';
 import { createServer } from 'vite';
+
+import { description, port, version } from './package.json';
 
 
 const stateFilePath = 'state/state.json';
@@ -12,6 +13,7 @@ const app = express();
 
 app.use(express.json());
 app.use(express.static(__dirname + '/client'));
+app.use(bodyParser.json({ limit: '50mb' }));
 
 app.get('/state', async (_req, res) => {
     const fileExists = !!(await stat(stateFilePath).catch(e => false));
