@@ -2,7 +2,7 @@ import { readFile, stat, writeFile } from 'fs/promises';
 
 import express from 'express';
 import bodyParser from 'body-parser';
-import { createServer } from 'vite';
+import * as vite from 'vite';
 
 import { description, port, version } from './package.json';
 
@@ -51,7 +51,7 @@ async function backupState(state: any) {
 
 (async () => {
     if (process.env.NODE_ENV === 'development') {
-        const viteDevServer = await createServer({
+        const viteDevServer = await vite.createServer({
             server: {
                 middlewareMode: true
             },
