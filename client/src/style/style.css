@@ -24,7 +24,10 @@ body {
 }
 
 /* DEFAULT TAGS STYLE */
-a, input, button, textarea {
+a,
+input,
+button,
+textarea {
     all: unset;
 }
 
@@ -128,7 +131,8 @@ a, input, button, textarea {
     cursor: pointer;
 }
 
-#top-header .clickable:hover, #top-header .clickable:focus {
+#top-header .clickable:hover,
+#top-header .clickable:focus {
     opacity: 1;
 }
 
