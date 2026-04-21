@@ -254,7 +254,7 @@ body.demo #top-header #save-status {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    padding: 1rem;
+    padding: 1.5rem;
     position: relative;
     min-width: 30%;
 }
@@ -272,7 +272,7 @@ body.demo #top-header #save-status {
     color: var(--color-bucket-contrast-2);
     cursor: pointer;
     display: flex;
-    padding: 0.2rem 0.6rem 1rem 0.6rem;
+    padding: 0.2rem 0.5rem 1rem 0.6rem;
 }
 
 .bucket button.create-task:hover,
@@ -296,12 +296,16 @@ body.demo #top-header #save-status {
 
 
 .task_wrapper {
-    padding: 0.4rem 0;
+    padding: 0.5rem 0;
 }
 
-.task_wrapper:first-child {
+/* .task_wrapper:first-child {
     padding-top: 0.2rem;
 }
+
+#task_placeholder_wrapper:first-child #task_placeholder {
+    margin-top: 0.1rem;
+} */
 
 .task_wrapper.dragged {
     padding: 0;
@@ -331,20 +335,19 @@ body.demo #top-header #save-status {
 
 .task>.header {
     display: grid;
-    grid-template-columns: auto 1.5rem;
+    grid-template-columns: auto 1.2rem;
 }
 
 .task>.header>.more.icon {
-    background: url(icons/more.svg);
+    background: url(icons/delete.svg);
     background-position: center;
     background-size: cover;
-    border-radius: 50%;
     filter: var(--filter-card-contrast);
     display: flex;
-    height: 1rem;
+    height: 1.2rem;
     opacity: 0.5;
     visibility: hidden;
-    width: 1.5rem;
+    width: 1.2rem;
 }
 
 .task:hover>.header>.icon {
@@ -418,7 +421,7 @@ body.demo #top-header #save-status {
 #task_placeholder {
     background-color: transparent;
     border: var(--size-border) dashed var(--color-card-active);
-    margin: 0.1rem;
+    margin: 0.4rem 0;
 }
 
 .bucket .footer {
