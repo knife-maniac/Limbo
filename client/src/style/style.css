@@ -23,6 +23,10 @@ body {
     width: 100vw;
 }
 
+.hide {
+    display: none;
+}
+
 /* DEFAULT TAGS STYLE */
 a,
 input,
@@ -214,7 +218,7 @@ body.demo #top-header #save-status {
 }
 
 #task_editor #task_editor_card {
-    background-color: var(--color-card);
+    background-color: var(--color-card-hover);
     border-radius: var(--border-radius);
     color: var(--color-card-contrast);
     display: flex;
@@ -263,16 +267,17 @@ body.demo #top-header #save-status {
 }
 
 .bucket button.create-task {
+    font-family: monospace;
+    font-size: 0.9rem;
+    color: var(--color-bucket-contrast-2);
     cursor: pointer;
     display: flex;
-    font-style: italic;
-    opacity: 0.5;
     padding: 0.2rem 0.6rem 1rem 0.6rem;
 }
 
 .bucket button.create-task:hover,
 .bucket button.create-task:focus {
-    opacity: 1;
+    color: var(--color-bucket-contrast)
 }
 
 .task_container {
@@ -312,7 +317,10 @@ body.demo #top-header #save-status {
 .task {
     background-color: var(--color-card);
     color: var(--color-card-contrast);
+    border-color: var(--color-border-card);
     border-radius: var(--border-radius);
+    border-style: solid;
+    border-width: var(--size-border);
     cursor: pointer;
     display: flex;
     flex-direction: column;
@@ -361,7 +369,9 @@ body.demo #top-header #save-status {
 }
 
 .task>.description {
-    opacity: 0.5;
+    font-family: monospace;
+    font-size: 0.9rem;
+    color: var(--color-card-contrast-2);
 }
 
 .task>.labels_container {
@@ -391,10 +401,9 @@ body.demo #top-header #save-status {
     background-position: center;
     background-size: cover;
     display: flex;
-    height: 1.5rem;
-    opacity: 0.5;
+    height: 1.2rem;
     filter: var(--filter-card-contrast);
-    width: 1.5rem;
+    width: 1.2rem;
 }
 
 
