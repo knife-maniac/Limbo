@@ -38,7 +38,7 @@ export class TaskEditor {
     }
 
     build() {
-        this.div = createElement('div', { id: 'task_editor', style: 'display: none;' });
+        this.div = createElement('div', { id: 'task_editor', class: 'hide' });
         document.body.append(this.div);
         this.card = createElement('div', { id: 'task_editor_card' });
         this.div.append(this.card);
@@ -91,7 +91,7 @@ export class TaskEditor {
             this.state = TaskEditorState.Creation;
             this.task = null;
             this.bucket = bucket;
-            this.div.style.display = '';
+            this.div.classList.remove('hide');
             this.title.focus();
         }
     }
@@ -104,7 +104,7 @@ export class TaskEditor {
             (<HTMLInputElement>this.title).value = task.title;
             (<HTMLInputElement>this.description).value = task.description;
             (<HTMLInputElement>this.notes).value = task.notes;
-            this.div.style.display = '';
+            this.div.classList.remove('hide');
         }
     }
 
@@ -132,7 +132,7 @@ export class TaskEditor {
     }
 
     close() {
-        this.div.style.display = 'none';
+        this.div.classList.add('hide');
         (<HTMLInputElement>this.title).value = '';
         (<HTMLInputElement>this.description).value = '';
         (<HTMLInputElement>this.notes).value = '';

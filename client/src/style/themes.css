@@ -26,13 +26,13 @@ html, html[data-theme="limbo"] {
 
     /* Task cards */
     --color-card: #000000;
-    --color-card-hover: #353b4a;
-    --color-card-active: #3f4758;
-    --color-card-input: #22262f;
+    --color-card-hover: #16191f;
+    --color-card-active: #1e222a;
+    --color-card-input: #000000;
+    --color-card-editor: #22262f;
     --color-card-contrast: #ffffff;
     --color-card-contrast-2: #707b8f;
     --filter-card-contrast: brightness(0) saturate(100%) invert(53%) sepia(3%) saturate(2713%) hue-rotate(181deg) brightness(90%) contrast(90%);
-
     --size-header-height: 3rem;
 
     --color-shadow: #000000;

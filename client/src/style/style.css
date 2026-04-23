@@ -24,7 +24,7 @@ body {
 }
 
 .hide {
-    display: none;
+    display: none !important;
 }
 
 /* DEFAULT TAGS STYLE */
@@ -207,6 +207,11 @@ body.demo #top-header #save-status {
     padding: 2rem 5rem;
 }
 
+body:has(#task_editor:not(.hide)) #top-header,
+body:has(#task_editor:not(.hide)) #main_container {
+    filter: blur(0.1rem);
+}
+
 #task_editor {
     align-items: center;
     background-color: var(--color-modal-backdrop);
@@ -218,7 +223,7 @@ body.demo #top-header #save-status {
 }
 
 #task_editor #task_editor_card {
-    background-color: var(--color-card-hover);
+    background-color: var(--color-card-editor);
     border-radius: var(--border-radius);
     color: var(--color-card-contrast);
     display: flex;
@@ -234,6 +239,16 @@ body.demo #top-header #save-status {
     background-color: var(--color-card-input);
     border-radius: var(--border-radius);
     padding: 0.5rem;
+}
+
+#task_editor #task_editor_card input#description {
+    color: var(--color-bucket-contrast-2);
+    font-family: monospace;
+    font-size: 0.9rem;
+}
+
+#task_editor #task_editor_card input#labels {
+    display: none;
 }
 
 #task_editor #task_editor_card #notes {
