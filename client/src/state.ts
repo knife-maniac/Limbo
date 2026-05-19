@@ -122,8 +122,8 @@ export async function saveState(): Promise<void> {
 
 
 const demoState: IProjectState = {
-    "name": "Limbo's Limbo",
-    "theme": "limbo",
+    "name": "Plato's Plato",
+    "theme": "plato",
     "labels": [],
     "buckets": [
         {
@@ -139,7 +139,7 @@ const demoState: IProjectState = {
                     "title": "🎨 Add color schemes support",
                     "description": "Ideas are in notes",
                     "labels": [],
-                    "notes": "- Default (no fun)\n- Limbo\n- Hight contrast\n- Kiwi / Nectarine\n- Bladerunner 2048\n- \"I always preferred Trello anyway\" (Trello-like theme)\n\n"
+                    "notes": "- Default (no fun)\n- Plato\n- Hight contrast\n- Kiwi / Nectarine\n- Bladerunner 2048\n- \"I always preferred Trello anyway\" (Trello-like theme)\n\n"
                 },
                 {
                     "title": "📋 Add subtasks to tasks",

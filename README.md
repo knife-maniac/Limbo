@@ -1,8 +1,10 @@
-# 🔮 Limbo
+# 🗿 Plato
+> Personal, Local, Accessible Task Organizer
 
-**Limbo** (*Locally Implemented, Maniacally Backed-up Organizer*) is an local, offline project planner.
+This is a personnal, local, offline project planner.
 
-> **[🚀 Live Demo](https://ruben.quast.fr/projects/limbo/)**
+
+> **[🚀 Live Demo](https://ruben.quast.fr/projects/plato/)**
 
 ![](./assets/preview.png)
 

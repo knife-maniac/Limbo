@@ -10,7 +10,7 @@
 
 
 /* DEFAULT THEME */
-html, html[data-theme="limbo"] {
+html, html[data-theme="plato"] {
     --color-header: #000000;
     --color-header-contrast: #ffffff;
     --filter-header-contrast: brightness(0) saturate(100%) invert(95%) sepia(5%) saturate(22%) hue-rotate(162deg) brightness(105%) contrast(104%);

@@ -1,4 +1,4 @@
-name: Limbo CD
+name: Plato CD
 
 on:
   push:
@@ -25,7 +25,7 @@ jobs:
       run: npm install
 
     - name: Build project
-      run: npm run build -- -- --basePath=/projects/limbo
+      run: npm run build -- -- --basePath=/projects/plato
 
     - name: Deploy on ruben.quast.fr
       uses: sebastianpopp/ftp-action@releases/v2
@@ -34,4 +34,4 @@ jobs:
         user: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
         localDir: "./dist/client"
-        remoteDir: "/projects/limbo"
+        remoteDir: "/projects/plato"

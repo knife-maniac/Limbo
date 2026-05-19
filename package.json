@@ -1,7 +1,7 @@
 {
-  "name": "limbo",
+  "name": "plato",
   "version": "1.0.0",
-  "description": "Locally Implemented, Maniacally Backed-up Organizer",
+  "description": "Personal, Local, Accessible Task Organizer",
   "main": "server.ts",
   "port": 8080,
   "scripts": {

@@ -68,7 +68,7 @@ async function backupState(state: any) {
     app.listen(port, () => {
         console.clear();
         process.stdout.write('\x1b[32m' + '\n  ➜  ' + '\x1b[0m');
-        process.stdout.write(`Limbo ${version} running on `);
+        process.stdout.write(`Plato ${version} running on `);
         process.stdout.write('\x1b[36m' + `http://localhost:${`${'\x1b[1m' + port + '\x1b[0m' + '\x1b[36m'}`}/\n` + '\x1b[0m');
         process.stdout.write('\x1b[90m' + '\x1b[3m' + `     ${description}\n` + '\x1b[0m');
     });
